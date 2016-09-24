@@ -1,6 +1,6 @@
 package jp.tnw.a18;
 
-//使いたいｸﾗｽの取り込みasdasdasd
+//使いたいｸﾗｽの取り込みasdasdasdTEST
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
