@@ -2,18 +2,29 @@ package jp.tnw.a18;
 
 //◆System Control◆//
 public class Sys {
-	
+
+	static int windowSizeX, windowSizeY;
 	static double frameTime;
 	static boolean isPlayerMouseControl;
-	static int windSizeX, windSizeY;
-	static int score;
+	static boolean pc, android, ios;
 	
-	public static void setup(){
+	// for mobile screen
+	static double Xx, Yy;
+	
+	public static void setupPC(){
 		frameTime = 0.017;
 		isPlayerMouseControl = true;
-		windSizeX = 960;
-		windSizeY = 640;
-		score = 0;
+		windowSizeX = 1280;
+		windowSizeY = 720;
+		pc = true;
+	}
+	
+	public static void setupANDROID(){
+		frameTime = 0.017;
+		isPlayerMouseControl = true;
+		windowSizeX = 960;
+		windowSizeY = 540;
+		android = true;
 	}
 	
 }

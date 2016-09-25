@@ -118,14 +118,14 @@ public class StgPlayer extends StgObject {
 		if (dX[0] < 0) {
 			dX[0] = 0;
 		}
-		if (dX[0] > Sys.windSizeX - 96) {
-			dX[0] = Sys.windSizeX - 96;
+		if (dX[0] > Sys.windowSizeX - 96) {
+			dX[0] = Sys.windowSizeX - 96;
 		}
 		if (dY[0] < 0) {
 			dY[0] = 0;
 		}
-		if (dY[0] > Sys.windSizeY - 96) {
-			dY[0] = Sys.windSizeY - 96;
+		if (dY[0] > Sys.windowSizeY - 96) {
+			dY[0] = Sys.windowSizeY - 96;
 		}
 
 		// Check face direction

@@ -64,8 +64,8 @@ public class KadaiMoji extends StgEnemy {
 							}
 						}
 						imageIndex[i] = (name[wave][textIndex] + 96 * wave);
-						dX[i] = 150 + (Sys.windSizeX - 300) / 3 * wave;
-						dY[i] = 150 + (Sys.windSizeY - 300) / 3 * wave;
+						dX[i] = 150 + (Sys.windowSizeX - 300) / 3 * wave;
+						dY[i] = 150 + (Sys.windowSizeY - 300) / 3 * wave;
 						angle[i] = textIndex * 360 / (name[wave].length - 1);
 						spdX[i] = 80 * Math.cos(Math.toRadians(angle[i]));
 						spdY[i] = 80 * Math.sin(Math.toRadians(angle[i]));
@@ -94,8 +94,8 @@ public class KadaiMoji extends StgEnemy {
 								wave++;
 							}
 							imageIndex[i] = longname[i] + wave * 96;
-							dX[i] = Sys.windSizeX;
-							dY[i] = Sys.windSizeY / 2 - 10;
+							dX[i] = Sys.windowSizeX;
+							dY[i] = Sys.windowSizeY / 2 - 10;
 							spdX[i] = -960 / 4;
 							angle[i] = 0;
 							isVisible[i] = true;
@@ -117,7 +117,7 @@ public class KadaiMoji extends StgEnemy {
 						break;
 					}
 					imageIndex[i] = name[wave][i] + wave * 96;
-					dX[i] = Sys.windSizeX / 2 - 10;
+					dX[i] = Sys.windowSizeX / 2 - 10;
 					dY[i] = -10 - (i * 15);
 					centerX[i] = dX[name[wave].length / 2];
 					centerY[i] = dY[name[wave].length / 2];
@@ -211,23 +211,23 @@ public class KadaiMoji extends StgEnemy {
 						endCount++;
 						flag[i] = 4;
 						dX[i] = 0;
-						dY[i] = (Sys.windSizeY / 2 + (name[0].length - 2) * 10) - 20 * i;
+						dY[i] = (Sys.windowSizeY / 2 + (name[0].length - 2) * 10) - 20 * i;
 					} else if (imageIndex[i] >= 97 && imageIndex[i] <= 192) {
 						endCount++;
 						flag[i] = 4;
-						dY[i] = Sys.windSizeY - 20;
-						dX[i] = (Sys.windSizeX / 2 + (name[1].length - 2) * 10) - 20 * (i - (name[0].length - 1));
+						dY[i] = Sys.windowSizeY - 20;
+						dX[i] = (Sys.windowSizeX / 2 + (name[1].length - 2) * 10) - 20 * (i - (name[0].length - 1));
 					} else if (imageIndex[i] >= 193 && imageIndex[i] <= 288) {
 						endCount++;
 						flag[i] = 4;
-						dX[i] = Sys.windSizeX - 20;
-						dY[i] = (Sys.windSizeY / 2 + (name[2].length - 2) * 10)
+						dX[i] = Sys.windowSizeX - 20;
+						dY[i] = (Sys.windowSizeY / 2 + (name[2].length - 2) * 10)
 								- 20 * (i - (name[0].length - 1) - (name[1].length - 1));
 					} else if (imageIndex[i] >= 289 && imageIndex[i] <= 384) {
 						endCount++;
 						flag[i] = 4;
 						dY[i] = 0;
-						dX[i] = (Sys.windSizeX / 2 + (name[3].length - 2) * 10)
+						dX[i] = (Sys.windowSizeX / 2 + (name[3].length - 2) * 10)
 								- 20 * (i - (name[0].length - 1) - (name[1].length - 1) - (name[2].length - 1));
 					}
 					break;
@@ -281,11 +281,11 @@ public class KadaiMoji extends StgEnemy {
 					angle[i] += 2;
 					exPlus[i] += 0.5;
 					spdY[i] = -Math.cos(Math.toRadians(angle[i])) * (80 + exPlus[i]);
-					if (dX[i] > Sys.windSizeX - 50 && dY[i] <= Sys.windSizeY / 2 - 10) {
+					if (dX[i] > Sys.windowSizeX - 50 && dY[i] <= Sys.windowSizeY / 2 - 10) {
 						angle[i] = 0;
 						exPlus[i] = 0;
 						accY[i] = 0;
-						dY[i] = Sys.windSizeY / 2 - 10;
+						dY[i] = Sys.windowSizeY / 2 - 10;
 						spdX[i] = -960 / 4;
 						spdY[i] = 0;
 						flag[i] = 3;
@@ -300,7 +300,7 @@ public class KadaiMoji extends StgEnemy {
 				case 4:
 					dY[i] += spdY[i] * Sys.frameTime;
 					spdY[i] += accY[i] * Sys.frameTime;
-					if (dY[i] > Sys.windSizeY) {
+					if (dY[i] > Sys.windowSizeY) {
 						spdX[i] = 0;
 						spdY[i] = 0;
 						accY[i] = 0;
@@ -359,7 +359,7 @@ public class KadaiMoji extends StgEnemy {
 							- axisY[i] * Math.sin(Math.toRadians(angle[i])) + centerX[name[wave].length / 2];
 					dY[i] = -(name[wave].length / 2 * 6) + accY[i] + axisY[i] * Math.sin(Math.toRadians(angle[i]))
 							+ axisX[i] * Math.cos(Math.toRadians(angle[i])) + centerY[name[wave].length / 2];
-					if (dY[name[wave].length / 2] > Sys.windSizeY / 2 - 10) {
+					if (dY[name[wave].length / 2] > Sys.windowSizeY / 2 - 10) {
 						for (int j = 0; j < UNIT_MAX; j++) {
 							if (flag[j] == 1) {
 								centerX[j] = dX[name[wave].length / 2];
@@ -381,7 +381,7 @@ public class KadaiMoji extends StgEnemy {
 				case 3:
 					dY[i] += spdY[i] * Sys.frameTime;
 					spdY[i] += accY[i] * Sys.frameTime;
-					if (dY[i] > Sys.windSizeY) {
+					if (dY[i] > Sys.windowSizeY) {
 						spdY[i] = 0;
 						accY[i] = 0;
 						angle[i] = 0;
@@ -444,7 +444,7 @@ public class KadaiMoji extends StgEnemy {
 							- axisY[i] * Math.sin(Math.toRadians(angle[i])) + centerX[name[wave].length - 2];
 					dY[i] = axisY[i] * Math.sin(Math.toRadians(angle[i]))
 							+ axisX[i] * Math.cos(Math.toRadians(angle[i])) + centerY[name[wave].length - 2];
-					if (dX[name[wave].length - 2] > Sys.windSizeX / 2 - 20) {
+					if (dX[name[wave].length - 2] > Sys.windowSizeX / 2 - 20) {
 						for (int j = 0; j < UNIT_MAX; j++) {
 							if (flag[j] == 1) {
 								angle[j] = -45;
@@ -499,7 +499,7 @@ public class KadaiMoji extends StgEnemy {
 				case 4:
 					dY[i] += spdY[i] * Sys.frameTime;
 					spdY[i] += accY[i] * Sys.frameTime;
-					if (dY[i] > Sys.windSizeY) {
+					if (dY[i] > Sys.windowSizeY) {
 						spdY[i] = 0;
 						accY[i] = 0;
 						angle[i] = 0;
@@ -557,12 +557,12 @@ public class KadaiMoji extends StgEnemy {
 
 	private boolean isTouchHorizontal(int i) {
 		// TODO Auto-generated method stub
-		return (dX[i] < 0 || dX[i] > Sys.windSizeX - 20);
+		return (dX[i] < 0 || dX[i] > Sys.windowSizeX - 20);
 	}
 
 	private boolean isTouchVertical(int i) {
 		// TODO Auto-generated method stub
-		return (dY[i] < 0 || dY[i] > Sys.windSizeY - 20);
+		return (dY[i] < 0 || dY[i] > Sys.windowSizeY - 20);
 	}
 
 	private void bulletHit(StgBullet bullet, int j) {

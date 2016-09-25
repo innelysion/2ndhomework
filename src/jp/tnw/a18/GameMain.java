@@ -42,14 +42,14 @@ public class GameMain  {
 	GameMain() {
 
 		// Load System data
-		Sys.setup();
+		Sys.setupPC();
 		// Setup window & inputs & graphics
 		wind.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 閉じﾎﾞﾀﾝ許可
 		wind.setBackground(new Color(0, 0, 0));// 色指定
 		wind.setResizable(false);// ｻｲｽﾞ変更不可
 		wind.setVisible(true);// 表示or非表示
 		sz = wind.getInsets();// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
-		wind.setSize(Sys.windSizeX + sz.left + sz.right, Sys.windSizeY + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽﾞ
+		wind.setSize(Sys.windowSizeX + sz.left + sz.right, Sys.windowSizeY + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽﾞ
 		wind.setLocationRelativeTo(null);// 中央に表示
 		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
 		wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
@@ -98,9 +98,9 @@ public class GameMain  {
 			if (offimage.contentsLost() == false) {//
 				// Clear the graphic for next frame
 				g.translate(sz.left, sz.top); // ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
-				g.clearRect(0, 0, Sys.windSizeX, Sys.windSizeY); // 画面ｸﾘｱ(左上X、左上Y、右下x、右下y)
+				g.clearRect(0, 0, Sys.windowSizeX, Sys.windowSizeY); // 画面ｸﾘｱ(左上X、左上Y、右下x、右下y)
 				drawMain(g);
-				g.drawString("A18 チョウ カンフ 前期課題", Sys.windSizeX - 170 - 15, Sys.windSizeY - 10);
+				g.drawString("A18 チョウ カンフ 前期課題", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
 				offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
 				g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 
@@ -110,7 +110,7 @@ public class GameMain  {
 
 		private void drawMain(Graphics2D g) {
 			// TODO Auto-generated method stub
-			g.drawImage(bg, 0, 0, Sys.windSizeX, Sys.windSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
+			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			bom.draw(g, wind);
 
 

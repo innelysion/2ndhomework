@@ -107,7 +107,7 @@ public class StgEnemy extends StgUnitBase {
 						spdX[i] = 150;
 						spdY[i] = 0;
 					} else if (cnt == 1) {
-						dX[i] = Sys.windSizeX - 48;
+						dX[i] = Sys.windowSizeX - 48;
 						dY[i] = 128;
 						spdX[i] = -150;
 						spdY[i] = 0;
@@ -132,7 +132,7 @@ public class StgEnemy extends StgUnitBase {
 			for (int i = 50; i < 80; i++) {
 				if (flag[i] == -1) { // ONLY FOR WATING OBJECT
 					imageIndex[i] = 51;
-					dX[i] = Sys.windSizeX / 2 - 20;
+					dX[i] = Sys.windowSizeX / 2 - 20;
 					dY[i] = -40;
 					spdX[i] = 0;
 					spdY[i] = 300;
@@ -150,7 +150,7 @@ public class StgEnemy extends StgUnitBase {
 				if (flag[i] == -2) { // ONLY FOR WATING OBJECT
 					imageIndex[i] = 21;
 					dX[i] = -20;
-					dY[i] = Sys.windSizeY - 20;
+					dY[i] = Sys.windowSizeY - 20;
 					spdX[i] = 240;
 					spdY[i] = -500;
 					accX[i] = 0;
@@ -206,7 +206,7 @@ public class StgEnemy extends StgUnitBase {
 				spdY[i] += Sys.frameTime * accY[i];
 				dX[i] += Sys.frameTime * spdX[i];
 				dY[i] += Sys.frameTime * spdY[i];
-				if (dY[i] > Sys.windSizeY / 2) {
+				if (dY[i] > Sys.windowSizeY / 2) {
 					spdX[i] = 0;
 					spdY[i] = 0;
 					accX[i] = 35;

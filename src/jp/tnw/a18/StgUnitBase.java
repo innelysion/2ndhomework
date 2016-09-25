@@ -12,10 +12,9 @@ public class StgUnitBase extends StgObject {
 
 	@Override
 	void drawImage(Graphics2D g, JFrame wind) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		// TODO Auto-generated method stub
+		
 	}
 
-
-
 }
+
