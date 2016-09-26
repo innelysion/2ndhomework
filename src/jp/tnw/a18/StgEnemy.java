@@ -1,11 +1,13 @@
 package jp.tnw.a18;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class StgEnemy extends StgUnitBase {
+public class StgEnemy extends Graphics {
 
+	BufferedImage image;
 	int widthBlock = 10;
 	int heightBlock = 10;
 	int UNIT_MAX = 500;
@@ -176,7 +178,7 @@ public class StgEnemy extends StgUnitBase {
 
 				if (flag[i] == 2 || flag[i] == 3) {
 					imageIndex[i] = (imageIndex[i] > 59) ? 51 : imageIndex[i] + 1;
-				} else if (flag[i] == 4) {	
+				} else if (flag[i] == 4) {
 					imageIndex[i] = (imageIndex[i] > 29) ? 21 : imageIndex[i] + 1;
 				} else if (itemFlag[i]) {
 					imageIndex[i] = (imageIndex[i] > 19) ? 11 : imageIndex[i] + 1;
@@ -297,7 +299,31 @@ public class StgEnemy extends StgUnitBase {
 	}
 
 	public void drawImage(Graphics2D g, JFrame wind) {
-		this.drawImage(g, wind, widthBlock, heightBlock, UNIT_MAX, imageIndex, isVisible, opacity, dX, dY, 0);
+
+		for (int i = 0; i < UNIT_MAX; i++){
+			if (isVisible[i]){
+				this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex[i], opacity[i], dX[i], dY[i]);
+			}
+		}
+
+	}
+
+	public void loadImage(){
+
+		image = loadImage(image, "Image/zako.png");
+
+	}
+
+	public boolean isOutBorder(int x, int y, int xSize, int ySize) {
+
+		return (x < 0 - xSize || x > Sys.windowSizeX || y < 0 - ySize || y > Sys.windowSizeY);
+
+	}
+
+	public boolean isTouchBorder(int x, int y, int xSize, int ySize) {
+
+		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
+
 	}
 
 }

@@ -44,8 +44,9 @@ public class StgMap extends Graphics {
 	}
 
 	void drawImage(Graphics2D g, JFrame wind) {
-		dY[0] = scrollY;
+
 		for (int i = 0; i < UNIT_MAX; i++) {
+
 			this.drawImage(g, wind, image[i], widthBlock, heightBlock, imageIndex[i], opacity[i], dX[i], dY[i]);
 		}
 
@@ -53,23 +54,20 @@ public class StgMap extends Graphics {
 		g.setFont(f);
 
 		for (int i = 0; i < 60; i++) {
-
 			for (int j = 0; j < 33 * 5; j++) {
-
 				if (mapHitData[j][i] == 1) {
-
 					g.drawString("H", i * 16, -(528 * 4) + 16 + j * 16 + (int) scrollY);
-
 				}
-
 			}
-
 		}
 	}
 
 	public void update() {
-		if (scrollY < Sys.windowSizeY * 4) {
+		if (scrollY < 528 * 4) {
 			scrollY += 1;
+			for (int i = 0; i < UNIT_MAX; i++) {
+				dY[i] += 1;
+			}
 		}
 	}
 

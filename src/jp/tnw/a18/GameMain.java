@@ -64,7 +64,7 @@ public class GameMain  {
 		bom.Load();
 		item.loadImage("Image/Item", 1);
 		bullet.loadImage("Image/tama", 1);
-		enemy.loadImage("Image/zako", 1);
+		enemy.loadImage();
 		player.loadImage("Image/jiki2", 1);
 		map.Load();
 		try {
