@@ -73,19 +73,20 @@ public abstract class Graphics {
 		// }
 	}
 
-	public void loadImage(BufferedImage image, String filename) {
+	public BufferedImage loadImage(BufferedImage image, String filename) {
 
 		try {
-			image = ImageIO.read(getClass().getResource(filename + ".png"));
+			image = ImageIO.read(getClass().getResource(filename));
 		} catch (IOException e) {
 			// ファイルエラーの場合
 			e.printStackTrace();
 		}
-
+		return image;
 	}
 
-	public void drawImage(Graphics2D g, JFrame window, BufferedImage image, int widthBlock, int heightBlock, int UNIT_MAX,
-			int imageIndex, float opacity, double dX, double dY) {
+	public void drawImage(Graphics2D g, JFrame window, BufferedImage image,
+			int widthBlock, int heightBlock, int imageIndex,
+			float opacity, double dX, double dY) {
 
 		// 一コマの幅をゲット
 		int blockW = image.getWidth() / widthBlock;
