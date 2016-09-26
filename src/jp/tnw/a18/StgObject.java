@@ -176,7 +176,7 @@ public abstract class StgObject {
 						indexh + blockh, // 右下端Y座標
 
 						wind);
-				g.setComposite(AlphaComposite.Clear);
+				g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 			}
 		}
 	}

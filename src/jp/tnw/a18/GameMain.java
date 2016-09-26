@@ -26,6 +26,7 @@ public class GameMain  {
 	StgBullet bullet = new StgBullet();
 	StgEnemy enemy = new StgEnemy();
 	StgPlayer player = new StgPlayer();
+	StgMap map = new StgMap();
 	Input input = new Input();
 	BufferedImage bg;
 	boolean[] display = { false, true, false, true, true };
@@ -65,6 +66,7 @@ public class GameMain  {
 		bullet.loadImage("Image/tama", 1);
 		enemy.loadImage("Image/zako", 1);
 		player.loadImage("Image/jiki2", 1);
+		map.Load();
 		try {
 			bg = ImageIO.read(getClass().getResource("Image/bg_02.png"));
 		} catch (IOException e) {
@@ -100,7 +102,7 @@ public class GameMain  {
 				g.translate(sz.left, sz.top); // ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
 				g.clearRect(0, 0, Sys.windowSizeX, Sys.windowSizeY); // 画面ｸﾘｱ(左上X、左上Y、右下x、右下y)
 				drawMain(g);
-				g.drawString("A18 チョウ カンフ 前期課題", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
+				g.drawString("", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
 				offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
 				g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 
@@ -111,9 +113,8 @@ public class GameMain  {
 		private void drawMain(Graphics2D g) {
 			// TODO Auto-generated method stub
 			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
+			map.drawImage(g, wind);
 			bom.draw(g, wind);
-
-
 			if (display[4] == true) {
 				enemy.drawImage(g, wind);
 				item.drawImage(g, wind);
@@ -124,6 +125,8 @@ public class GameMain  {
 
 		private void mainUpdate() {
 			// TODO Auto-generated method stub
+			map.update();
+
 			bom.UpDate();
 
 			bullet.update(bom);

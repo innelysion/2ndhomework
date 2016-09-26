@@ -7,18 +7,18 @@ public class Sys {
 	static double frameTime;
 	static boolean isPlayerMouseControl;
 	static boolean pc, android, ios;
-	
+
 	// for mobile screen
 	static double Xx, Yy;
-	
+
 	public static void setupPC(){
 		frameTime = 0.017;
 		isPlayerMouseControl = true;
-		windowSizeX = 1280;
-		windowSizeY = 720;
+		windowSizeX = 960;
+		windowSizeY = 540;
 		pc = true;
 	}
-	
+
 	public static void setupANDROID(){
 		frameTime = 0.017;
 		isPlayerMouseControl = true;
@@ -26,5 +26,5 @@ public class Sys {
 		windowSizeY = 540;
 		android = true;
 	}
-	
+
 }
