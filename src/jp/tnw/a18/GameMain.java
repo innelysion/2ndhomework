@@ -1,6 +1,6 @@
 package jp.tnw.a18;
 
-//使いたいｸﾗｽの取り込みasdasdasdTEST黄强傻逼
+//使いたいｸﾗｽの取り込みasdasdasdTEST
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -129,7 +129,7 @@ public class GameMain  {
 			bullet.update(bom);
 
 			item.update();
-			
+
 			enemy.update(bullet, bom, item);
 
 			player.update();
