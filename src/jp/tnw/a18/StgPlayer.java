@@ -32,12 +32,15 @@ public class StgPlayer extends Graphics {
 	static int life, bomb, energy;
 	int timerInput;
 	int timerFacing;
-	static double angle;
+	int timerFlash;
+	int flagFlash;
+	double angle;
 	double faceX;
 	double faceY;
 
 	StgPlayer() {
 
+		timerFlash = 1000;
 		life = bomb = energy = 0;
 		dX = 512;
 		dY = 400;
@@ -207,6 +210,19 @@ public class StgPlayer extends Graphics {
 		if (Input.DIR8 == 0) {
 			timerInput = timerInput <= 0 ? 0 : timerInput - 1;
 		}
+
+		if (timerFlash > 0){
+			if (timerFlash % 5 == 0){
+				if (flagFlash == 1){
+					flagFlash = 0;
+				}else{
+					flagFlash = 1;
+				}
+			}
+			timerFlash--;
+		}
+
+
 	}
 
 	public void load() {
@@ -217,7 +233,7 @@ public class StgPlayer extends Graphics {
 
 	public void drawImage(Graphics2D g, JFrame wind) {
 		if (isVisible) {
-			this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex, opacity, dX, dY);
+			this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex + flagFlash, opacity, dX, dY);
 		}
 	}
 }

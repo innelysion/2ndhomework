@@ -118,7 +118,7 @@ public class GameMain  {
 			bullet.drawImage(g, wind);
 			g.setColor(Color.MAGENTA);// 色指定
 			g.setFont(f);
-			g.drawString(Double.toString((StgPlayer.angle)),80, 20);
+//			g.drawString(Double.toString((StgPlayer.angle)),80, 20);
 		}
 
 		private void mainUpdate() {
