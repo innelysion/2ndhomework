@@ -1,10 +1,10 @@
 package jp.tnw.a18;
 
 import java.awt.Insets;
+import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.MouseInfo;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
@@ -12,7 +12,7 @@ import java.awt.event.MouseWheelListener;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
-//#TEST
+
 
 public class Input implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 
@@ -30,19 +30,19 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	boolean check[] = { false, false, false, false };
 	int index[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 	Insets sz;
-	
+
 	Input() {
-		
+
 		// 为窗口添加监听
-		
+
 	}
-	
+
 	public void update(JFrame wind){
-		
+
 		sz = wind.getInsets();
 		M_X = MouseInfo.getPointerInfo().getLocation().x - wind.getLocationOnScreen().x - sz.left;
 		M_Y = MouseInfo.getPointerInfo().getLocation().y - wind.getLocationOnScreen().y - sz.top;
-		
+
 	}
 
 	public void dirCheck() {
@@ -210,7 +210,7 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 		// TODO Auto-generated method stub
 
 
-		
+
 	}
 
 	@Override
