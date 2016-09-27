@@ -29,9 +29,6 @@ public class GameMain  {
 	StgMap map = new StgMap();
 	Input input = new Input();
 	BufferedImage bg;
-	boolean[] display = { false, true, false, true, true };
-	boolean mainStart = false;
-	static boolean in = false, in1 = true, in2 = true, in3 = true, in4 = true, in5 = true;
 
 	// -----------------------------
 	// 初期化用の関数
@@ -65,7 +62,7 @@ public class GameMain  {
 		item.loadImage("Image/Item", 1);
 		bullet.loadImage("Image/tama", 1);
 		enemy.loadImage();
-		player.loadImage("Image/jiki2", 1);
+		player.load();
 		map.Load();
 		try {
 			bg = ImageIO.read(getClass().getResource("Image/bg_02.png"));
@@ -115,26 +112,22 @@ public class GameMain  {
 			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
 			bom.draw(g, wind);
-			if (display[4] == true) {
-				enemy.drawImage(g, wind);
-				item.drawImage(g, wind);
-			}
+			enemy.drawImage(g, wind);
+			item.drawImage(g, wind);
 			player.drawImage(g, wind);
 			bullet.drawImage(g, wind);
+			g.setColor(Color.MAGENTA);// 色指定
+			g.setFont(f);
+			g.drawString(Double.toString((StgPlayer.angle)),80, 20);
 		}
 
 		private void mainUpdate() {
 			// TODO Auto-generated method stub
 			map.update();
-
 			bom.UpDate();
-
 			bullet.update(bom);
-
 			item.update();
-
 			enemy.update(bullet, bom, item);
-
 			player.update();
 		}
 

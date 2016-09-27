@@ -92,8 +92,8 @@ public class StgBullet extends StgObject {
 
 						bulletType[i] = 1;
 						imageIndex[i] = 1;
-						dX[i] = StgPlayer.dX[0] + 48 - 8;
-						dY[i] = StgPlayer.dY[0] + 48 - 8;
+						dX[i] = StgPlayer.dX + 48 - 8;
+						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
 						spdY[i] = -550;
 						isVisible[i] = true;
@@ -113,8 +113,8 @@ public class StgBullet extends StgObject {
 
 						bulletType[i] = 2;
 						imageIndex[i] = 21;
-						dX[i] = StgPlayer.dX[0] + 48 - 8 - 45 + (30 * cnt);
-						dY[i] = StgPlayer.dY[0] + 48 - 8;
+						dX[i] = StgPlayer.dX + 48 - 8 - 45 + (30 * cnt);
+						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
 						spdY[i] = -570;
 						isVisible[i] = true;
@@ -124,12 +124,12 @@ public class StgBullet extends StgObject {
 						if (cnt == 0) {
 							break;
 						}
-						
+
 					}
 				}
 
 			} else if (StgPlayer.energy == 2) {
-				
+
 				int cnt = 3;
 
 				for (int i = 0; i < UNIT_MAX; i++) {
@@ -137,8 +137,8 @@ public class StgBullet extends StgObject {
 
 						bulletType[i] = 2;
 						imageIndex[i] = 21;
-						dX[i] = StgPlayer.dX[0] + 48 - 8 - 40 + (20 * cnt);
-						dY[i] = StgPlayer.dY[0] + 48 - 8;
+						dX[i] = StgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
+						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
 						spdY[i] = -570;
 						isVisible[i] = true;
@@ -148,12 +148,12 @@ public class StgBullet extends StgObject {
 						if (cnt == 0) {
 							break;
 						}
-						
-					} 
+
+					}
 				}
-				
+
 			} else if (StgPlayer.energy == 3) {
-				
+
 				int cnt = 3;
 
 				for (int i = 0; i < UNIT_MAX; i++) {
@@ -161,8 +161,8 @@ public class StgBullet extends StgObject {
 
 						bulletType[i] = 2;
 						imageIndex[i] = 21;
-						dX[i] = StgPlayer.dX[0] + 48 - 8 - 40 + (20 * cnt);
-						dY[i] = StgPlayer.dY[0] + 48 - 8;
+						dX[i] = StgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
+						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -300 + (150 * cnt);
 						spdY[i] = -570;
 						isVisible[i] = true;
@@ -172,12 +172,12 @@ public class StgBullet extends StgObject {
 						if (cnt == 0) {
 							break;
 						}
-						
-					} 
+
+					}
 				}
-				
+
 			} else if (StgPlayer.energy == 4) {
-				
+
 				int cnt = 4;
 
 				for (int i = 0; i < UNIT_MAX; i++) {
@@ -185,8 +185,8 @@ public class StgBullet extends StgObject {
 
 						bulletType[i] = 2;
 						imageIndex[i] = 21;
-						dX[i] = StgPlayer.dX[0] + 48 - 8 - 50 + (20 * cnt);
-						dY[i] = StgPlayer.dY[0] + 48 - 8;
+						dX[i] = StgPlayer.dX + 48 - 8 - 50 + (20 * cnt);
+						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -500 + (200 * cnt);
 						spdY[i] = -570;
 						isVisible[i] = true;
@@ -196,10 +196,10 @@ public class StgBullet extends StgObject {
 						if (cnt == 0) {
 							break;
 						}
-						
-					} 
+
+					}
 				}
-				
+
 			} else if (StgPlayer.energy == 5) {
 
 				int cnt = 4;
@@ -210,8 +210,8 @@ public class StgBullet extends StgObject {
 						bulletType[i] = 3;
 						imageIndex[i] = 37;
 
-						dX[i] = StgPlayer.dX[0] + (48 - 14) + (3 * cnt);
-						dY[i] = StgPlayer.dY[0] + 48 + 5;
+						dX[i] = StgPlayer.dX + (48 - 14) + (3 * cnt);
+						dY[i] = StgPlayer.dY + 48 + 5;
 						if (Input.K_SHIFT) {
 							spdX[i] = 50 * (cnt - 2) * Math.sin(angle[i]);
 						} else {
@@ -225,7 +225,7 @@ public class StgBullet extends StgObject {
 						if (cnt == 0) {
 							break;
 						}
-						
+
 					}
 				}
 
@@ -257,7 +257,7 @@ public class StgBullet extends StgObject {
 						if (cnt == 0) {
 							break;
 						}
-						
+
 					}
 				}
 
@@ -270,8 +270,8 @@ public class StgBullet extends StgObject {
 
 						bulletType[i] = Input.K_SHIFT ? 7 : 6;
 						imageIndex[i] = 163;
-						dX[i] = StgPlayer.dX[0] + 48 - 8;
-						dY[i] = StgPlayer.dY[0] + 48 - 8;
+						dX[i] = StgPlayer.dX + 48 - 8;
+						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = 0;
 						spdY[i] = Input.K_SHIFT ? 100 + Math.random() * 200 : -500;
 						accX[i] = Input.K_SHIFT ? -1200 + Math.random() * 2400 : -800 + Math.random() * 1600;
@@ -283,7 +283,7 @@ public class StgBullet extends StgObject {
 						if (cnt == 0) {
 							break;
 						}
-						
+
 					}
 				}
 			}
@@ -308,15 +308,15 @@ public class StgBullet extends StgObject {
 		for (int i = 0; i < 4; i++) {
 			if (Input.K_SHIFT) {
 				optionX[i] = 30 * Math.cos(Math.toRadians(optionAngle[i]))
-						- 30 * Math.sin(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dX[0] + 48 - 8;
+						- 30 * Math.sin(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dX + 48 - 8;
 				optionY[i] = 30 * Math.sin(Math.toRadians(optionAngle[i]))
-						+ 30 * Math.cos(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dY[0] + 48 - 8;
+						+ 30 * Math.cos(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dY + 48 - 8;
 				optionAngle[i] += 2.5;
 			} else {
 				optionX[i] = 70 * Math.cos(Math.toRadians(optionAngle[i]))
-						- 70 * Math.sin(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dX[0] + 48 - 8;
+						- 70 * Math.sin(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dX + 48 - 8;
 				optionY[i] = 70 * Math.sin(Math.toRadians(optionAngle[i]))
-						+ 70 * Math.cos(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dY[0] + 48 - 8;
+						+ 70 * Math.cos(Math.toRadians(optionAngle[i])) + (int) StgPlayer.dY + 48 - 8;
 				optionAngle[i] += 2.5;
 			}
 		}

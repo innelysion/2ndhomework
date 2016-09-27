@@ -13,7 +13,7 @@ public class Sys {
 
 	public static void setupPC(){
 		frameTime = 0.017;
-		isPlayerMouseControl = true;
+		isPlayerMouseControl = false;
 		windowSizeX = 960;
 		windowSizeY = 540;
 		pc = true;

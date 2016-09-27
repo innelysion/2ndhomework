@@ -247,7 +247,7 @@ public class StgEnemy extends Graphics {
 			for (int j = 0; j < 1000; j++) {
 
 				if ((isHitable[i] && isHit(dX[i], dY[i], bullet.dX[j], bullet.dY[j], 24, 4)
-						|| isHit(dX[i], dY[i], StgPlayer.dX[0] + 24, StgPlayer.dY[0] + 24, 24, StgPlayer.hitCir[0]))) {
+						|| isHit(dX[i], dY[i], StgPlayer.dX + 24, StgPlayer.dY + 24, 24, StgPlayer.hitCir))) {
 					bom.bomb_req(dX[i] + 24, dY[i] + 24, 0);
 					if (itemFlag[i]) {
 						item.request(dX[i], dY[i]);

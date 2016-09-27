@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 
 public class StgItem extends StgUnitBase {
-	
+
 	int widthBlock = 1;
 	int heightBlock = 12;
 	int UNIT_MAX = 10;
@@ -50,7 +50,7 @@ public class StgItem extends StgUnitBase {
 
 			dX[i] = 0;
 			dY[i] = 0;
-			
+
 			timerAni[i] = 0;
 			timerReq[i] = 0;
 
@@ -96,7 +96,7 @@ public class StgItem extends StgUnitBase {
 					isHitable[i] = true;
 					flag[i] = 1;
 
-	
+
 						break;
 
 				} // if end
@@ -108,7 +108,7 @@ public class StgItem extends StgUnitBase {
 	}
 
 	public void update() {
-		
+
 		//request(500,500);
 
 		for (int i = 0; i < UNIT_MAX; i++) {
@@ -118,7 +118,7 @@ public class StgItem extends StgUnitBase {
 			dX[i] += Sys.frameTime * spdX[i];
 			dY[i] += Sys.frameTime * spdY[i];
 
-			if (isHitable[i] && isHit(dX[i], dY[i], StgPlayer.dX[0], StgPlayer.dY[0], 20, 48)) {
+			if (isHitable[i] && isHit(dX[i], dY[i], StgPlayer.dX, StgPlayer.dY, 20, 48)) {
 				StgPlayer.energy = StgPlayer.energy >= 7 ? 7 : StgPlayer.energy + 1;
 				isVisible[i] = false;
 				isHitable[i] = false;
@@ -136,7 +136,7 @@ public class StgItem extends StgUnitBase {
 		return Math.sqrt(dblSaX + dblSaY) <= rad1 + rad2;
 
 	}
-	
+
 	public void drawImage(Graphics2D g, JFrame wind){
 		this.drawImage(g, wind, widthBlock, heightBlock, UNIT_MAX, imageIndex, isVisible, opacity, dX, dY, 0);
 	}

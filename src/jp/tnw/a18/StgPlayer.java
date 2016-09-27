@@ -1,53 +1,55 @@
 package jp.tnw.a18;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class StgPlayer extends StgObject {
+public class StgPlayer extends Graphics {
 
+	BufferedImage image;
 	int widthBlock = 2;
 	int heightBlock = 5;
 	int UNIT_MAX = 1;
 
 	// 画像の切り替え用の変数
-	int imageIndex[] = new int[1];
+	int imageIndex;
 	// 可視スイッチ
-	boolean isVisible[] = new boolean[1];
-	float opacity[] = new float[1];
+	boolean isVisible;
+	float opacity;
 
 	// 座標
-	static double dX[] = new double[1];
-	static double dY[] = new double[1];
+	static double dX;
+	static double dY;
 
 	// 当たり判定
-	static boolean isHitable[] = new boolean[1];
-	static double hitCir[] = new double[1];
-	static double hitBoxW[] = new double[1];
-	static double hitBoxH[] = new double[1];
+	static boolean isHitable;
+	static double hitCir;
+	static double hitBoxW;
+	static double hitBoxH;
 
 	// 自機のやつら
 	static int life, bomb, energy;
 	int timerInput;
 	int timerFacing;
-	double angle;
-	double faceX[] = new double[1];
-	double faceY[] = new double[1];
+	static double angle;
+	double faceX;
+	double faceY;
 
 	StgPlayer() {
 
 		life = bomb = energy = 0;
-		dX[0] = 512;
-		dY[0] = 400;
-		faceX[0] = dX[0];
-		faceY[0] = dY[0];
-		imageIndex[0] = 1;
-		isHitable[0] = false;
-		opacity[0] = 1.0f;
-		isVisible[0] = true;
-		hitCir[0] = 24;
-		hitBoxW[0] = 96;
-		hitBoxH[0] = 96;
+		dX = 512;
+		dY = 400;
+		faceX = dX;
+		faceY = dY;
+		imageIndex = 1;
+		isHitable = false;
+		opacity = 1.0f;
+		isVisible = true;
+		hitCir = 24;
+		hitBoxW = 96;
+		hitBoxH = 96;
 		timerInput = 0;
 
 	}
@@ -55,117 +57,167 @@ public class StgPlayer extends StgObject {
 	public void update() {
 
 		double SPD = Input.K_SHIFT ? 3.2 : 7.2;
-		double SPM = 0.9;
-		int DELAY = 2;
+		double SPDM = 0.75; // 斜方向スピード緩め
+		int DELAY = 4;
+		int radian = 0;
 
 		if (!Sys.isPlayerMouseControl) {
 			switch (Input.DIR8) {
+
+			case 0:
+				radian = 400;
+				break;
 			case 1:
-				if (timerInput > 0) {
-					dX[0] += -SPD;
-				} else {
-					dX[0] += -SPD / 4;
-				}
-				timerInput = DELAY;
+				radian = 180;
 				break;
 			case 3:
-				if (timerInput > 0) {
-					dY[0] += -SPD;
-				} else {
-					dY[0] += -SPD / 4;
-				}
-				timerInput = DELAY;
+				radian = 270;
 				break;
 			case 5:
-				if (timerInput > 0) {
-					dX[0] += SPD;
-				} else {
-					dX[0] += SPD / 4;
-				}
-				timerInput = DELAY;
+				radian = 0;
 				break;
 			case 7:
-				dY[0] += SPD;
-				timerInput = DELAY;
+				radian = 90;
 				break;
 			case 2:
-				dX[0] += -(SPD * SPM);
-				dY[0] += -(SPD * SPM);
-				timerInput = DELAY;
+				radian = 180 + 45;
 				break;
 			case 4:
-				dX[0] += (SPD * SPM);
-				dY[0] += -(SPD * SPM);
-				timerInput = DELAY;
+				radian = 270 + 45;
 				break;
 			case 6:
-				dX[0] += (SPD * SPM);
-				dY[0] += (SPD * SPM);
-				timerInput = DELAY;
+				radian = 0 + 45;
 				break;
 			case 8:
-				dX[0] += -(SPD * SPM);
-				dY[0] += (SPD * SPM);
-				timerInput = DELAY;
+				radian = 90 + 45;
 				break;
 			}
 
+			// case 1:
+			// if (timerInput > 0) {
+			// dX += -SPD;
+			// }
+			// timerInput = DELAY;
+			// break;
+			// case 3:
+			// if (timerInput > 0) {
+			// dY += -SPD;
+			// }
+			// timerInput = DELAY;
+			// break;
+			// case 5:
+			// if (timerInput > 0) {
+			// dX += SPD;
+			// }
+			// timerInput = DELAY;
+			// break;
+			// case 7:
+			// if (timerInput > 0) {
+			// dY += SPD;
+			// }
+			// timerInput = DELAY;
+			// break;
+			// case 2:
+			// dX += -(SPD * SPDM);
+			// dY += -(SPD * SPDM);
+			// timerInput = DELAY;
+			// break;
+			// case 4:
+			// dX += (SPD * SPDM);
+			// dY += -(SPD * SPDM);
+			// timerInput = DELAY;
+			// break;
+			// case 6:
+			// dX += (SPD * SPDM);
+			// dY += (SPD * SPDM);
+			// timerInput = DELAY;
+			// break;
+			// case 8:
+			// dX += -(SPD * SPDM);
+			// dY += (SPD * SPDM);
+			// timerInput = DELAY;
+			// break;
+			// }
+			if (Input.DIR8 > 0) {
+				if (timerInput < DELAY) {
+					dX += SPD / 2 * Math.cos(radian * 1.0 / 180.0 * Math.PI);
+					dY += SPD / 2 * Math.sin(radian * 1.0 / 180.0 * Math.PI);
+					timerInput += 1;
+				} else {
+					dX += SPD * Math.cos(radian * 1.0 / 180.0 * Math.PI);
+					dY += SPD * Math.sin(radian * 1.0 / 180.0 * Math.PI);
+				}
+			}
 		} else {
-			dX[0] = Input.M_X - 48;
-			dY[0] = Input.M_Y - 48;
+			dX = Input.M_X - 48;
+			dY = Input.M_Y - 48;
 		}
 
-		if (dX[0] < 0) {
-			dX[0] = 0;
+		if (dX < 0) {
+			dX = 0;
 		}
-		if (dX[0] > Sys.windowSizeX - 96) {
-			dX[0] = Sys.windowSizeX - 96;
+		if (dX > Sys.windowSizeX - 96) {
+			dX = Sys.windowSizeX - 96;
 		}
-		if (dY[0] < 0) {
-			dY[0] = 0;
+		if (dY < 0) {
+			dY = 0;
 		}
-		if (dY[0] > Sys.windowSizeY - 96) {
-			dY[0] = Sys.windowSizeY - 96;
+		if (dY > Sys.windowSizeY - 96) {
+			dY = Sys.windowSizeY - 96;
+			if (dX < 1){
+				faceX = dX;
+				faceY = dY;
+			}
 		}
 
 		// Check face direction
-		if (timerFacing == 0 && (faceX[0] != dX[0] || faceY[0] != dY[0])) {
+		if (timerFacing == 0 && (faceX != dX || faceY != dY)) {
 
-			double temp = Math.atan2(faceY[0] - dY[0], faceX[0] - dX[0]);
+			double temp = Math.atan2(faceY - dY, faceX - dX);
 			angle = temp / Math.PI * 180;
 			if (angle <= 60 && angle >= -60) {
-				imageIndex[0] = 5;
+				imageIndex = 5;
 			} else if (angle > 60 && angle < 120) {
-				imageIndex[0] = 1;
+				imageIndex = 1;
 			} else if (angle >= 120 || angle <= -120) {
-				imageIndex[0] = 3;
+				imageIndex = 3;
 			} else if (angle < -60 && angle > -120) {
-				imageIndex[0] = 1;
+				imageIndex = 1;
 			}
 
-			if (Sys.isPlayerMouseControl){
+			if (Sys.isPlayerMouseControl) {
 				timerFacing = 8;
-			}else{
-				timerFacing = 3;
+			} else {
+				timerFacing = 0;
 			}
 
-			faceX[0] = dX[0];
-			faceY[0] = dY[0];
+			faceX = dX;
+			faceY = dY;
 
 		} else {
 
-			if (timerFacing == 0){
-				imageIndex[0] = 1;
+			if (timerFacing == 0) {
+				imageIndex = 1;
 				timerFacing = 3;
 			}
 			angle = 0;
 		}
+
 		timerFacing = timerFacing == 0 ? 0 : timerFacing - 1;
-		timerInput = timerInput <= 0 ? 0 : timerInput - 1;
+		if (Input.DIR8 == 0) {
+			timerInput = timerInput <= 0 ? 0 : timerInput - 1;
+		}
+	}
+
+	public void load() {
+
+		image = loadImage(image, "Image/jiki2.png");
 
 	}
 
 	public void drawImage(Graphics2D g, JFrame wind) {
-		this.drawImage(g, wind, widthBlock, heightBlock, UNIT_MAX, imageIndex, isVisible, opacity, dX, dY, 0);
+		if (isVisible) {
+			this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex, opacity, dX, dY);
+		}
 	}
 }
