@@ -40,7 +40,7 @@ public class StgPlayer extends Graphics {
 
 	StgPlayer() {
 
-		timerFlash = 1000;
+		timerFlash = 300;
 		life = bomb = energy = 0;
 		dX = 512;
 		dY = 400;
@@ -167,7 +167,7 @@ public class StgPlayer extends Graphics {
 		}
 		if (dY > Sys.windowSizeY - 96) {
 			dY = Sys.windowSizeY - 96;
-			if (dX < 1){
+			if (dX < 1) {
 				faceX = dX;
 				faceY = dY;
 			}
@@ -211,17 +211,26 @@ public class StgPlayer extends Graphics {
 			timerInput = timerInput <= 0 ? 0 : timerInput - 1;
 		}
 
-		if (timerFlash > 0){
-			if (timerFlash % 5 == 0){
-				if (flagFlash == 1){
-					flagFlash = 0;
-				}else{
-					flagFlash = 1;
+		if (timerFlash > 0) {
+			if (timerFlash > 100) {
+				if (timerFlash % 8 == 0) {
+					if (flagFlash == 1) {
+						flagFlash = 0;
+					} else {
+						flagFlash = 1;
+					}
+				}
+			}else{
+				if (timerFlash % 3 == 0) {
+					if (flagFlash == 1) {
+						flagFlash = 0;
+					} else {
+						flagFlash = 1;
+					}
 				}
 			}
 			timerFlash--;
 		}
-
 
 	}
 
