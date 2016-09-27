@@ -12,6 +12,7 @@ import java.awt.event.MouseWheelListener;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
+//#TEST
 
 public class Input implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 
