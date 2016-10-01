@@ -2,19 +2,16 @@ package jp.tnw.a18;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 //--------------------
 //爆発関連
 //--------------------
-public class VFX {
+public class VFX extends StgImage{
 //	final int WX = 960;// 画面サイズの定義
 //	final int WY = 540;
 
-	BufferedImage tk0PNG;// 背景の読み込むメモリ宣言
+	BufferedImage image;// 背景の読み込むメモリ宣言
 //	final double FrameTime = 0.0166667;// 1/60秒
 	final int max = 9999;// 最大数
 
@@ -37,7 +34,7 @@ public class VFX {
 	// ----------------
 	public VFX() {
 
-		Load();
+		image = loadImage(image, "Image/bomb.png");
 		for (int cnt = 0; cnt < max; cnt++) {
 			flag[cnt] = 0;
 		}
@@ -102,31 +99,31 @@ public class VFX {
 	// ---------------
 	// ○敵読み込み
 	// ----------------
-	public void Load() {
-		try {
-			tk0PNG = ImageIO.read(getClass().getResource("Image/bomb.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}// Load end
-
+//	public void Load() {
+//		try {
+//			image = ImageIO.read(getClass().getResource("Image/bomb.png"));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}// Load end
 	// -----------------------
 	// 表示関数
 	// -----------------------
 	public void draw(Graphics g, JFrame w) {
 
 		for (int cnt = 0; cnt < max; cnt++) {
-
 			if (flag[cnt] != 0)
-				g.drawImage(tk0PNG, (int) zx[cnt], (int) zy[cnt], (int) zx[cnt] + nox2[cnt], (int) zy[cnt] + noy[cnt],
-
-						nox1[cnt], noy[cnt] * no[cnt],
-
-						nox1[cnt] + nox2[cnt], noy[cnt] * no[cnt] + noy[cnt],
-
+				g.drawImage(image, 
+						(int) zx[cnt],
+						(int) zy[cnt],
+						(int) zx[cnt] + nox2[cnt],
+						(int) zy[cnt] + noy[cnt],
+						nox1[cnt],
+						noy[cnt] * no[cnt],
+						nox1[cnt] + nox2[cnt],
+						noy[cnt] * no[cnt] + noy[cnt],
 						w);
-
 		}
 
 	}

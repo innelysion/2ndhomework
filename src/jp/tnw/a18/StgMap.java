@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class StgMap extends Graphics {
+public class StgMap extends StgImage {
 
 	Font f = new Font("Default", Font.BOLD, 16);// 使用するフォントクラス宣言]
 	int UNIT_MAX = 5;
@@ -46,7 +46,6 @@ public class StgMap extends Graphics {
 	void drawImage(Graphics2D g, JFrame wind) {
 
 		for (int i = 0; i < UNIT_MAX; i++) {
-
 			this.drawImage(g, wind, image[i], widthBlock, heightBlock, imageIndex[i], opacity[i], dX[i], dY[i]);
 		}
 

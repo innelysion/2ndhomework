@@ -58,11 +58,9 @@ public class GameMain  {
 		wind.addKeyListener(input);
 		wind.addMouseWheelListener(input);
 		// Load game data and resources
-		bom.Load();
 		item.loadImage("Image/Item", 1);
 		bullet.loadImage("Image/tama", 1);
 		enemy.loadImage();
-		player.load();
 		map.Load();
 		try {
 			bg = ImageIO.read(getClass().getResource("Image/bg_02.png"));
@@ -85,11 +83,13 @@ public class GameMain  {
 	class timer_TSK extends TimerTask {
 
 		public void run() {
+			///////////////////////////////////////////////////////////////////////////////////////
 
 			// Game data update
 			input.update(wind);
 			mainUpdate();
 
+			///////////////////////////////////////////////////////////////////////////////////////
 			// Garphics update
 			Graphics g2 = offimage.getDrawGraphics();// ｸﾞﾗﾌｨｯｸ初期化
 			Graphics2D g = (Graphics2D) g2;
@@ -98,8 +98,13 @@ public class GameMain  {
 				// Clear the graphic for next frame
 				g.translate(sz.left, sz.top); // ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
 				g.clearRect(0, 0, Sys.windowSizeX, Sys.windowSizeY); // 画面ｸﾘｱ(左上X、左上Y、右下x、右下y)
+				///////////////////////////////////////////////////////////////////////////////////
+
+				//Main Update
 				drawMain(g);
-				g.drawString("", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
+				g.drawString("aa", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
+				
+				///////////////////////////////////////////////////////////////////////////////////
 				offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
 				g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 

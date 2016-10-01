@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class StgPlayer extends Graphics {
+public class StgPlayer extends StgImage {
 
 	BufferedImage image;
 	int widthBlock = 2;
@@ -40,6 +40,7 @@ public class StgPlayer extends Graphics {
 
 	StgPlayer() {
 
+		image = loadImage(image, "Image/jiki2.png");
 		timerFlash = 300;
 		life = bomb = energy = 0;
 		dX = 512;
@@ -231,12 +232,6 @@ public class StgPlayer extends Graphics {
 			}
 			timerFlash--;
 		}
-
-	}
-
-	public void load() {
-
-		image = loadImage(image, "Image/jiki2.png");
 
 	}
 

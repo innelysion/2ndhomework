@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public abstract class Graphics {
+public abstract class StgImage {
 	// // 画像の容器
 	// BufferedImage image;
 	// BufferedImage image[] = new BufferedImage[XX];
@@ -42,7 +42,7 @@ public abstract class Graphics {
 	// double hitCir[] = new double[UNIT_MAX];
 	// double hitBoxW[] = new double[UNIT_MAX];
 	// double hitBoxH[] = new double[UNIT_MAX];
-	Graphics() {
+	StgImage() {
 		// for (int i = 0; i < UNIT_MAX; i++) {
 		//
 		// isVisible[i] = false;

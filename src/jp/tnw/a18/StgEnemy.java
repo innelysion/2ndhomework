@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class StgEnemy extends Graphics {
+public class StgEnemy extends StgImage {
 
 	BufferedImage image;
 	int widthBlock = 10;
