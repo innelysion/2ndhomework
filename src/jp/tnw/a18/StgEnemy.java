@@ -248,6 +248,11 @@ public class StgEnemy extends StgImage {
 
 				if ((isHitable[i] && isHit(dX[i], dY[i], bullet.dX[j], bullet.dY[j], 24, 4)
 						|| isHit(dX[i], dY[i], StgPlayer.dX + 24, StgPlayer.dY + 24, 24, StgPlayer.hitCir))) {
+					if (isHit(dX[i], dY[i], StgPlayer.dX + 24, StgPlayer.dY + 24, 24, StgPlayer.hitCir)) {
+						if (StgPlayer.timerFlash == 0) {
+							StgPlayer.damage(50);
+						}
+					}
 					bom.bomb_req(dX[i] + 24, dY[i] + 24, 0);
 					if (itemFlag[i]) {
 						item.request(dX[i], dY[i]);
@@ -267,7 +272,7 @@ public class StgEnemy extends StgImage {
 					} else if (flag[i] == 2 || flag[i] == 3) {
 						angle[i] = 0;
 						flag[i] = -1;
-					} else if (flag[i] == 4){
+					} else if (flag[i] == 4) {
 						flag[i] = -2;
 					}
 
@@ -300,15 +305,15 @@ public class StgEnemy extends StgImage {
 
 	public void drawImage(Graphics2D g, JFrame wind) {
 
-		for (int i = 0; i < UNIT_MAX; i++){
-			if (isVisible[i]){
+		for (int i = 0; i < UNIT_MAX; i++) {
+			if (isVisible[i]) {
 				this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex[i], opacity[i], dX[i], dY[i]);
 			}
 		}
 
 	}
 
-	public void loadImage(){
+	public void loadImage() {
 
 		image = loadImage(image, "Image/zako.png");
 

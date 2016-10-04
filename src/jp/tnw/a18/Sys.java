@@ -7,6 +7,8 @@ public class Sys {
 	static double frameTime;
 	static boolean isPlayerMouseControl;
 	static boolean pc, android, ios;
+	static boolean isScreenFreeze;
+	static boolean isGameOvering;
 
 	// for mobile screen
 	static double Xx, Yy;

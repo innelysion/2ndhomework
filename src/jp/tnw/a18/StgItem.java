@@ -120,6 +120,7 @@ public class StgItem extends StgUnitBase {
 
 			if (isHitable[i] && isHit(dX[i], dY[i], StgPlayer.dX, StgPlayer.dY, 20, 48)) {
 				StgPlayer.energy = StgPlayer.energy >= 7 ? 7 : StgPlayer.energy + 1;
+				StgPlayer.damage(-10);
 				isVisible[i] = false;
 				isHitable[i] = false;
 				flag[i] = 0;

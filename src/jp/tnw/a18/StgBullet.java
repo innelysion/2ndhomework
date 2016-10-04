@@ -45,6 +45,8 @@ public class StgBullet extends StgObject {
 	double optionY[] = { 0, 0, 0, 0 };
 	double optionAngle[] = { 0, 90, 180, 270 };
 
+	StgMap map;
+
 	StgBullet() {
 
 		for (int i = 0; i < UNIT_MAX; i++) {
@@ -241,7 +243,7 @@ public class StgBullet extends StgObject {
 
 						spdX[i] = 0;
 						spdY[i] = 0;
-						accY[i] = -2500;
+						accY[i] = -2000;
 
 						dX[i] = optionX[Math.abs(cnt - 4)];
 						dY[i] = optionY[Math.abs(cnt - 4)];
@@ -250,9 +252,11 @@ public class StgBullet extends StgObject {
 						} else {
 							bom.bomb_req(dX[i] + 8, dY[i] + 8, 5);
 						}
-						isVisible[i] = true;
-						isHitable[i] = true;
-						flag[i] = 1;
+						if (dX[i] < Sys.windowSizeX - 16) {
+							isVisible[i] = true;
+							isHitable[i] = true;
+							flag[i] = 1;
+						}
 						cnt--;
 						if (cnt == 0) {
 							break;
@@ -302,7 +306,7 @@ public class StgBullet extends StgObject {
 
 			StgPlayer.energy = StgPlayer.energy >= 7 ? 0 : StgPlayer.energy + 1;
 			timerReq[1] = 30;
-
+			//Sys.isScreenFreeze = !Sys.isScreenFreeze;
 		}
 
 		for (int i = 0; i < 4; i++) {
@@ -329,11 +333,11 @@ public class StgBullet extends StgObject {
 			dY[i] += Sys.frameTime * spdY[i];
 			angle[i]++;
 
-			if (bulletType[i] == 4) {
+			if (bulletType[i] == 4 && (dX[i] < Sys.windowSizeX - 16)) {
 
 				bom.bomb_req(dX[i] + 8, dY[i] + 8, 7);
 
-			} else if (bulletType[i] == 5) {
+			} else if (bulletType[i] == 5 && (dX[i] < Sys.windowSizeX - 16)) {
 
 				bom.bomb_req(dX[i] + 8, dY[i] + 8, 6);
 
@@ -375,6 +379,18 @@ public class StgBullet extends StgObject {
 				bulletType[i] = 0;
 				flag[i] = 0;
 
+			}
+			if (flag[i] > 0 && isVisible[i] && map.isMapHit(dX[i] + 8, dY[i] + 8)) {
+				isVisible[i] = false;
+				isHitable[i] = false;
+				imageIndex[i] = 1;
+				dX[i] = 9999;
+				spdX[i] = 0;
+				spdY[i] = 0;
+				accX[i] = 0;
+				accY[i] = 0;
+				bulletType[i] = 0;
+				flag[i] = 0;
 			}
 
 		}

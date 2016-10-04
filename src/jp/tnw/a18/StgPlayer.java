@@ -29,10 +29,10 @@ public class StgPlayer extends StgImage {
 	static double hitBoxH;
 
 	// 自機のやつら
-	static int life, bomb, energy;
+	static int HP, MAXHP, BOMB, energy;
 	int timerInput;
 	int timerFacing;
-	int timerFlash;
+	static int timerFlash;
 	int flagFlash;
 	double angle;
 	double faceX;
@@ -41,8 +41,10 @@ public class StgPlayer extends StgImage {
 	StgPlayer() {
 
 		image = loadImage(image, "Image/jiki2.png");
-		timerFlash = 300;
-		life = bomb = energy = 0;
+		HP = 100;
+		MAXHP = 100;
+		BOMB = 0;
+		energy = 0;
 		dX = 512;
 		dY = 400;
 		faceX = dX;
@@ -58,7 +60,16 @@ public class StgPlayer extends StgImage {
 
 	}
 
-	public void update() {
+	public void update(VFX bom) {
+
+		HP = HP > MAXHP ? MAXHP : HP;
+		HP = HP < 0 ? 0 : HP;
+
+		if(Sys.isGameOvering){
+
+			bom.bomb_req(dX + 48 + (Math.random() * 100 - 50), dY + 60 + (Math.random() * 100 - 50), (int)(Math.random() * 9));
+
+		}
 
 		double SPD = Input.K_SHIFT ? 3.2 : 7.2;
 		double SPDM = 0.75; // 斜方向スピード緩め
@@ -213,7 +224,7 @@ public class StgPlayer extends StgImage {
 		}
 
 		if (timerFlash > 0) {
-			if (timerFlash > 100) {
+			if (timerFlash > 50) {
 				if (timerFlash % 8 == 0) {
 					if (flagFlash == 1) {
 						flagFlash = 0;
@@ -235,9 +246,31 @@ public class StgPlayer extends StgImage {
 
 	}
 
+	public static void damage(int qty){
+
+		boolean isHeal;
+		isHeal = (HP < (HP - qty)) ? true : false;
+
+		HP -= qty;
+
+		HP = HP > MAXHP ? MAXHP : HP;
+		HP = HP < 0 ? 0 : HP;
+
+		if (!isHeal){
+			timerFlash = 150;
+		}
+
+		if (HP == 0){
+			Sys.isGameOvering = true;
+			timerFlash = 5000;
+		}
+
+	}
+
 	public void drawImage(Graphics2D g, JFrame wind) {
 		if (isVisible) {
 			this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex + flagFlash, opacity, dX, dY);
+
 		}
 	}
 }

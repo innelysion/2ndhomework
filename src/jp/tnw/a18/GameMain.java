@@ -15,7 +15,7 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public class GameMain  {
+public class GameMain {
 
 	JFrame wind = new JFrame("前期課題まとめA18");// JFrame の初期化(ﾒﾆｭｰﾊﾞｰの表示ﾀｲﾄﾙ
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
@@ -27,6 +27,7 @@ public class GameMain  {
 	StgEnemy enemy = new StgEnemy();
 	StgPlayer player = new StgPlayer();
 	StgMap map = new StgMap();
+	StgUI ui = new StgUI();
 	Input input = new Input();
 	BufferedImage bg;
 
@@ -61,7 +62,6 @@ public class GameMain  {
 		item.loadImage("Image/Item", 1);
 		bullet.loadImage("Image/tama", 1);
 		enemy.loadImage();
-		map.Load();
 		try {
 			bg = ImageIO.read(getClass().getResource("Image/bg_02.png"));
 		} catch (IOException e) {
@@ -93,22 +93,42 @@ public class GameMain  {
 			// Garphics update
 			Graphics g2 = offimage.getDrawGraphics();// ｸﾞﾗﾌｨｯｸ初期化
 			Graphics2D g = (Graphics2D) g2;
+			Graphics gg2 = offimage.getDrawGraphics();
+			Graphics2D gg = (Graphics2D) gg2;
 
 			if (offimage.contentsLost() == false) {//
 				// Clear the graphic for next frame
 				g.translate(sz.left, sz.top); // ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
+				if (Sys.isGameOvering){
+					g.translate(Math.random() * 10 - 5, Math.random() * 10 - 5);
+				}
 				g.clearRect(0, 0, Sys.windowSizeX, Sys.windowSizeY); // 画面ｸﾘｱ(左上X、左上Y、右下x、右下y)
+
 				///////////////////////////////////////////////////////////////////////////////////
 
-				//Main Update
+				// Main Update
+
+
 				drawMain(g);
-				g.drawString("aa", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
-				
+
+				ui.drawImage(g, wind);
+
+				g.drawString("A18張瀚夫20161004", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
+
 				///////////////////////////////////////////////////////////////////////////////////
+				if(Sys.isGameOvering){
+					gg.translate(sz.left, sz.top);
+					ui.drawGameover(gg, wind);
+					offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
+					gg.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
+				}
+
+
 				offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
 				g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 
 			} // if end ｸﾞﾗﾌｨｯｸOK??
+
 
 		}// run end
 
@@ -123,20 +143,20 @@ public class GameMain  {
 			bullet.drawImage(g, wind);
 			g.setColor(Color.MAGENTA);// 色指定
 			g.setFont(f);
-//			g.drawString(Double.toString((StgPlayer.angle)),80, 20);
+			// g.drawString(Double.toString((StgPlayer.angle)),80, 20);
 		}
 
 		private void mainUpdate() {
 			// TODO Auto-generated method stub
+			ui.update();
 			map.update();
 			bom.UpDate();
+			bullet.map = map;
 			bullet.update(bom);
 			item.update();
 			enemy.update(bullet, bom, item);
-			player.update();
+			player.update(bom);
 		}
-
-
 
 	}// timer task class end
 		// -----------------------------------

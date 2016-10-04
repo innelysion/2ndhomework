@@ -22,6 +22,13 @@ public class StgMap extends StgImage {
 	double scrollY = 0;
 
 	StgMap() {
+
+		image[0] = loadImage(image[0], "Maps/StgMap_01_00.png");
+		image[1] = loadImage(image[1], "Maps/StgMap_01_01.png");
+		image[2] = loadImage(image[2], "Maps/StgMap_01_02.png");
+		image[3] = loadImage(image[3], "Maps/StgMap_01_03.png");
+		image[4] = loadImage(image[4], "Maps/StgMap_01_04.png");
+
 		for (int i = 0; i < UNIT_MAX; i++) {
 
 			imageIndex[i] = 1;
@@ -33,15 +40,7 @@ public class StgMap extends StgImage {
 		}
 	}
 
-	public void Load() {
 
-		image[0] = loadImage(image[0], "Maps/StgMap_01_00.png");
-		image[1] = loadImage(image[1], "Maps/StgMap_01_01.png");
-		image[2] = loadImage(image[2], "Maps/StgMap_01_02.png");
-		image[3] = loadImage(image[3], "Maps/StgMap_01_03.png");
-		image[4] = loadImage(image[4], "Maps/StgMap_01_04.png");
-
-	}
 
 	void drawImage(Graphics2D g, JFrame wind) {
 
@@ -68,7 +67,24 @@ public class StgMap extends StgImage {
 				dY[i] += 1;
 			}
 		}
+		if (isMapHit(StgPlayer.dX + 48, StgPlayer.dY + 48) && StgPlayer.timerFlash == 0){
+			StgPlayer.damage(10);
+		}
 	}
+
+
+	public boolean isMapHit(double x, double y){
+		boolean hit;
+		hit = false;
+		int MapX = (int)(x / 16);
+		int MapY = (int)((y + (528 * 4) - scrollY) / 16);
+		hit = mapHitData[MapY][MapX] == 0 ? false : true;
+
+		return hit;
+	}
+
+
+
 
 	// Map data BEGIN----------------------------------
 	int[][] mapHitData = {
