@@ -15,7 +15,7 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public class GameMain {
+public class GameMain{//dfasf {
 
 	JFrame wind = new JFrame("前期課題まとめA18");// JFrame の初期化(ﾒﾆｭｰﾊﾞｰの表示ﾀｲﾄﾙ
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
