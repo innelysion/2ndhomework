@@ -65,9 +65,10 @@ public class StgPlayer extends StgImage {
 		HP = HP > MAXHP ? MAXHP : HP;
 		HP = HP < 0 ? 0 : HP;
 
-		if(Sys.isGameOvering){
+		if (Sys.isGameOvering) {
 
-			bom.bomb_req(dX + 48 + (Math.random() * 100 - 50), dY + 60 + (Math.random() * 100 - 50), (int)(Math.random() * 9));
+			bom.bomb_req(dX + 48 + (Math.random() * 100 - 50), dY + 60 + (Math.random() * 100 - 50),
+					(int) (Math.random() * 9));
 
 		}
 
@@ -232,7 +233,7 @@ public class StgPlayer extends StgImage {
 						flagFlash = 1;
 					}
 				}
-			}else{
+			} else {
 				if (timerFlash % 3 == 0) {
 					if (flagFlash == 1) {
 						flagFlash = 0;
@@ -246,21 +247,21 @@ public class StgPlayer extends StgImage {
 
 	}
 
-	public static void damage(int qty){
+	public static void damage(int qty) {
+		if (!Sys.isGameOvering) {
+			boolean isHeal;
+			isHeal = (HP < (HP - qty)) ? true : false;
 
-		boolean isHeal;
-		isHeal = (HP < (HP - qty)) ? true : false;
+			HP -= qty;
 
-		HP -= qty;
-
-		HP = HP > MAXHP ? MAXHP : HP;
-		HP = HP < 0 ? 0 : HP;
-
-		if (!isHeal){
-			timerFlash = 150;
+			HP = HP > MAXHP ? MAXHP : HP;
+			HP = HP < 0 ? 0 : HP;
+			if (!isHeal) {
+				timerFlash = 150;
+			}
 		}
 
-		if (HP == 0){
+		if (HP == 0) {
 			Sys.isGameOvering = true;
 			timerFlash = 5000;
 		}

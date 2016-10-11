@@ -24,6 +24,7 @@ public class GameMain{//dfasasfdfasdasf {
 	VFX bom = new VFX();
 	StgItem item = new StgItem();
 	StgBullet bullet = new StgBullet();
+	StgDanmaku danmaku = new StgDanmaku();
 	StgEnemy enemy = new StgEnemy();
 	StgPlayer player = new StgPlayer();
 	StgMap map = new StgMap();
@@ -137,10 +138,11 @@ public class GameMain{//dfasasfdfasdasf {
 			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
 			bom.draw(g, wind);
-			enemy.drawImage(g, wind);
+			//enemy.drawImage(g, wind);
 			item.drawImage(g, wind);
 			player.drawImage(g, wind);
 			bullet.drawImage(g, wind);
+			danmaku.drawImage(g, wind);
 			g.setColor(Color.MAGENTA);// 色指定
 			g.setFont(f);
 			// g.drawString(Double.toString((StgPlayer.angle)),80, 20);
@@ -153,8 +155,9 @@ public class GameMain{//dfasasfdfasdasf {
 			bom.UpDate();
 			bullet.map = map;
 			bullet.update(bom);
+			danmaku.update();
 			item.update();
-			enemy.update(bullet, bom, item);
+			//enemy.update(bullet, bom, item);
 			player.update(bom);
 		}
 

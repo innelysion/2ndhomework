@@ -114,7 +114,7 @@ public class StgBullet extends StgObject {
 					if (flag[i] == 0 && bulletType[i] == 0) {
 
 						bulletType[i] = 2;
-						imageIndex[i] = 21;
+						imageIndex[i] = 1;
 						dX[i] = StgPlayer.dX + 48 - 8 - 45 + (30 * cnt);
 						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
@@ -138,7 +138,7 @@ public class StgBullet extends StgObject {
 					if (flag[i] == 0 && bulletType[i] == 0) {
 
 						bulletType[i] = 2;
-						imageIndex[i] = 21;
+						imageIndex[i] = 1;
 						dX[i] = StgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
 						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
@@ -162,7 +162,7 @@ public class StgBullet extends StgObject {
 					if (flag[i] == 0 && bulletType[i] == 0) {
 
 						bulletType[i] = 2;
-						imageIndex[i] = 21;
+						imageIndex[i] = 49;
 						dX[i] = StgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
 						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -300 + (150 * cnt);
@@ -186,7 +186,7 @@ public class StgBullet extends StgObject {
 					if (flag[i] == 0 && bulletType[i] == 0) {
 
 						bulletType[i] = 2;
-						imageIndex[i] = 21;
+						imageIndex[i] = 49;
 						dX[i] = StgPlayer.dX + 48 - 8 - 50 + (20 * cnt);
 						dY[i] = StgPlayer.dY + 48 - 8;
 						spdX[i] = -500 + (200 * cnt);
@@ -210,7 +210,7 @@ public class StgBullet extends StgObject {
 					if (flag[i] == 0 && bulletType[i] == 0) {
 
 						bulletType[i] = 3;
-						imageIndex[i] = 37;
+						imageIndex[i] = 49;
 
 						dX[i] = StgPlayer.dX + (48 - 14) + (3 * cnt);
 						dY[i] = StgPlayer.dY + 48 + 5;
