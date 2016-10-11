@@ -22,6 +22,7 @@ public class StgEnemy extends StgImage {
 	// アニメとリクエストのカウンター
 	int timerAni[] = new int[UNIT_MAX];
 	double timerReq[] = new double[UNIT_MAX];
+	double timerShoot[] = new double[UNIT_MAX];
 	// 速度
 	double spdX[] = new double[UNIT_MAX];
 	double spdY[] = new double[UNIT_MAX];
@@ -57,6 +58,7 @@ public class StgEnemy extends StgImage {
 
 			timerAni[i] = 0;
 			timerReq[i] = 0;
+			timerShoot[i] = 1;
 
 			spdX[i] = 0;
 			spdY[i] = 0;
@@ -131,22 +133,6 @@ public class StgEnemy extends StgImage {
 
 			} // for end
 
-			for (int i = 50; i < 80; i++) {
-				if (flag[i] == -1) { // ONLY FOR WATING OBJECT
-					imageIndex[i] = 51;
-					dX[i] = Sys.windowSizeX / 2 - 20;
-					dY[i] = -40;
-					spdX[i] = 0;
-					spdY[i] = 300;
-					accX[i] = 0;
-					accY[i] = 0;
-					isVisible[i] = true;
-					isHitable[i] = true;
-					flag[i] = 2;
-					itemCount++;
-					break;
-				}
-			}
 
 			for (int i = 80; i < 130; i++) {
 				if (flag[i] == -2) { // ONLY FOR WATING OBJECT
@@ -168,7 +154,7 @@ public class StgEnemy extends StgImage {
 
 	}// method end
 
-	public void update(StgBullet bullet, VFX bom, StgItem item) {
+	public void update(StgBullet bullet, StgDanmaku danmaku, VFX bom, StgItem item) {
 
 		request();
 
@@ -243,6 +229,17 @@ public class StgEnemy extends StgImage {
 				break;
 
 			}
+
+			//弾リクエスト
+			if (flag[i] > 0){
+				timerShoot[i] -= Sys.frameTime;
+				if (timerShoot[i] < 0){
+					timerShoot[i] = 0.1;
+					danmaku.requestSniper(dX[i] + 24, dY[i] + 24, 1);
+				}
+
+			}
+
 
 			for (int j = 0; j < 1000; j++) {
 

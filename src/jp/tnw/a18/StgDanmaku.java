@@ -90,13 +90,57 @@ public class StgDanmaku extends StgImage {
 
 	}
 
-	public void request(double x , double y , int type) {
+	public void requestSniper(double x, double y, int type) {
+
+
+		int[][] KD = { //
+				//
+				{ 0, 999 }, //
+				{ 0, 0 + 30, 0 - 30, 999 }, //
+				{ 0, 0 + 15, 0 - 15, 0 + 30, 0 - 30, 0 + 45, 0 - 45, 999 } //
+		};//
+		// 自機狙い角度
+		double jikinerai;
+		jikinerai = Math.atan2((StgPlayer.dY + 24 - (y - 16)) , (StgPlayer.dX + 24 - (x - 16))) / Math.PI * 180 ;
+		int cnt = 0;
+
+		timerReq[0] = timerReq[0] - Sys.frameTime;
+		if (timerReq[0] < 0) {
+			timerReq[0] = 0.5;
+			for (int i = 0; i < UNIT_MAX; i++) {
+				if (flag[i] == 0 && bulletAction[i] == 0) {
+					imageIndex[i] = 235;
+					bulletType[i] = 2;
+					bulletAction[i] = 1;
+					dX[i] = x;
+					dY[i] = y;
+					spdX[i] = 200;
+					spdY[i] = 200;
+
+					isVisible[i] = true;
+					isHitable[i] = true;
+					flag[i] = 1;
+
+					angle[i] = KD[type][cnt] + jikinerai;
+					cnt++;
+					if (KD[type][cnt] == 999) {
+						break;
+					}
+
+
+				}
+			}
+		}
+	}
+
+	public void request(double x, double y, int type) {
 
 		int[][] KD = { //
 				//
 				{ 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 999 }, //
 				{ 0, 90, 180, 270, 999 }, //
-				{ 90, 90 + 30, 90 - 30, 999 } //
+				{ 90, 90 + 30, 90 - 30, 999 }, //
+				{ 0, 180, 999 } //
 		}//
 		;//
 		int cnt;
@@ -104,7 +148,7 @@ public class StgDanmaku extends StgImage {
 		a += 7;
 		timerReq[0] = timerReq[0] - Sys.frameTime;
 		if (timerReq[0] < 0) {
-			timerReq[0] = 0.05;
+			timerReq[0] = 0.02;
 
 			for (int i = 0; i < UNIT_MAX; i++) {
 				if (flag[i] == 0 && bulletAction[i] == 0) {
@@ -113,8 +157,8 @@ public class StgDanmaku extends StgImage {
 					bulletAction[i] = 1;
 					dX[i] = x;
 					dY[i] = y;
-					spdX[i] = 50;
-					spdY[i] = 100;
+					spdX[i] = 250;
+					spdY[i] = 250;
 
 					isVisible[i] = true;
 					isHitable[i] = true;
@@ -125,7 +169,6 @@ public class StgDanmaku extends StgImage {
 					if (KD[type][cnt] == 999) {
 						break;
 					}
-
 				}
 			}
 
@@ -135,16 +178,16 @@ public class StgDanmaku extends StgImage {
 
 	public void update() {
 
-		request(400, 200, b);
-
-		if (timerA % 50 == 0){
-			b++;
-		}
-
-		timerA++;
-		if (b > 2){
-			b = 0;
-		}
+//		requestSniper(480, 150, b);
+//
+//		if (timerA % 7 == 0) {
+//			b++;
+//		}
+//
+//		timerA++;
+//		if (b > 2) {
+//			b = 0;
+//		}
 
 		// Animation
 		for (int i = 0; i < UNIT_MAX; i++) {
@@ -180,6 +223,29 @@ public class StgDanmaku extends StgImage {
 			dX[i] += Sys.frameTime * spdX[i] * Math.cos(Math.toRadians(angle[i]));
 			dY[i] += Sys.frameTime * spdY[i] * Math.sin(Math.toRadians(angle[i]));
 
+			if (bulletType[i] != 0 && isOutBorder((int) dX[i], (int) dY[i], 16, 16)) {
+
+				isVisible[i] = false;
+				isHitable[i] = false;
+				imageIndex[i] = 1;
+				dX[i] = 9999;
+				spdX[i] = 0;
+				spdY[i] = 0;
+				accX[i] = 0;
+				accY[i] = 0;
+				bulletType[i] = 0;
+				bulletAction[i] = 0;
+				flag[i] = 0;
+
+			}
+
+			if (isHit(dX[i] - 16, dY[i] - 16, StgPlayer.dX + 24, StgPlayer.dY + 24, 4, 4)) {
+				if (StgPlayer.timerFlash == 0) {
+					StgPlayer.damage(10);
+				}
+
+			}
+
 		}
 		// Position
 
@@ -191,5 +257,25 @@ public class StgDanmaku extends StgImage {
 				this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex[i], opacity[i], dX[i], dY[i]);
 			}
 		}
+	}
+
+	public boolean isHit(double x1, double y1, double x2, double y2, double rad1, double rad2) {
+
+		double dblSaX = Math.pow(((x1 + rad1) - (x2 + rad2)), 2);
+		double dblSaY = Math.pow(((y1 + rad1) - (y2 + rad2)), 2);
+		return Math.sqrt(dblSaX + dblSaY) <= rad1 + rad2;
+
+	}
+
+	public boolean isOutBorder(int x, int y, int xSize, int ySize) {
+
+		return (x < 0 - xSize || x > Sys.windowSizeX || y < 0 - ySize || y > Sys.windowSizeY);
+
+	}
+
+	public boolean isTouchBorder(int x, int y, int xSize, int ySize) {
+
+		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
+
 	}
 }

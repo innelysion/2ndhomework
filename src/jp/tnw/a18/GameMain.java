@@ -138,7 +138,7 @@ public class GameMain{//dfasasfdfasdasf {
 			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
 			bom.draw(g, wind);
-			//enemy.drawImage(g, wind);
+			enemy.drawImage(g, wind);
 			item.drawImage(g, wind);
 			player.drawImage(g, wind);
 			bullet.drawImage(g, wind);
@@ -157,7 +157,7 @@ public class GameMain{//dfasasfdfasdasf {
 			bullet.update(bom);
 			danmaku.update();
 			item.update();
-			//enemy.update(bullet, bom, item);
+			enemy.update(bullet, danmaku, bom, item);
 			player.update(bom);
 		}
 

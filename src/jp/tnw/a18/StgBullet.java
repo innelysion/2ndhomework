@@ -393,6 +393,7 @@ public class StgBullet extends StgObject {
 				flag[i] = 0;
 			}
 
+
 		}
 
 	}
