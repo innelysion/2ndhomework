@@ -32,6 +32,7 @@ public class GameMain{//dfasasfdfasdasf {
 	Input input = new Input();
 	BufferedImage bg;
 
+
 	// -----------------------------
 	// 初期化用の関数
 	// ・window生成
@@ -138,7 +139,7 @@ public class GameMain{//dfasasfdfasdasf {
 			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
 			bom.draw(g, wind);
-			enemy.drawImage(g, wind);
+			enemy.drawKomaImage(g, wind);
 			item.drawImage(g, wind);
 			player.drawImage(g, wind);
 			bullet.drawImage(g, wind);

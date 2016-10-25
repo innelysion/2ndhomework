@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-public class StgDanmaku extends StgImage {
+public class StgDanmaku extends StgImage{
 
 	BufferedImage image;
 	int widthBlock = 20;
@@ -47,6 +47,8 @@ public class StgDanmaku extends StgImage {
 	double a = 0;
 	int b = 0;
 	int timerA = 0;
+	int timerB[] = new int[UNIT_MAX];
+	int bulletCount = 0;
 
 	StgMap map;
 
@@ -86,6 +88,9 @@ public class StgDanmaku extends StgImage {
 			bulletType[i] = 0;
 			bulletAction[i] = 0;
 
+			timerB[i] = 120;
+
+
 		}
 
 	}
@@ -105,7 +110,7 @@ public class StgDanmaku extends StgImage {
 		int cnt = 0;
 
 		timerReq[0] = timerReq[0] - Sys.frameTime;
-		if (timerReq[0] < 0) {
+		if (timerReq[0] < 0 && bulletCount < 10) {
 			timerReq[0] = 0.5;
 			for (int i = 0; i < UNIT_MAX; i++) {
 				if (flag[i] == 0 && bulletAction[i] == 0) {
@@ -114,8 +119,8 @@ public class StgDanmaku extends StgImage {
 					bulletAction[i] = 1;
 					dX[i] = x;
 					dY[i] = y;
-					spdX[i] = 200;
-					spdY[i] = 200;
+					spdX[i] = 0;
+					spdY[i] = 0;
 
 					isVisible[i] = true;
 					isHitable[i] = true;
@@ -130,6 +135,7 @@ public class StgDanmaku extends StgImage {
 
 				}
 			}
+			bulletCount++;
 		}
 	}
 
@@ -218,10 +224,23 @@ public class StgDanmaku extends StgImage {
 		// Position
 		for (int i = 0; i < UNIT_MAX; i++) {
 
+			if (flag[i] == 1){
+				timerB[i] -= 1;
+				if (timerB[i] <= 0){
+					spdX[i] = 250;
+					spdY[i] = 250;
+					flag[i] = 2;
+				}
+			}
+
+			if (flag[i] == 2){
+
 			spdX[i] += Sys.frameTime * accX[i];
 			spdY[i] += Sys.frameTime * accY[i];
 			dX[i] += Sys.frameTime * spdX[i] * Math.cos(Math.toRadians(angle[i]));
 			dY[i] += Sys.frameTime * spdY[i] * Math.sin(Math.toRadians(angle[i]));
+
+			}
 
 			if (bulletType[i] != 0 && isOutBorder((int) dX[i], (int) dY[i], 16, 16)) {
 
@@ -278,4 +297,17 @@ public class StgDanmaku extends StgImage {
 		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
 
 	}
+
+
+}
+
+
+class StgDanmakuLaser extends StgDanmaku {
+
+	StgDanmakuLaser(){
+
+		image = loadImage(image, "Image/lazer.png");
+
+	}
+
 }

@@ -1,24 +1,19 @@
 package jp.tnw.a18;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+public class StgEnemy extends GameObject {
 
-import javax.swing.JFrame;
-
-public class StgEnemy extends StgImage {
-
-	BufferedImage image;
-	int widthBlock = 10;
-	int heightBlock = 10;
+//	BufferedImage image;
+//	int widthBlock = 10;
+//	int heightBlock = 10;
 	int UNIT_MAX = 500;
-	// 画像の切り替え用の変数
-	int imageIndex[] = new int[UNIT_MAX];
-	// 可視スイッチ
-	boolean isVisible[] = new boolean[UNIT_MAX];
-	float opacity[] = new float[UNIT_MAX];
-	// 座標
-	double dX[] = new double[UNIT_MAX];
-	double dY[] = new double[UNIT_MAX];
+//	// 画像の切り替え用の変数
+//	int imageIndex[] = new int[UNIT_MAX];
+//	// 可視スイッチ
+//	boolean isVisible[] = new boolean[UNIT_MAX];
+//	float opacity[] = new float[UNIT_MAX];
+//	// 座標
+//	double dX[] = new double[UNIT_MAX];
+//	double dY[] = new double[UNIT_MAX];
 	// アニメとリクエストのカウンター
 	int timerAni[] = new int[UNIT_MAX];
 	double timerReq[] = new double[UNIT_MAX];
@@ -47,6 +42,8 @@ public class StgEnemy extends StgImage {
 	boolean itemFlag[] = new boolean[UNIT_MAX];
 
 	StgEnemy() {
+
+		super(500);
 
 		for (int i = 0; i < UNIT_MAX; i++) {
 
@@ -300,19 +297,20 @@ public class StgEnemy extends StgImage {
 
 	}
 
-	public void drawImage(Graphics2D g, JFrame wind) {
-
-		for (int i = 0; i < UNIT_MAX; i++) {
-			if (isVisible[i]) {
-				this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex[i], opacity[i], dX[i], dY[i]);
-			}
-		}
-
-	}
+//	public void drawImage(Graphics2D g, JFrame wind) {
+//
+//		for (int i = 0; i < UNIT_MAX; i++) {
+//			if (isVisible[i]) {
+//				this.drawImage(g, wind, image, widthBlock, heightBlock, imageIndex[i], opacity[i], dX[i], dY[i]);
+//			}
+//		}
+//
+//	}
 
 	public void loadImage() {
 
-		image = loadImage(image, "Image/zako.png");
+		//image = loadImage(image, "Image/zako.png");
+		komaImage = new KomaImage("Image/zako.png", 10, 10);
 
 	}
 

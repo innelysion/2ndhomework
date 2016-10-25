@@ -84,9 +84,8 @@ public abstract class StgImage {
 		return image;
 	}
 
-	public void drawImage(Graphics2D g, JFrame window, BufferedImage image,
-			int widthBlock, int heightBlock, int imageIndex,
-			float opacity, double dX, double dY) {
+	public void drawImage(Graphics2D g, JFrame window, BufferedImage image, int widthBlock, int heightBlock,
+			int imageIndex, float opacity, double dX, double dY) {
 
 		// 一コマの幅をゲット
 		int blockW = image.getWidth() / widthBlock;
@@ -118,3 +117,6 @@ public abstract class StgImage {
 	}
 
 }
+
+
+

@@ -13,7 +13,7 @@ public class StgUnitBase extends StgObject {
 	@Override
 	void drawImage(Graphics2D g, JFrame wind) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
