@@ -1,18 +1,16 @@
 package jp.tnw.a18;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
+//画面に表示が必要な全てのスーパークラス
 public class GameObject implements GameTools {
 
 	// オブジェクトの数
 	int MAX;
 	// コマ画像の容器
 	public KomaImage komaImage;
-	// 配列画像の容器
-	public BufferedImage arrayImage[];
 	// コマ画像の切り替え用の変数
 	int imageIndex[];
 	// 可視度
@@ -22,12 +20,14 @@ public class GameObject implements GameTools {
 	double dX[];
 	double dY[];
 
+	// 初期値で初期化
 	GameObject() {
 
 		this(1);
 
 	}
 
+	// 初期化
 	GameObject(int qty) {
 
 		MAX = qty;
@@ -37,37 +37,24 @@ public class GameObject implements GameTools {
 		dX = new double[MAX];
 		dY = new double[MAX];
 
+		for (int i = 0; i < MAX; i++) {
+			imageIndex[i] = 1;
+			isVisible[i] = true;
+			opacity[i] = 1.0f;
+			dX[i] = 0;
+			dY[i] = 0;
+		}
+
 	}
 
-
-	public void drawKomaImage(Graphics2D g, JFrame wind) {
+	public void drawKoma(Graphics2D g, JFrame wind) {
 
 		for (int i = 0; i < MAX; i++) {
 			if (isVisible[i]) {
-				this.drawImage(g, wind, komaImage, imageIndex[i], dX[i], dY[i], opacity[i]);
+				drawKoma(g, wind, komaImage, imageIndex[i], dX[i], dY[i], opacity[i]);
 			}
 		}
 
 	}
 
-
-
 }
-
-class KomaImage implements GameTools {
-
-	public BufferedImage file;
-	public int widthBlock;
-	public int heightBlock;
-
-	KomaImage(String fileName, int wBlock, int hBlock) {
-		file = loadImage(fileName);
-		widthBlock = wBlock;
-		heightBlock = hBlock;
-	}
-
-}
-
-
-
-

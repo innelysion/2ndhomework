@@ -1,6 +1,5 @@
 package jp.tnw.a18;
 
-//使いたいｸﾗｽの取り込みasdasdasdTEST
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -15,7 +14,7 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public class GameMain{//dfasasfdfasdasf {
+public class GameMain{
 
 	JFrame wind = new JFrame("前期課題まとめA18");// JFrame の初期化(ﾒﾆｭｰﾊﾞｰの表示ﾀｲﾄﾙ
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
@@ -27,6 +26,7 @@ public class GameMain{//dfasasfdfasdasf {
 	StgDanmaku danmaku = new StgDanmaku();
 	StgEnemy enemy = new StgEnemy();
 	StgPlayer player = new StgPlayer();
+	NStgPlayer p = new NStgPlayer();
 	StgMap map = new StgMap();
 	StgUI ui = new StgUI();
 	Input input = new Input();
@@ -139,9 +139,10 @@ public class GameMain{//dfasasfdfasdasf {
 			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
 			bom.draw(g, wind);
-			enemy.drawKomaImage(g, wind);
+			enemy.drawKoma(g, wind);
 			item.drawImage(g, wind);
 			player.drawImage(g, wind);
+			p.draw(g, wind);
 			bullet.drawImage(g, wind);
 			danmaku.drawImage(g, wind);
 			g.setColor(Color.MAGENTA);// 色指定
@@ -160,6 +161,7 @@ public class GameMain{//dfasasfdfasdasf {
 			item.update();
 			enemy.update(bullet, danmaku, bom, item);
 			player.update(bom);
+			p.update(bom);
 		}
 
 	}// timer task class end

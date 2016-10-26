@@ -52,7 +52,7 @@ public class StgPlayer extends StgImage {
 		imageIndex = 1;
 		isHitable = false;
 		opacity = 1.0f;
-		isVisible = true;
+		isVisible = false;
 		hitCir = 24;
 		hitBoxW = 96;
 		hitBoxH = 96;

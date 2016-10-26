@@ -12,7 +12,7 @@ public class StgUI extends StgImage {
 	BufferedImage gameoverImage;
 	float opacity;
 	int dX, dY;
-	int fadeHP;
+	int fadeHP; 
 	int timer;
 
 	StgUI() {

@@ -23,7 +23,7 @@ public class Sys {
 
 	public static void setupPC(){
 		frameTime = 0.017;
-		isPlayerMouseControl = false;
+		isPlayerMouseControl = true;
 		windowSizeX = 960;
 		windowSizeY = 540;
 		pc = true;
@@ -41,6 +41,7 @@ public class Sys {
 
 interface GameTools {
 
+	//画像ファイルを読み込む
 	public default BufferedImage loadImage(String filename) {
 		BufferedImage image = null;
 		try {
@@ -51,7 +52,8 @@ interface GameTools {
 		return image;
 	}
 
-	public default void drawImage(Graphics2D g, JFrame window, KomaImage image, int imageIndex, double dX, double dY,
+	//コマ画像を描画
+	public default void drawKoma(Graphics2D g, JFrame window, KomaImage image, int imageIndex, double dX, double dY,
 			float opacity) {
 
 		// 一コマの幅をゲット
@@ -83,6 +85,36 @@ interface GameTools {
 		// 不透明度リセット
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 
+	}
+
+	//画面外判断
+	public default boolean isOutBorder(int x, int y, int xSize, int ySize) {
+
+		return (x < 0 - xSize || x > Sys.windowSizeX || y < 0 - ySize || y > Sys.windowSizeY);
+
+	}
+
+	//画面端との接触判断
+	public default boolean isTouchBorder(int x, int y, int xSize, int ySize) {
+
+		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
+
+	}
+
+}
+
+
+
+class KomaImage implements GameTools {
+
+	public BufferedImage file;
+	public int widthBlock;
+	public int heightBlock;
+
+	KomaImage(String fileName, int wBlock, int hBlock) {
+		file = loadImage(fileName);
+		widthBlock = wBlock;
+		heightBlock = hBlock;
 	}
 
 }
