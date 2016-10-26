@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 
 public class StgMap extends StgImage {
 
-	Font f = new Font("Default", Font.BOLD, 16);// 使用するフォントクラス宣言]
+	Font f = new Font("Default", Font.BOLD, 16);// 使用するフォントクラス宣言
 	int UNIT_MAX = 5;
 	BufferedImage image[] = new BufferedImage[UNIT_MAX];
 	int widthBlock = 1;
@@ -32,7 +32,6 @@ public class StgMap extends StgImage {
 		image[4] = loadImage(image[4], "Maps/StgMap_01_04.png");
 
 		for (int i = 0; i < UNIT_MAX; i++) {
-
 			imageIndex[i] = 1;
 			isVisible[i] = true;
 			opacity[i] = 1.0f;
@@ -64,9 +63,9 @@ public class StgMap extends StgImage {
 
 	public void update() {
 		if (scrollY < 528 * 4) {
-			scrollY += 1;
+			scrollY += 0.5;
 			for (int i = 0; i < UNIT_MAX; i++) {
-				dY[i] += 1;
+				dY[i] += 0.5;
 			}
 		}
 		if (isMapHit(StgPlayer.dX + 48, StgPlayer.dY + 48) && StgPlayer.timerFlash == 0){
