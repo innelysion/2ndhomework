@@ -173,6 +173,24 @@ public class NStgPlayer extends NStgUnit {
 			dX = Input.M_X - 48;
 			dY = Input.M_Y - 48;
 		}
+		
+		// 画面外に行かないように
+		if (dX < 0) {
+			dX = 0;
+		}
+		if (dX > SYS.WINDOW_SIZE_X - 96) {
+			dX = SYS.WINDOW_SIZE_X - 96;
+		}
+		if (dY < 0) {
+			dY = 0;
+		}
+		if (dY > SYS.WINDOW_SIZE_Y - 96) {
+			dY = SYS.WINDOW_SIZE_Y - 96;
+			if (dX < 1) {
+				facingX = dX;
+				facingY = dY;
+			}
+		}
 
 		// 向きをチェック
 		if (timerFacing == 0 && (facingX != dX || facingY != dY)) {

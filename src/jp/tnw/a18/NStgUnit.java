@@ -71,9 +71,9 @@ public class NStgUnit extends GameObject {
 		}
 
 	}
-	
-	public void reset(int i){
-		
+
+	public void reset(int i) {
+
 		spdX[i] = 0;
 		spdY[i] = 0;
 		accX[i] = 0;
@@ -88,18 +88,16 @@ public class NStgUnit extends GameObject {
 		hitCir[i] = 0;
 		hitBoxW[i] = 0;
 		hitBoxH[i] = 0;
-		
+
 	}
 
 	// 直线速度控制
-	public void move() {
+	public void move(int i) {
 
-		for (int i = 0; i < MAX; i++) {
-			spdX[i] += SYS.FRAME_TIME * accX[i];
-			spdY[i] += SYS.FRAME_TIME * accY[i];
-			dX[i] += SYS.FRAME_TIME * spdX[i];
-			dY[i] += SYS.FRAME_TIME * spdY[i];
-		}
+		spdX[i] += SYS.FRAME_TIME * accX[i];
+		spdY[i] += SYS.FRAME_TIME * accY[i];
+		dX[i] += SYS.FRAME_TIME * spdX[i];
+		dY[i] += SYS.FRAME_TIME * spdY[i];
 
 	}
 
@@ -153,16 +151,16 @@ public class NStgUnit extends GameObject {
 	// 画面外判断
 	public boolean isOutBorder(NStgUnit unit, int index) {
 
-		return isOutBorder((int) unit.hitBoxW[index], (int) unit.dX[index], (int) unit.hitBoxH[index],
-				(int) unit.dY[index]);
+		return isOutBorder((int) unit.dX[index], (int) unit.hitBoxW[index], (int) unit.dY[index],
+				(int) unit.hitBoxH[index]);
 
 	}
 
 	// 画面端との接触判断
 	public boolean isTouchBorder(NStgUnit unit, int index) {
 
-		return isTouchBorder((int) unit.hitBoxW[index], (int) unit.dX[index], (int) unit.hitBoxH[index],
-				(int) unit.dY[index]);
+		return isTouchBorder((int) unit.dX[index], (int) unit.hitBoxW[index], (int) unit.dY[index],
+				(int) unit.hitBoxH[index]);
 
 	}
 

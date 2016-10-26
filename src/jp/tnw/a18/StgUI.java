@@ -18,9 +18,9 @@ public class StgUI extends StgImage {
 	StgUI() {
 
 		opacity = 0.0f;
-		fadeHP = StgPlayer.MAXHP;
-		dX = (int) StgPlayer.dX - 24;
-		dY = (int) StgPlayer.dY + 80;
+		fadeHP = NStgPlayer.MAXHP;
+		dX = (int) NStgPlayer.dX - 24;
+		dY = (int) NStgPlayer.dY + 80;
 		image = loadImage(image, "Image/dmg.png");
 		gameoverImage = loadImage(image, "Image/g_over.png");
 	}
@@ -33,13 +33,13 @@ public class StgUI extends StgImage {
 				wind); //
 
 		g.drawImage(image, //
-				dX, dY, dX + 144 * fadeHP / StgPlayer.MAXHP, dY + 8, //
-				0, 16, 144 * fadeHP / StgPlayer.MAXHP, 16 + 8, //
+				dX, dY, dX + 144 * fadeHP / NStgPlayer.MAXHP, dY + 8, //
+				0, 16, 144 * fadeHP / NStgPlayer.MAXHP, 16 + 8, //
 				wind);
 
 		g.drawImage(image, //
-				dX, dY, dX + 144 * StgPlayer.HP / StgPlayer.MAXHP, dY + 8, //
-				0, 8, 144 * StgPlayer.HP / StgPlayer.MAXHP, 8 + 8, //
+				dX, dY, dX + 144 * NStgPlayer.HP / NStgPlayer.MAXHP, dY + 8, //
+				0, 8, 144 * NStgPlayer.HP / NStgPlayer.MAXHP, 8 + 8, //
 				wind); //
 
 	}
@@ -57,15 +57,15 @@ public class StgUI extends StgImage {
 		}
 
 		if (timer % 5 == 0) {
-			if (fadeHP < StgPlayer.HP) {
+			if (fadeHP < NStgPlayer.HP) {
 				fadeHP++;
-			} else if (fadeHP > StgPlayer.HP) {
+			} else if (fadeHP > NStgPlayer.HP) {
 				fadeHP--;
 			}
 		}
 
-		dX = (int) StgPlayer.dX - 24;
-		dY = (int) StgPlayer.dY + 80;
+		dX = (int) NStgPlayer.dX - 24;
+		dY = (int) NStgPlayer.dY + 80;
 
 		timer++;
 

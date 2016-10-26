@@ -14,7 +14,7 @@ public class NStgDanmaku extends NStgUnit {
 	int damage[];
 
 	// 生成からのタイマー
-	double timerLife[];
+	int timerLife[];
 	
 	// リクェスト用
 	double timerReq;
@@ -30,7 +30,7 @@ public class NStgDanmaku extends NStgUnit {
 		type = new int[MAX];
 		action = new int[MAX][10]; //アクションは10個まで
 		damage = new int[MAX];
-		timerLife = new double[MAX];
+		timerLife = new int[MAX];
 
 		for (int i = 0; i < MAX; i++) {
 

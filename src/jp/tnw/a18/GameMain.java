@@ -26,6 +26,7 @@ public class GameMain{
 	NStgPlayerShoot b = new NStgPlayerShoot();
 	StgDanmaku danmaku = new StgDanmaku();
 	StgEnemy enemy = new StgEnemy();
+	NStgEnemy e = new NStgEnemy();
 	StgPlayer player = new StgPlayer();
 	NStgPlayer p = new NStgPlayer();
 	StgMap map = new StgMap();
@@ -140,7 +141,8 @@ public class GameMain{
 			g.drawImage(bg, 0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
 			bom.draw(g, wind);
-			enemy.drawKoma(g, wind);
+			//enemy.drawKoma(g, wind);
+			e.drawKoma(g, wind);
 			item.drawImage(g, wind);
 			//player.drawImage(g, wind);
 			p.draw(g, wind);
@@ -163,7 +165,8 @@ public class GameMain{
 			b.update();
 			danmaku.update();
 			item.update();
-			enemy.update(bullet, danmaku, bom, item);
+			//enemy.update(bullet, danmaku, bom, item);
+			e.update();
 			//player.update(bom);
 			p.update();
 		}
