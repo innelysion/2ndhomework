@@ -9,32 +9,22 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 //◆System Control◆//
-public class Sys {
+public class SYS {
 
-	static int windowSizeX, windowSizeY;
-	static double frameTime;
-	static boolean isPlayerMouseControl;
-	static boolean pc, android, ios;
-	static boolean isScreenFreeze;
-	static boolean isGameOvering;
+	static int WINDOW_SIZE_X, WINDOW_SIZE_Y;
+	static double FRAME_TIME;
+	static boolean MOUSE_CONTROLING;
+	static boolean SCREEN_FREEZING;
+	static boolean GAMEOVERING;
 
 	// for mobile screen
 	static double Xx, Yy;
 
 	public static void setupPC(){
-		frameTime = 0.017;
-		isPlayerMouseControl = true;
-		windowSizeX = 960;
-		windowSizeY = 540;
-		pc = true;
-	}
-
-	public static void setupANDROID(){
-		frameTime = 0.017;
-		isPlayerMouseControl = false;
-		windowSizeX = 960;
-		windowSizeY = 540;
-		android = true;
+		FRAME_TIME = 0.017;
+		MOUSE_CONTROLING = true;
+		WINDOW_SIZE_X = 960;
+		WINDOW_SIZE_Y = 540;
 	}
 
 }
@@ -70,6 +60,7 @@ interface GameTools {
 		// 不透明度
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)));
 		// 描画
+		
 		g.drawImage(image.file,
 				// 画面に出したいところ
 				(int) (dX), // 左上端X座標
@@ -83,6 +74,7 @@ interface GameTools {
 				(int) (indexY + blockH), // 右下端Y座標
 				window);
 		// 不透明度リセット
+		
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 
 	}
@@ -90,14 +82,14 @@ interface GameTools {
 	//画面外判断
 	public default boolean isOutBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 - xSize || x > Sys.windowSizeX || y < 0 - ySize || y > Sys.windowSizeY);
+		return (x < 0 - xSize || x > SYS.WINDOW_SIZE_X || y < 0 - ySize || y > SYS.WINDOW_SIZE_Y);
 
 	}
 
 	//画面端との接触判断
 	public default boolean isTouchBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
+		return (x < 0 || x > SYS.WINDOW_SIZE_X - xSize || y < 0 || y > SYS.WINDOW_SIZE_Y - ySize);
 
 	}
 

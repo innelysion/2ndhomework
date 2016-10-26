@@ -2,31 +2,31 @@ package jp.tnw.a18;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 //--------------------
 //爆発関連
 //--------------------
-public class VFX extends StgImage{
-//	final int WX = 960;// 画面サイズの定義
-//	final int WY = 540;
+public class VFX {
 
 	BufferedImage image;// 背景の読み込むメモリ宣言
-//	final double FrameTime = 0.0166667;// 1/60秒
-	final int max = 9999;// 最大数
+	final static int max = 5000;// 最大数
 
-	int flag[] = new int[max];// 0:出現していない
-	double a_wait[] = new double[max];// ｱﾆﾒwait time
-	double a_wait_cp[] = new double[max];// ｱﾆﾒwait time copy
+	static int flag[] = new int[max];// 0:出現していない
+	static double a_wait[] = new double[max];// ｱﾆﾒwait time
+	static double a_wait_cp[] = new double[max];// ｱﾆﾒwait time copy
 
-	int no[] = new int[max];// ｱﾆﾒﾅﾝﾊﾞｰ
-	int nox1[] = new int[max];// ﾘｸｴｽﾄﾅﾝﾊﾞｰ
-	int nox2[] = new int[max];// ｱﾆﾒｻｲｽﾞx
-	int noy[] = new int[max];// ｱﾆﾒｻｲｽﾞy
-	int nom[] = new int[max];// ｱﾆﾒｻｲｽﾞmax
+	static int no[] = new int[max];// ｱﾆﾒﾅﾝﾊﾞｰ
+	static int nox1[] = new int[max];// ﾘｸｴｽﾄﾅﾝﾊﾞｰ
+	static int nox2[] = new int[max];// ｱﾆﾒｻｲｽﾞx
+	static int noy[] = new int[max];// ｱﾆﾒｻｲｽﾞy
+	static int nom[] = new int[max];// ｱﾆﾒｻｲｽﾞmax
 
-	double zx[] = new double[max];// 表示座標 x
-	double zy[] = new double[max];// 表示座標 y
+	static double zx[] = new double[max];// 表示座標 x
+	static double zy[] = new double[max];// 表示座標 y
 	double timer;// ﾘｸｴｽﾄﾀｲﾏｰ
 
 	// ----------------
@@ -34,7 +34,13 @@ public class VFX extends StgImage{
 	// ----------------
 	public VFX() {
 
-		image = loadImage(image, "Image/bomb.png");
+		try {
+			image = ImageIO.read(getClass().getResource("Image/bomb.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		for (int cnt = 0; cnt < max; cnt++) {
 			flag[cnt] = 0;
 		}
@@ -45,7 +51,7 @@ public class VFX extends StgImage{
 	// ﾘｸｴｽﾄ関数
 	// entry;座標x,y 爆発ﾅﾝﾊﾞｰ,
 	// ---------------------------
-	public void bomb_req(double xx, double yy, int b_no) {
+	public static void request(double xx, double yy, int b_no) {
 
 		double ani_wait[] = { 0.02, 0.02, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01 };// wait
 		int ani_size[] = { 48, 48, 32, 32, 32, 32, 16, 16, 16 };// size
@@ -77,12 +83,12 @@ public class VFX extends StgImage{
 	// ---------------------------
 	// 処理
 	// ---------------------------
-	public void UpDate() {
+	public void update() {
 
 		for (int cnt = 0; cnt < max; cnt++) {
 			if (flag[cnt] != 0) {
 
-				a_wait[cnt] -= Sys.frameTime;
+				a_wait[cnt] -= SYS.FRAME_TIME;
 				if (a_wait[cnt] < 0) {
 					a_wait[cnt] = a_wait_cp[cnt];// timer reset
 

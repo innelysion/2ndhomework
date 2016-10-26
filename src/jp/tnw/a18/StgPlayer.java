@@ -65,9 +65,9 @@ public class StgPlayer extends StgImage {
 		HP = HP > MAXHP ? MAXHP : HP;
 		HP = HP < 0 ? 0 : HP;
 
-		if (Sys.isGameOvering) {
+		if (SYS.GAMEOVERING) {
 
-			bom.bomb_req(dX + 48 + (Math.random() * 100 - 50), dY + 60 + (Math.random() * 100 - 50),
+			bom.request(dX + 48 + (Math.random() * 100 - 50), dY + 60 + (Math.random() * 100 - 50),
 					(int) (Math.random() * 9));
 
 		}
@@ -77,7 +77,7 @@ public class StgPlayer extends StgImage {
 		int DELAY = 4;
 		int radian = 0;
 
-		if (!Sys.isPlayerMouseControl) {
+		if (!SYS.MOUSE_CONTROLING) {
 			switch (Input.DIR8) {
 
 			case 0:
@@ -172,14 +172,14 @@ public class StgPlayer extends StgImage {
 		if (dX < 0) {
 			dX = 0;
 		}
-		if (dX > Sys.windowSizeX - 96) {
-			dX = Sys.windowSizeX - 96;
+		if (dX > SYS.WINDOW_SIZE_X - 96) {
+			dX = SYS.WINDOW_SIZE_X - 96;
 		}
 		if (dY < 0) {
 			dY = 0;
 		}
-		if (dY > Sys.windowSizeY - 96) {
-			dY = Sys.windowSizeY - 96;
+		if (dY > SYS.WINDOW_SIZE_Y - 96) {
+			dY = SYS.WINDOW_SIZE_Y - 96;
 			if (dX < 1) {
 				faceX = dX;
 				faceY = dY;
@@ -201,7 +201,7 @@ public class StgPlayer extends StgImage {
 				imageIndex = 1;
 			}
 
-			if (Sys.isPlayerMouseControl) {
+			if (SYS.MOUSE_CONTROLING) {
 				timerFacing = 8;
 			} else {
 				timerFacing = 0;
@@ -248,7 +248,7 @@ public class StgPlayer extends StgImage {
 	}
 
 	public static void damage(int qty) {
-		if (!Sys.isGameOvering) {
+		if (!SYS.GAMEOVERING) {
 			boolean isHeal;
 			isHeal = (HP < (HP - qty)) ? true : false;
 
@@ -262,7 +262,7 @@ public class StgPlayer extends StgImage {
 		}
 
 		if (HP == 0) {
-			Sys.isGameOvering = true;
+			SYS.GAMEOVERING = true;
 			timerFlash = 5000;
 		}
 

@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class StgMap extends StgImage {
@@ -78,8 +80,13 @@ public class StgMap extends StgImage {
 		hit = false;
 		int MapX = (int)(x / 16);
 		int MapY = (int)((y + (528 * 4) - scrollY) / 16);
-		hit = mapHitData[MapY][MapX] == 0 ? false : true;
-
+		
+		try {
+			hit = mapHitData[MapY][MapX] == 0 ? false : true;
+		} catch (Exception e) {
+			return false;
+		}
+		
 		return hit;
 	}
 

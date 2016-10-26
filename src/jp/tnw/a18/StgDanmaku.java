@@ -109,7 +109,7 @@ public class StgDanmaku extends StgImage{
 		jikinerai = Math.atan2((StgPlayer.dY + 24 - (y - 16)) , (StgPlayer.dX + 24 - (x - 16))) / Math.PI * 180 ;
 		int cnt = 0;
 
-		timerReq[0] = timerReq[0] - Sys.frameTime;
+		timerReq[0] = timerReq[0] - SYS.FRAME_TIME;
 		if (timerReq[0] < 0 && bulletCount < 10) {
 			timerReq[0] = 0.5;
 			for (int i = 0; i < UNIT_MAX; i++) {
@@ -152,7 +152,7 @@ public class StgDanmaku extends StgImage{
 		int cnt;
 		cnt = 0;
 		a += 7;
-		timerReq[0] = timerReq[0] - Sys.frameTime;
+		timerReq[0] = timerReq[0] - SYS.FRAME_TIME;
 		if (timerReq[0] < 0) {
 			timerReq[0] = 0.02;
 
@@ -235,10 +235,10 @@ public class StgDanmaku extends StgImage{
 
 			if (flag[i] == 2){
 
-			spdX[i] += Sys.frameTime * accX[i];
-			spdY[i] += Sys.frameTime * accY[i];
-			dX[i] += Sys.frameTime * spdX[i] * Math.cos(Math.toRadians(angle[i]));
-			dY[i] += Sys.frameTime * spdY[i] * Math.sin(Math.toRadians(angle[i]));
+			spdX[i] += SYS.FRAME_TIME * accX[i];
+			spdY[i] += SYS.FRAME_TIME * accY[i];
+			dX[i] += SYS.FRAME_TIME * spdX[i] * Math.cos(Math.toRadians(angle[i]));
+			dY[i] += SYS.FRAME_TIME * spdY[i] * Math.sin(Math.toRadians(angle[i]));
 
 			}
 
@@ -288,13 +288,13 @@ public class StgDanmaku extends StgImage{
 
 	public boolean isOutBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 - xSize || x > Sys.windowSizeX || y < 0 - ySize || y > Sys.windowSizeY);
+		return (x < 0 - xSize || x > SYS.WINDOW_SIZE_X || y < 0 - ySize || y > SYS.WINDOW_SIZE_Y);
 
 	}
 
 	public boolean isTouchBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
+		return (x < 0 || x > SYS.WINDOW_SIZE_X - xSize || y < 0 || y > SYS.WINDOW_SIZE_Y - ySize);
 
 	}
 

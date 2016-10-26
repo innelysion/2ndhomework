@@ -13,33 +13,30 @@ import java.util.Arrays;
 
 import javax.swing.JFrame;
 
-
 public class Input implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 
 	static boolean K_SHIFT, K_ESC, K_Z, K_X, LEFT, UP, RIGHT, DOWN, UPLEFT, UPRIGHT, DOWNRIGHT, DOWNLEFT; // 各キーの状態
 	static boolean M_LC, M_MC, M_RC; // マウスボタン
 	static int DIR4, DIR8; // 十字と8方向入力
 	static int M_X, M_Y, M_W; // カーソル座標とマウスホイール
-	Insets sz; //ウィンドウの枠
+	Insets sz; // ウィンドウの枠
 	boolean left_first = false;
 	boolean right_first = false;
+
 	//
 
-
-	//FOR TEST
-	static int TEST[];
-	static boolean TEST2[];
-	static int KEY, KEYR, MB;
-	boolean check[] = { false, false, false, false };
-	int index[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-
+	// FOR TEST
+	// static int TEST[];
+	// static boolean TEST2[];
+	// boolean check[] = { false, false, false, false };
+	// int index[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	// int KEY, KEYR, MB;
 
 	Input() {
 
-
 	}
 
-	public void update(JFrame wind){
+	public void update(JFrame wind) {
 
 		sz = wind.getInsets();
 		M_X = MouseInfo.getPointerInfo().getLocation().x - wind.getLocationOnScreen().x - sz.left;
@@ -48,7 +45,6 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	}
 
 	public void dirCheck() {
-
 
 		if (LEFT && UP && RIGHT && DOWN) {
 			DIR8 = 0;
@@ -119,8 +115,8 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 			DIR4 = 0;
 		}
 
-		TEST = Arrays.copyOf(index, 8);
-		TEST2 = Arrays.copyOf(check, 4);
+		// TEST = Arrays.copyOf(index, 8);
+		// TEST2 = Arrays.copyOf(check, 4);
 
 	}
 
@@ -128,8 +124,8 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
-		KEY = arg0.getKeyCode();
-		switch (KEY) {
+//		KEY = arg0.getKeyCode();
+		switch (arg0.getKeyCode()) {
 		case 16://
 			K_SHIFT = true;
 			break;
@@ -176,8 +172,8 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
-		KEYR = arg0.getKeyCode();
-		switch (KEYR) {
+//		KEYR = arg0.getKeyCode();
+		switch (arg0.getKeyCode()) {
 		case 16:
 			K_SHIFT = false;
 			break;
@@ -255,8 +251,8 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
-		MB = arg0.getButton();
-		switch (MB){
+//		MB = arg0.getButton();
+		switch (arg0.getButton()) {
 		case 1:
 			M_LC = true;
 			break;
@@ -274,8 +270,8 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
-		MB = arg0.getButton();
-		switch (MB){
+//		MB = arg0.getButton();
+		switch (arg0.getButton()) {
 		case 1:
 			M_LC = false;
 			break;

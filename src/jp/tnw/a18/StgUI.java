@@ -46,13 +46,13 @@ public class StgUI extends StgImage {
 
 	public void drawGameover(Graphics2D g, JFrame wind){
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)));
-		g.drawImage(gameoverImage, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, 800, 600, wind);
+		g.drawImage(gameoverImage, 0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y, 0, 0, 800, 600, wind);
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 	}
 
 	public void update() {
 
-		if (Sys.isGameOvering){
+		if (SYS.GAMEOVERING){
 			opacity = opacity >= 0.998f ? 1.0f : opacity + 0.002f;
 		}
 

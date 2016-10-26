@@ -83,7 +83,7 @@ public class StgBullet extends StgObject {
 
 	void request(VFX bom) {
 
-		timerReq[0] = timerReq[0] - Sys.frameTime;
+		timerReq[0] = timerReq[0] - SYS.FRAME_TIME;
 		if (timerReq[0] < 0) {
 			timerReq[0] = StgPlayer.energy == 7 ? 0.05 : 0.1;
 
@@ -248,11 +248,11 @@ public class StgBullet extends StgObject {
 						dX[i] = optionX[Math.abs(cnt - 4)];
 						dY[i] = optionY[Math.abs(cnt - 4)];
 						if (Input.K_SHIFT) {
-							bom.bomb_req(dX[i] + 8, dY[i] + 8, 4);
+							VFX.request(dX[i] + 8, dY[i] + 8, 4);
 						} else {
-							bom.bomb_req(dX[i] + 8, dY[i] + 8, 5);
+							VFX.request(dX[i] + 8, dY[i] + 8, 5);
 						}
-						if (dX[i] < Sys.windowSizeX - 16) {
+						if (dX[i] < SYS.WINDOW_SIZE_X - 16) {
 							isVisible[i] = true;
 							isHitable[i] = true;
 							flag[i] = 1;
@@ -298,7 +298,7 @@ public class StgBullet extends StgObject {
 
 		timerReq[1]--;
 
-		if ((Sys.isPlayerMouseControl) || (!Sys.isPlayerMouseControl && Input.K_Z)) {
+		if ((SYS.MOUSE_CONTROLING) || (!SYS.MOUSE_CONTROLING && Input.K_Z)) {
 			request(bom);
 		}
 
@@ -306,7 +306,7 @@ public class StgBullet extends StgObject {
 
 			StgPlayer.energy = StgPlayer.energy >= 7 ? 0 : StgPlayer.energy + 1;
 			timerReq[1] = 30;
-			//Sys.isScreenFreeze = !Sys.isScreenFreeze;
+			//SYS.SCREEN_FREEZING = !SYS.SCREEN_FREEZING;
 		}
 
 		for (int i = 0; i < 4; i++) {
@@ -327,27 +327,27 @@ public class StgBullet extends StgObject {
 
 		for (int i = 0; i < UNIT_MAX; i++) {
 
-			spdX[i] += Sys.frameTime * accX[i];
-			spdY[i] += Sys.frameTime * accY[i];
-			dX[i] += Sys.frameTime * spdX[i];
-			dY[i] += Sys.frameTime * spdY[i];
+			spdX[i] += SYS.FRAME_TIME * accX[i];
+			spdY[i] += SYS.FRAME_TIME * accY[i];
+			dX[i] += SYS.FRAME_TIME * spdX[i];
+			dY[i] += SYS.FRAME_TIME * spdY[i];
 			angle[i]++;
 
-			if (bulletType[i] == 4 && (dX[i] < Sys.windowSizeX - 16)) {
+			if (bulletType[i] == 4 && (dX[i] < SYS.WINDOW_SIZE_X - 16)) {
 
-				bom.bomb_req(dX[i] + 8, dY[i] + 8, 7);
+				VFX.request(dX[i] + 8, dY[i] + 8, 7);
 
-			} else if (bulletType[i] == 5 && (dX[i] < Sys.windowSizeX - 16)) {
+			} else if (bulletType[i] == 5 && (dX[i] < SYS.WINDOW_SIZE_X - 16)) {
 
-				bom.bomb_req(dX[i] + 8, dY[i] + 8, 6);
+				VFX.request(dX[i] + 8, dY[i] + 8, 6);
 
 			} else if (bulletType[i] == 6) {
 
-				bom.bomb_req(dX[i] + 8, dY[i] + 8, 5);
+				VFX.request(dX[i] + 8, dY[i] + 8, 5);
 
 			} else if (bulletType[i] == 7) {
 
-				bom.bomb_req(dX[i] + 8, dY[i] + 8, 4);
+				VFX.request(dX[i] + 8, dY[i] + 8, 4);
 			}
 
 			if (flag[i] == 2) {

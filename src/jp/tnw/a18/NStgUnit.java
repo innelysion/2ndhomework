@@ -10,16 +10,19 @@ public class NStgUnit extends GameObject {
 	double accY[];
 	// 角度
 	double angle[];
-	// 円心と軸
+	// 円心と軸(特殊移動に使う)
 	double cirCenterX[];
 	double cirCenterY[];
 	double axisX[];
 	double axisY[];
+	double rotation[];
 	// 当たり判定
 	boolean isHitable[];
 	double hitCir[];
 	double hitBoxW[];
 	double hitBoxH[];
+	// 画像の切り替えアニメのカウンター
+	int timerAni[];
 
 	// 初期値で初期化
 	NStgUnit() {
@@ -41,10 +44,12 @@ public class NStgUnit extends GameObject {
 		cirCenterY = new double[MAX];
 		axisX = new double[MAX];
 		axisY = new double[MAX];
+		rotation = new double[MAX];
 		isHitable = new boolean[MAX];
 		hitCir = new double[MAX];
 		hitBoxW = new double[MAX];
 		hitBoxH = new double[MAX];
+		timerAni = new int[MAX];
 
 		for (int i = 0; i < MAX; i++) {
 
@@ -57,6 +62,7 @@ public class NStgUnit extends GameObject {
 			cirCenterY[i] = 0;
 			axisX[i] = 0;
 			axisY[i] = 0;
+			rotation[i] = 0;
 			isHitable[i] = false;
 			hitCir[i] = 0;
 			hitBoxW[i] = 0;
@@ -65,15 +71,34 @@ public class NStgUnit extends GameObject {
 		}
 
 	}
+	
+	public void reset(int i){
+		
+		spdX[i] = 0;
+		spdY[i] = 0;
+		accX[i] = 0;
+		accY[i] = 0;
+		angle[i] = 0;
+		cirCenterX[i] = 0;
+		cirCenterY[i] = 0;
+		axisX[i] = 0;
+		axisY[i] = 0;
+		rotation[i] = 0;
+		isHitable[i] = false;
+		hitCir[i] = 0;
+		hitBoxW[i] = 0;
+		hitBoxH[i] = 0;
+		
+	}
 
 	// 直线速度控制
 	public void move() {
 
 		for (int i = 0; i < MAX; i++) {
-			spdX[i] += Sys.frameTime * accX[i];
-			spdY[i] += Sys.frameTime * accY[i];
-			dX[i] += Sys.frameTime * spdX[i];
-			dY[i] += Sys.frameTime * spdY[i];
+			spdX[i] += SYS.FRAME_TIME * accX[i];
+			spdY[i] += SYS.FRAME_TIME * accY[i];
+			dX[i] += SYS.FRAME_TIME * spdX[i];
+			dY[i] += SYS.FRAME_TIME * spdY[i];
 		}
 
 	}
@@ -83,10 +108,10 @@ public class NStgUnit extends GameObject {
 	public void moveCir(double rotateSpd) {
 
 		for (int i = 0; i < MAX; i++) {
-			spdX[i] += Sys.frameTime * accX[i];
-			spdY[i] += Sys.frameTime * accY[i];
-			dX[i] += Sys.frameTime * spdX[i] * Math.cos(Math.toRadians(angle[i]));
-			dY[i] += Sys.frameTime * spdY[i] * Math.sin(Math.toRadians(angle[i]));
+			spdX[i] += SYS.FRAME_TIME * accX[i];
+			spdY[i] += SYS.FRAME_TIME * accY[i];
+			dX[i] += SYS.FRAME_TIME * spdX[i] * Math.cos(Math.toRadians(angle[i]));
+			dY[i] += SYS.FRAME_TIME * spdY[i] * Math.sin(Math.toRadians(angle[i]));
 			angle[i] += rotateSpd;
 		}
 

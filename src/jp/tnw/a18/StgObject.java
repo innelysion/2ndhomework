@@ -185,13 +185,13 @@ public abstract class StgObject {
 
 	public boolean isOutBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 - xSize || x > Sys.windowSizeX || y < 0 - ySize || y > Sys.windowSizeY);
+		return (x < 0 - xSize || x > SYS.WINDOW_SIZE_X || y < 0 - ySize || y > SYS.WINDOW_SIZE_Y);
 
 	}
 
 	public boolean isTouchBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
+		return (x < 0 || x > SYS.WINDOW_SIZE_X - xSize || y < 0 || y > SYS.WINDOW_SIZE_Y - ySize);
 
 	}
 

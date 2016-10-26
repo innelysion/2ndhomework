@@ -77,7 +77,7 @@ public class StgItem extends StgUnitBase {
 
 	public void request(double x, double y) {
 
-		timerReq[0] = timerReq[0] - Sys.frameTime;
+		timerReq[0] = timerReq[0] - SYS.FRAME_TIME;
 		if (timerReq[0] < 0) {
 			timerReq[0] = 0.01;
 
@@ -113,10 +113,10 @@ public class StgItem extends StgUnitBase {
 
 		for (int i = 0; i < UNIT_MAX; i++) {
 
-			spdX[i] += Sys.frameTime * accX[i];
-			spdY[i] += Sys.frameTime * accY[i];
-			dX[i] += Sys.frameTime * spdX[i];
-			dY[i] += Sys.frameTime * spdY[i];
+			spdX[i] += SYS.FRAME_TIME * accX[i];
+			spdY[i] += SYS.FRAME_TIME * accY[i];
+			dX[i] += SYS.FRAME_TIME * spdX[i];
+			dY[i] += SYS.FRAME_TIME * spdY[i];
 
 			if (isHitable[i] && isHit(dX[i], dY[i], StgPlayer.dX, StgPlayer.dY, 20, 48)) {
 				StgPlayer.energy = StgPlayer.energy >= 7 ? 7 : StgPlayer.energy + 1;

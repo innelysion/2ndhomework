@@ -39,7 +39,7 @@ public class GameObject implements GameTools {
 
 		for (int i = 0; i < MAX; i++) {
 			imageIndex[i] = 1;
-			isVisible[i] = true;
+			isVisible[i] = false;
 			opacity[i] = 1.0f;
 			dX[i] = 0;
 			dY[i] = 0;

@@ -16,13 +16,14 @@ import javax.swing.JFrame;
 
 public class GameMain{
 
-	JFrame wind = new JFrame("前期課題まとめA18");// JFrame の初期化(ﾒﾆｭｰﾊﾞｰの表示ﾀｲﾄﾙ
+	JFrame wind = new JFrame("Shooooooooooooooooting!!!");// JFrame の初期化(ﾒﾆｭｰﾊﾞｰの表示ﾀｲﾄﾙ
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
 	BufferStrategy offimage;// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧでちらつき防止
 	Font f = new Font("Default", Font.BOLD, 13);// 使用するフォントクラス宣言
 	VFX bom = new VFX();
 	StgItem item = new StgItem();
 	StgBullet bullet = new StgBullet();
+	NStgPlayerShoot b = new NStgPlayerShoot();
 	StgDanmaku danmaku = new StgDanmaku();
 	StgEnemy enemy = new StgEnemy();
 	StgPlayer player = new StgPlayer();
@@ -43,14 +44,14 @@ public class GameMain{
 	GameMain() {
 
 		// Load System data
-		Sys.setupPC();
+		SYS.setupPC();
 		// Setup window & inputs & graphics
 		wind.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 閉じﾎﾞﾀﾝ許可
 		wind.setBackground(new Color(0, 0, 0));// 色指定
 		wind.setResizable(false);// ｻｲｽﾞ変更不可
 		wind.setVisible(true);// 表示or非表示
 		sz = wind.getInsets();// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
-		wind.setSize(Sys.windowSizeX + sz.left + sz.right, Sys.windowSizeY + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽﾞ
+		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽﾞ
 		wind.setLocationRelativeTo(null);// 中央に表示
 		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
 		wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
@@ -101,10 +102,10 @@ public class GameMain{
 			if (offimage.contentsLost() == false) {//
 				// Clear the graphic for next frame
 				g.translate(sz.left, sz.top); // ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
-				if (Sys.isGameOvering){
+				if (SYS.GAMEOVERING){
 					g.translate(Math.random() * 10 - 5, Math.random() * 10 - 5);
 				}
-				g.clearRect(0, 0, Sys.windowSizeX, Sys.windowSizeY); // 画面ｸﾘｱ(左上X、左上Y、右下x、右下y)
+				g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y); // 画面ｸﾘｱ(左上X、左上Y、右下x、右下y)
 
 				///////////////////////////////////////////////////////////////////////////////////
 
@@ -115,10 +116,10 @@ public class GameMain{
 
 				ui.drawImage(g, wind);
 
-				g.drawString("A18張瀚夫20161004", Sys.windowSizeX - 170 - 15, Sys.windowSizeY - 10);
+				g.drawString("A18張瀚夫20161004", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 10);
 
 				///////////////////////////////////////////////////////////////////////////////////
-				if(Sys.isGameOvering){
+				if(SYS.GAMEOVERING){
 					gg.translate(sz.left, sz.top);
 					ui.drawGameover(gg, wind);
 					offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
@@ -136,14 +137,15 @@ public class GameMain{
 
 		private void drawMain(Graphics2D g) {
 			// TODO Auto-generated method stub
-			g.drawImage(bg, 0, 0, Sys.windowSizeX, Sys.windowSizeY, 0, 0, bg.getWidth(), bg.getHeight(), wind);
+			g.drawImage(bg, 0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
 			bom.draw(g, wind);
 			enemy.drawKoma(g, wind);
 			item.drawImage(g, wind);
-			player.drawImage(g, wind);
+			//player.drawImage(g, wind);
 			p.draw(g, wind);
-			bullet.drawImage(g, wind);
+			//bullet.drawImage(g, wind);
+			b.drawKoma(g, wind);
 			danmaku.drawImage(g, wind);
 			g.setColor(Color.MAGENTA);// 色指定
 			g.setFont(f);
@@ -154,14 +156,16 @@ public class GameMain{
 			// TODO Auto-generated method stub
 			ui.update();
 			map.update();
-			bom.UpDate();
-			bullet.map = map;
-			bullet.update(bom);
+			bom.update();
+			//bullet.map = map;
+			b.map = map;
+			//bullet.update(bom);
+			b.update();
 			danmaku.update();
 			item.update();
 			enemy.update(bullet, danmaku, bom, item);
-			player.update(bom);
-			p.update(bom);
+			//player.update(bom);
+			p.update();
 		}
 
 	}// timer task class end

@@ -6,10 +6,9 @@ import javax.swing.JFrame;
 
 public class NStgPlayer extends NStgUnit {
 
-	// 自機のやつら
-	static int HP, MAXHP, BOMB, MAXBOMB, POWER, MAXPOWER;
-
+	static double dX, dY;
 	// ダメージフラッシュ
+	static boolean IMMORTAL; // 無敵
 	static int FLASHTIME;
 	int flagFlash;
 
@@ -22,6 +21,11 @@ public class NStgPlayer extends NStgUnit {
 	double facingX;
 	double facingY;
 
+	// 自機のやつら
+	static int HP, MAXHP, BOMB, MAXBOMB, POWER, MAXPOWER;
+	static boolean STOPSHOOT;
+	int timerPowerUp;
+
 	// 初期化
 	NStgPlayer() {
 
@@ -30,32 +34,38 @@ public class NStgPlayer extends NStgUnit {
 		imageIndex[0] = 1;
 		isVisible[0] = true;
 		opacity[0] = 1.0f;
-		dX[0] = 512;
-		dY[0] = 400;
+		dX = 512;
+		dY = 400;
 
 		isHitable[0] = true;
 		hitCir[0] = 24;
 		hitBoxW[0] = 96;
 		hitBoxH[0] = 96;
 
-		HP = 100;
-		MAXHP = 100;
-		BOMB = 2;
-		MAXBOMB = 10;
-		POWER = 0;
-		MAXPOWER = 10;
-		FLASHTIME = 0;
-
 		flagFlash = 0;
 		timerInput = 0;
 		timerFacing = 0;
 		facingAngle = 0;
-		facingX = dX[0];
-		facingY = dY[0];
+		facingX = dX;
+		facingY = dY;
+
+		HP = 4;
+		MAXHP = 10;
+		BOMB = 2;
+		MAXBOMB = 10;
+		POWER = 0;
+		MAXPOWER = 10;
+		IMMORTAL = false;
+		FLASHTIME = 0;
+		STOPSHOOT = false;
+
+		// デバッグ用////////////////
+		timerPowerUp = 0;
+		// デバッグ用////////////////
 
 	}
 
-	public void update(VFX bom) {
+	public void update() {
 
 		// 制御
 		HP = HP > MAXHP ? MAXHP : HP;
@@ -65,18 +75,29 @@ public class NStgPlayer extends NStgUnit {
 		POWER = POWER > MAXPOWER ? MAXPOWER : POWER;
 		POWER = POWER < 0 ? 0 : POWER;
 
-		jikiInput();
-		jikiEffects(bom);
+		playerControl();
+		playerEffects();
+
+		// デバッグ用////////////////
+		timerPowerUp--;
+
+		if ((Input.K_X || Input.M_RC || Input.M_LC) && timerPowerUp < 0) {
+
+			NStgPlayer.POWER = NStgPlayer.POWER >= 7 ? 0 : NStgPlayer.POWER + 1;
+			timerPowerUp = 30;
+			// SYS.SCREEN_FREEZING = !SYS.SCREEN_FREEZING;
+		}
+		// デバッグ用///////////////
 
 	}
 
 	public void draw(Graphics2D g, JFrame wind) {
-		drawKoma(g, wind, komaImage, imageIndex[0] + flagFlash, dX[0], dY[0], opacity[0]);
+		drawKoma(g, wind, komaImage, imageIndex[0] + flagFlash, dX, dY, opacity[0]);
 	}
 
 	public static void damage(int qty) {
 
-		if (!Sys.isGameOvering) {
+		if (!SYS.GAMEOVERING) {
 
 			boolean isHeal;
 			isHeal = (HP < (HP - qty)) ? true : false;
@@ -92,19 +113,19 @@ public class NStgPlayer extends NStgUnit {
 		}
 
 		if (HP == 0) {
-			Sys.isGameOvering = true;
+			SYS.GAMEOVERING = true;
 			FLASHTIME = 5000;
 		}
 
 	}
 
-	private void jikiInput() {
+	private void playerControl() {
 
 		double spd = Input.K_SHIFT ? 3.2 : 7.2;// SHIFTを押すとスピード落とす
 		int delay = 4;// 操作のディレイ
 		int radian = 0;// 向きの角度
 
-		if (!Sys.isPlayerMouseControl) {
+		if (!SYS.MOUSE_CONTROLING) {
 			switch (Input.DIR8) {
 
 			case 0:
@@ -139,24 +160,24 @@ public class NStgPlayer extends NStgUnit {
 			if (Input.DIR8 > 0) {
 				// キーボード
 				if (timerInput < delay) {
-					dX[0] += spd / 2 * Math.cos(radian * 1.0 / 180.0 * Math.PI);
-					dY[0] += spd / 2 * Math.sin(radian * 1.0 / 180.0 * Math.PI);
+					dX += spd / 2 * Math.cos(radian * 1.0 / 180.0 * Math.PI);
+					dY += spd / 2 * Math.sin(radian * 1.0 / 180.0 * Math.PI);
 					timerInput += 1;
 				} else {
-					dX[0] += spd * Math.cos(radian * 1.0 / 180.0 * Math.PI);
-					dY[0] += spd * Math.sin(radian * 1.0 / 180.0 * Math.PI);
+					dX += spd * Math.cos(radian * 1.0 / 180.0 * Math.PI);
+					dY += spd * Math.sin(radian * 1.0 / 180.0 * Math.PI);
 				}
 			}
 		} else {
 			// マウス
-			dX[0] = Input.M_X - 48;
-			dY[0] = Input.M_Y - 48;
+			dX = Input.M_X - 48;
+			dY = Input.M_Y - 48;
 		}
 
 		// 向きをチェック
-		if (timerFacing == 0 && (facingX != dX[0] || facingY != dY[0])) {
+		if (timerFacing == 0 && (facingX != dX || facingY != dY)) {
 
-			double temp = Math.atan2(facingY - dY[0], facingX - dX[0]);
+			double temp = Math.atan2(facingY - dY, facingX - dX);
 			facingAngle = temp / Math.PI * 180;
 			if (facingAngle <= 60 && facingAngle >= -60) {
 				imageIndex[0] = 5;
@@ -168,14 +189,14 @@ public class NStgPlayer extends NStgUnit {
 				imageIndex[0] = 1;
 			}
 
-			if (Sys.isPlayerMouseControl) {
+			if (SYS.MOUSE_CONTROLING) {
 				timerFacing = 8;
 			} else {
 				timerFacing = 0;
 			}
 
-			facingX = dX[0];
-			facingY = dY[0];
+			facingX = dX;
+			facingY = dY;
 
 		} else {
 
@@ -194,12 +215,12 @@ public class NStgPlayer extends NStgUnit {
 
 	}
 
-	private void jikiEffects(VFX bom) {
+	private void playerEffects() {
 
 		// 自機爆発
-		if (Sys.isGameOvering) {
+		if (SYS.GAMEOVERING) {
 
-			bom.bomb_req(dX[0] + 48 + (Math.random() * 100 - 50), dY[0] + 60 + (Math.random() * 100 - 50),
+			VFX.request(dX + 48 + (Math.random() * 100 - 50), dY + 60 + (Math.random() * 100 - 50),
 					(int) (Math.random() * 9));
 
 		}

@@ -86,7 +86,7 @@ public class StgEnemy extends GameObject {
 
 	public void request() {
 
-		timerReq[0] = timerReq[0] - Sys.frameTime;
+		timerReq[0] = timerReq[0] - SYS.FRAME_TIME;
 		if (timerReq[0] < 0) {
 			timerReq[0] = 0.3;
 
@@ -108,7 +108,7 @@ public class StgEnemy extends GameObject {
 						spdX[i] = 150;
 						spdY[i] = 0;
 					} else if (cnt == 1) {
-						dX[i] = Sys.windowSizeX - 48;
+						dX[i] = SYS.WINDOW_SIZE_X - 48;
 						dY[i] = 128;
 						spdX[i] = -150;
 						spdY[i] = 0;
@@ -135,7 +135,7 @@ public class StgEnemy extends GameObject {
 				if (flag[i] == -2) { // ONLY FOR WATING OBJECT
 					imageIndex[i] = 21;
 					dX[i] = -20;
-					dY[i] = Sys.windowSizeY - 20;
+					dY[i] = SYS.WINDOW_SIZE_Y - 20;
 					spdX[i] = 240;
 					spdY[i] = -500;
 					accX[i] = 0;
@@ -174,10 +174,10 @@ public class StgEnemy extends GameObject {
 
 			switch (flag[i]) {
 			case 1:
-				spdX[i] += Sys.frameTime * accX[i];
-				spdY[i] += Sys.frameTime * accY[i];
-				dX[i] += Sys.frameTime * spdX[i];
-				dY[i] += Sys.frameTime * spdY[i];
+				spdX[i] += SYS.FRAME_TIME * accX[i];
+				spdY[i] += SYS.FRAME_TIME * accY[i];
+				dX[i] += SYS.FRAME_TIME * spdX[i];
+				dY[i] += SYS.FRAME_TIME * spdY[i];
 				angle[i]++;
 				if (isOutBorder((int) dX[i], (int) dY[i], 40, 40)) {
 					dX[i] = 9999;
@@ -187,11 +187,11 @@ public class StgEnemy extends GameObject {
 				}
 				break;
 			case 2:
-				spdX[i] += Sys.frameTime * accX[i];
-				spdY[i] += Sys.frameTime * accY[i];
-				dX[i] += Sys.frameTime * spdX[i];
-				dY[i] += Sys.frameTime * spdY[i];
-				if (dY[i] > Sys.windowSizeY / 2) {
+				spdX[i] += SYS.FRAME_TIME * accX[i];
+				spdY[i] += SYS.FRAME_TIME * accY[i];
+				dX[i] += SYS.FRAME_TIME * spdX[i];
+				dY[i] += SYS.FRAME_TIME * spdY[i];
+				if (dY[i] > SYS.WINDOW_SIZE_Y / 2) {
 					spdX[i] = 0;
 					spdY[i] = 0;
 					accX[i] = 35;
@@ -200,10 +200,10 @@ public class StgEnemy extends GameObject {
 				}
 				break;
 			case 3:
-				spdX[i] += Sys.frameTime * accX[i];
-				spdY[i] += Sys.frameTime * accY[i];
-				dX[i] += Sys.frameTime * spdX[i] * Math.cos(Math.toRadians(angle[i]));
-				dY[i] += Sys.frameTime * spdY[i] * Math.sin(Math.toRadians(angle[i]));
+				spdX[i] += SYS.FRAME_TIME * accX[i];
+				spdY[i] += SYS.FRAME_TIME * accY[i];
+				dX[i] += SYS.FRAME_TIME * spdX[i] * Math.cos(Math.toRadians(angle[i]));
+				dY[i] += SYS.FRAME_TIME * spdY[i] * Math.sin(Math.toRadians(angle[i]));
 				angle[i] -= 2.2;
 				if (isOutBorder((int) dX[i], (int) dY[i], 40, 40)) {
 					dX[i] = 9999;
@@ -213,10 +213,10 @@ public class StgEnemy extends GameObject {
 				}
 				break;
 			case 4:
-				spdX[i] += Sys.frameTime * accX[i];
-				spdY[i] += Sys.frameTime * accY[i];
-				dX[i] += Sys.frameTime * spdX[i];
-				dY[i] += Sys.frameTime * spdY[i];
+				spdX[i] += SYS.FRAME_TIME * accX[i];
+				spdY[i] += SYS.FRAME_TIME * accY[i];
+				dX[i] += SYS.FRAME_TIME * spdX[i];
+				dY[i] += SYS.FRAME_TIME * spdY[i];
 				if (isOutBorder((int) dX[i], (int) dY[i], 40, 40)) {
 					dX[i] = 9999;
 					isVisible[i] = false;
@@ -229,7 +229,7 @@ public class StgEnemy extends GameObject {
 
 			//弾リクエスト
 			if (flag[i] > 0){
-				timerShoot[i] -= Sys.frameTime;
+				timerShoot[i] -= SYS.FRAME_TIME;
 				if (timerShoot[i] < 0){
 					timerShoot[i] = 0.1;
 					danmaku.requestSniper(dX[i] + 24, dY[i] + 24, 1);
@@ -247,7 +247,7 @@ public class StgEnemy extends GameObject {
 							StgPlayer.damage(50);
 						}
 					}
-					bom.bomb_req(dX[i] + 24, dY[i] + 24, 0);
+					bom.request(dX[i] + 24, dY[i] + 24, 0);
 					if (itemFlag[i]) {
 						item.request(dX[i], dY[i]);
 					}
@@ -316,13 +316,13 @@ public class StgEnemy extends GameObject {
 
 	public boolean isOutBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 - xSize || x > Sys.windowSizeX || y < 0 - ySize || y > Sys.windowSizeY);
+		return (x < 0 - xSize || x > SYS.WINDOW_SIZE_X || y < 0 - ySize || y > SYS.WINDOW_SIZE_Y);
 
 	}
 
 	public boolean isTouchBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 || x > Sys.windowSizeX - xSize || y < 0 || y > Sys.windowSizeY - ySize);
+		return (x < 0 || x > SYS.WINDOW_SIZE_X - xSize || y < 0 || y > SYS.WINDOW_SIZE_Y - ySize);
 
 	}
 
