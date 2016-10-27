@@ -22,9 +22,10 @@ public class SYS {
 
 	public static void setupPC(){
 		FRAME_TIME = 0.017;
-		MOUSE_CONTROLING = true;
+		MOUSE_CONTROLING = false;
 		WINDOW_SIZE_X = 960;
 		WINDOW_SIZE_Y = 540;
+		GAMEOVERING = false;
 	}
 
 }
@@ -60,7 +61,7 @@ interface GameTools {
 		// 不透明度
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)));
 		// 描画
-		
+
 		g.drawImage(image.file,
 				// 画面に出したいところ
 				(int) (dX), // 左上端X座標
@@ -74,7 +75,7 @@ interface GameTools {
 				(int) (indexY + blockH), // 右下端Y座標
 				window);
 		// 不透明度リセット
-		
+
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 
 	}

@@ -72,46 +72,49 @@ public class NStgUnit extends GameObject {
 
 	}
 
-	public void reset(int i) {
+	public void reset(int index) {
 
-		spdX[i] = 0;
-		spdY[i] = 0;
-		accX[i] = 0;
-		accY[i] = 0;
-		angle[i] = 0;
-		cirCenterX[i] = 0;
-		cirCenterY[i] = 0;
-		axisX[i] = 0;
-		axisY[i] = 0;
-		rotation[i] = 0;
-		isHitable[i] = false;
-		hitCir[i] = 0;
-		hitBoxW[i] = 0;
-		hitBoxH[i] = 0;
+		imageIndex[index] = 1;
+		isVisible[index] = false;
+		opacity[index] = 1.0f;
+		dX[index] = 0;
+		dY[index] = 0;
+		spdX[index] = 0;
+		spdY[index] = 0;
+		accX[index] = 0;
+		accY[index] = 0;
+		angle[index] = 0;
+		cirCenterX[index] = 0;
+		cirCenterY[index] = 0;
+		axisX[index] = 0;
+		axisY[index] = 0;
+		rotation[index] = 0;
+		isHitable[index] = false;
+		hitCir[index] = 0;
+		hitBoxW[index] = 0;
+		hitBoxH[index] = 0;
 
 	}
 
 	// 直线速度控制
-	public void move(int i) {
+	public void move(int index) {
 
-		spdX[i] += SYS.FRAME_TIME * accX[i];
-		spdY[i] += SYS.FRAME_TIME * accY[i];
-		dX[i] += SYS.FRAME_TIME * spdX[i];
-		dY[i] += SYS.FRAME_TIME * spdY[i];
+		spdX[index] += SYS.FRAME_TIME * accX[index];
+		spdY[index] += SYS.FRAME_TIME * accY[index];
+		dX[index] += SYS.FRAME_TIME * spdX[index];
+		dY[index] += SYS.FRAME_TIME * spdY[index];
 
 	}
 
 	// 指定出发点、速度和方向进行圆周、椭圆或螺旋运动
 	// （控制初速度、初始加速度、初始角度及控制其变化）
-	public void moveCir(double rotateSpd) {
+	public void moveCir(int index, double rotateSpd) {
 
-		for (int i = 0; i < MAX; i++) {
-			spdX[i] += SYS.FRAME_TIME * accX[i];
-			spdY[i] += SYS.FRAME_TIME * accY[i];
-			dX[i] += SYS.FRAME_TIME * spdX[i] * Math.cos(Math.toRadians(angle[i]));
-			dY[i] += SYS.FRAME_TIME * spdY[i] * Math.sin(Math.toRadians(angle[i]));
-			angle[i] += rotateSpd;
-		}
+		spdX[index] += SYS.FRAME_TIME * accX[index];
+		spdY[index] += SYS.FRAME_TIME * accY[index];
+		dX[index] += SYS.FRAME_TIME * spdX[index] * Math.cos(Math.toRadians(angle[index]));
+		dY[index] += SYS.FRAME_TIME * spdY[index] * Math.sin(Math.toRadians(angle[index]));
+		angle[index] += rotateSpd;
 
 	}
 
@@ -119,17 +122,15 @@ public class NStgUnit extends GameObject {
 	// （直接指定位置、速度＆加速度无效化）
 	// （角度控制单位移动速度、控制角度倍率、M1~8）
 	// （M1M5&M4M8和M2M6&M3M7的基础值相等）
-	public void moveSp(double rotateSpd, //
+	public void moveSp(int index, double rotateSpd, //
 			double M1, double M2, double M3, double M4, //
 			double M5, double M6, double M7, double M8) {//
 
-		for (int i = 0; i < MAX; i++) {
-			dX[i] = axisX[i] * Math.cos(Math.toRadians(angle[i] * M1)) * M5//
-					- axisY[i] * Math.sin(Math.toRadians(angle[i] * M2)) * M6 + cirCenterX[i];//
-			dY[i] = axisY[i] * Math.sin(Math.toRadians(angle[i] * M3)) * M7//
-					+ axisX[i] * Math.cos(Math.toRadians(angle[i] * M4)) * M8 + cirCenterY[i];//
-			angle[i] += rotateSpd;
-		}
+		dX[index] = axisX[index] * Math.cos(Math.toRadians(angle[index] * M1)) * M5//
+				- axisY[index] * Math.sin(Math.toRadians(angle[index] * M2)) * M6 + cirCenterX[index];//
+		dY[index] = axisY[index] * Math.sin(Math.toRadians(angle[index] * M3)) * M7//
+				+ axisX[index] * Math.cos(Math.toRadians(angle[index] * M4)) * M8 + cirCenterY[index];//
+		angle[index] += rotateSpd;
 
 	}
 
@@ -151,7 +152,7 @@ public class NStgUnit extends GameObject {
 	// 画面外判断
 	public boolean isOutBorder(NStgUnit unit, int index) {
 
-		return isOutBorder((int) unit.dX[index], (int) unit.hitBoxW[index], (int) unit.dY[index],
+		return isOutBorder((int) unit.dX[index], (int) unit.dY[index], (int) unit.hitBoxW[index],
 				(int) unit.hitBoxH[index]);
 
 	}
@@ -159,7 +160,7 @@ public class NStgUnit extends GameObject {
 	// 画面端との接触判断
 	public boolean isTouchBorder(NStgUnit unit, int index) {
 
-		return isTouchBorder((int) unit.dX[index], (int) unit.hitBoxW[index], (int) unit.dY[index],
+		return isTouchBorder((int) unit.dX[index], (int) unit.dY[index], (int) unit.hitBoxW[index],
 				(int) unit.hitBoxH[index]);
 
 	}

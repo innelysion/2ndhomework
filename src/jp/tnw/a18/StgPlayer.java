@@ -32,6 +32,7 @@ public class StgPlayer extends StgImage {
 	static int HP, MAXHP, BOMB, energy;
 	int timerInput;
 	int timerFacing;
+	int timerBombing;
 	static int timerFlash;
 	int flagFlash;
 	double angle;

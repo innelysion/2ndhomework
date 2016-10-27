@@ -19,7 +19,7 @@ public class NStgEnemy extends NStgUnit {
 
 	NStgEnemy() {
 
-		super(500); // 敵数の上限
+		super(200); // 敵数の上限
 		komaImage = new KomaImage("Image/zako.png", 10, 10);
 		flag = new int[MAX];
 		type = new int[MAX];
@@ -50,6 +50,10 @@ public class NStgEnemy extends NStgUnit {
 		case "雑魚A":
 			enemy_ZAKO_A();
 			break;
+
+		case "雑魚B":
+			enemy_ZAKO_B();
+			break;
 		}
 
 	}
@@ -62,12 +66,18 @@ public class NStgEnemy extends NStgUnit {
 
 		}
 
+		if (timerReq % 1000 == 0) {
+
+			request("雑魚B");
+
+		}
+
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
 				continue;
 			}
 
-			// 様々な敵の処理
+			// 様々な敵のアクション
 			switch (type[i]) {
 			case 1:// 雑魚A
 				if (timerAni[i] % 10 == 0) {
@@ -75,6 +85,34 @@ public class NStgEnemy extends NStgUnit {
 				}
 				move(i);
 				resetAuto(i);
+				break;
+
+			case 2:// 雑魚B
+				if (timerAni[i] % 10 == 0) {
+					imageIndex[i] = (imageIndex[i] > 49) ? 41 : imageIndex[i] + 1;
+				}
+				if (flag[i] == 1) {
+					move(i);
+					if (timerLife[i] > 50) {
+						flag[i]++;
+					}
+				} else if (flag[i] == 2) {
+					if (timerLife[i] > 80) {
+						flag[i]++;
+					}
+				} else if (flag[i] == 3) {
+					if (timerLife[i] > 300) {
+						flag[i]++;
+					}
+				} else if (flag[i] == 4) {
+					if (timerLife[i] > 700){
+						spdY[i] = 150;
+						flag[i]++;
+					}
+				}else if (flag[i] == 5){
+					move(i);
+					resetAuto(i);
+				}
 				break;
 			}
 
@@ -131,9 +169,9 @@ public class NStgEnemy extends NStgUnit {
 			imageIndex[i] = 61;
 
 			isHitable[i] = true;
-			hitCir[i] = 16;
-			hitBoxW[i] = 16;
-			hitBoxH[i] = 16;
+			hitCir[i] = 24;
+			hitBoxW[i] = 48;
+			hitBoxH[i] = 48;
 
 			type[i] = 1;
 			flag[i] = 1;
@@ -143,7 +181,47 @@ public class NStgEnemy extends NStgUnit {
 				break;
 			}
 		}
+	}
 
+	private void enemy_ZAKO_B() {
+
+		int qtycount = 3; // 一回出す敵の数
+
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] != 0 || flag[i] != 0) {
+				continue;
+			}
+			// 主処理/////////////////////////
+			if (qtycount == 3) {
+				dX[i] = 0 + 150;
+				spdY[i] = 150;
+			} else if (qtycount == 2) {
+				dX[i] = SYS.WINDOW_SIZE_X / 2 - 48;
+				spdY[i] = 100;
+			} else if (qtycount == 1) {
+				dX[i] = SYS.WINDOW_SIZE_X - 48 - 150;
+				spdY[i] = 150;
+			}
+			dY[i] = -48;
+			spdX[i] = 0;
+
+			// 主処理END///////////////////////
+			isVisible[i] = true;
+			imageIndex[i] = 41;
+
+			isHitable[i] = true;
+			hitCir[i] = 16;
+			hitBoxW[i] = 16;
+			hitBoxH[i] = 16;
+
+			type[i] = 2;
+			flag[i] = 1;
+
+			qtycount--;
+			if (qtycount == 0) {
+				break;
+			}
+		}
 	}
 
 }

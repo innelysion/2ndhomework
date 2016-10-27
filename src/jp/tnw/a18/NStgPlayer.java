@@ -24,7 +24,9 @@ public class NStgPlayer extends NStgUnit {
 	// 自機のやつら
 	static int HP, MAXHP, BOMB, MAXBOMB, POWER, MAXPOWER;
 	static boolean STOPSHOOT;
+	static boolean BOMBING;
 	int timerPowerUp;
+	int timerBombing;
 
 	// 初期化
 	NStgPlayer() {
@@ -59,6 +61,9 @@ public class NStgPlayer extends NStgUnit {
 		FLASHTIME = 0;
 		STOPSHOOT = false;
 
+		timerBombing = 0;
+		BOMBING = false;
+
 		// デバッグ用////////////////
 		timerPowerUp = 0;
 		// デバッグ用////////////////
@@ -78,16 +83,32 @@ public class NStgPlayer extends NStgUnit {
 		playerControl();
 		playerEffects();
 
+
 		// デバッグ用////////////////
-		timerPowerUp--;
 
-		if ((Input.K_X || Input.M_RC || Input.M_LC) && timerPowerUp < 0) {
+		if (timerBombing >= 0){
 
-			NStgPlayer.POWER = NStgPlayer.POWER >= 7 ? 0 : NStgPlayer.POWER + 1;
+			if (timerBombing == 0){
+
+				BOMBING = false;
+
+			}
+
+		}else if ((Input.M_RC || Input.M_LC) && timerPowerUp < 0) {
+
+			NStgPlayer.POWER = NStgPlayer.POWER >= 5 ? 0 : NStgPlayer.POWER + 1;
 			timerPowerUp = 30;
 			// SYS.SCREEN_FREEZING = !SYS.SCREEN_FREEZING;
 		}
 		// デバッグ用///////////////
+
+		if (Input.K_X && timerBombing < -60){
+			timerBombing = 240;
+			BOMBING = true;
+		}
+
+		timerBombing = timerBombing >= -100 ? timerBombing - 1 : -100;
+		timerPowerUp = timerPowerUp >= -100 ? timerPowerUp - 1 : -100;
 
 	}
 
@@ -173,7 +194,7 @@ public class NStgPlayer extends NStgUnit {
 			dX = Input.M_X - 48;
 			dY = Input.M_Y - 48;
 		}
-		
+
 		// 画面外に行かないように
 		if (dX < 0) {
 			dX = 0;

@@ -20,14 +20,11 @@ public class GameMain{
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
 	BufferStrategy offimage;// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧでちらつき防止
 	Font f = new Font("Default", Font.BOLD, 13);// 使用するフォントクラス宣言
-	VFX bom = new VFX();
+	VFX vfx = new VFX();
 	StgItem item = new StgItem();
-	StgBullet bullet = new StgBullet();
 	NStgPlayerShoot b = new NStgPlayerShoot();
-	StgDanmaku danmaku = new StgDanmaku();
-	StgEnemy enemy = new StgEnemy();
+	NStgDanmaku d = new NStgDanmaku();
 	NStgEnemy e = new NStgEnemy();
-	StgPlayer player = new StgPlayer();
 	NStgPlayer p = new NStgPlayer();
 	StgMap map = new StgMap();
 	StgUI ui = new StgUI();
@@ -64,8 +61,6 @@ public class GameMain{
 		wind.addMouseWheelListener(input);
 		// Load game data and resources
 		item.loadImage("Image/Item", 1);
-		bullet.loadImage("Image/tama", 1);
-		enemy.loadImage();
 		try {
 			bg = ImageIO.read(getClass().getResource("Image/bg_02.png"));
 		} catch (IOException e) {
@@ -140,35 +135,34 @@ public class GameMain{
 			// TODO Auto-generated method stub
 			g.drawImage(bg, 0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y, 0, 0, bg.getWidth(), bg.getHeight(), wind);
 			map.drawImage(g, wind);
-			bom.draw(g, wind);
-			//enemy.drawKoma(g, wind);
+			vfx.draw(g, wind);
 			e.drawKoma(g, wind);
 			item.drawImage(g, wind);
-			//player.drawImage(g, wind);
 			p.draw(g, wind);
-			//bullet.drawImage(g, wind);
 			b.drawKoma(g, wind);
-			danmaku.drawImage(g, wind);
+			d.drawKoma(g, wind);
 			g.setColor(Color.MAGENTA);// 色指定
 			g.setFont(f);
 			// g.drawString(Double.toString((StgPlayer.angle)),80, 20);
 		}
 
 		private void mainUpdate() {
-			// TODO Auto-generated method stub
+
+			//データのやり取り
+			b.map = map;
+			d.enemy = e;
+
+			//All Update Here
 			ui.update();
 			map.update();
-			bom.update();
+			vfx.update();
 			//bullet.map = map;
-			b.map = map;
 			//bullet.update(bom);
 			b.update();
-			danmaku.update();
-			item.update();
-			//enemy.update(bullet, danmaku, bom, item);
+			d.update();
 			e.update();
-			//player.update(bom);
 			p.update();
+			item.update();
 		}
 
 	}// timer task class end

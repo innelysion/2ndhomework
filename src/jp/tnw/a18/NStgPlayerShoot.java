@@ -11,7 +11,6 @@ public class NStgPlayerShoot extends NStgDanmaku {
 	double optionY[] = { 0, 0, 0, 0 };
 	double optionAngle[] = { 0, 90, 180, 270 };
 
-	
 	public void update() {
 
 		if ((SYS.MOUSE_CONTROLING) || (!SYS.MOUSE_CONTROLING && Input.K_Z) || (!NStgPlayer.STOPSHOOT)) {
@@ -110,206 +109,236 @@ public class NStgPlayerShoot extends NStgDanmaku {
 		if (timerReq < 0) {
 			timerReq = NStgPlayer.POWER == 7 ? 0.05 : 0.1;
 
-			if (NStgPlayer.POWER == 0) {
+			if (!NStgPlayer.BOMBING) {
+				if (NStgPlayer.POWER == 0) {
 
-				for (int i = 0; i < MAX; i++) {
-					if (flag[i] == 0 && type[i] == 0) {
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
 
-						type[i] = 1;
-						imageIndex[i] = 1;
-						dX[i] = NStgPlayer.dX + 48 - 8;
-						dY[i] = NStgPlayer.dY + 48 - 8;
-						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
-						spdY[i] = -550;
-						isVisible[i] = true;
-						isHitable[i] = true;
-						belongPlayer[i] = true;
-						flag[i] = 1;
-
-						break;
-					}
-				}
-
-			} else if (NStgPlayer.POWER == 1) {
-
-				int cnt = 2;
-
-				for (int i = 0; i < MAX; i++) {
-					if (flag[i] == 0 && type[i] == 0) {
-
-						type[i] = 2;
-						imageIndex[i] = 1;
-						dX[i] = NStgPlayer.dX + 48 - 8 - 45 + (30 * cnt);
-						dY[i] = NStgPlayer.dY + 48 - 8;
-						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
-						spdY[i] = -570;
-						isVisible[i] = true;
-						isHitable[i] = true;
-						belongPlayer[i] = true;
-						flag[i] = 1;
-						cnt--;
-						if (cnt == 0) {
-							break;
-						}
-
-					}
-				}
-
-			} else if (NStgPlayer.POWER == 2) {
-
-				int cnt = 3;
-
-				for (int i = 0; i < MAX; i++) {
-					if (flag[i] == 0 && type[i] == 0) {
-
-						type[i] = 2;
-						imageIndex[i] = 1;
-						dX[i] = NStgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
-						dY[i] = NStgPlayer.dY + 48 - 8;
-						spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
-						spdY[i] = -570;
-						isVisible[i] = true;
-						isHitable[i] = true;
-						belongPlayer[i] = true;
-						flag[i] = 1;
-						cnt--;
-						if (cnt == 0) {
-							break;
-						}
-
-					}
-				}
-
-			} else if (NStgPlayer.POWER == 3) {
-
-				int cnt = 3;
-
-				for (int i = 0; i < MAX; i++) {
-					if (flag[i] == 0 && type[i] == 0) {
-
-						type[i] = 2;
-						imageIndex[i] = 49;
-						dX[i] = NStgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
-						dY[i] = NStgPlayer.dY + 48 - 8;
-						spdX[i] = -300 + (150 * cnt);
-						spdY[i] = -570;
-						isVisible[i] = true;
-						isHitable[i] = true;
-						belongPlayer[i] = true;
-						flag[i] = 1;
-						cnt--;
-						if (cnt == 0) {
-							break;
-						}
-
-					}
-				}
-
-			} else if (NStgPlayer.POWER == 4) {
-
-				int cnt = 4;
-
-				for (int i = 0; i < MAX; i++) {
-					if (flag[i] == 0 && type[i] == 0) {
-
-						type[i] = 2;
-						imageIndex[i] = 49;
-						dX[i] = NStgPlayer.dX + 48 - 8 - 50 + (20 * cnt);
-						dY[i] = NStgPlayer.dY + 48 - 8;
-						spdX[i] = -500 + (200 * cnt);
-						spdY[i] = -570;
-						isVisible[i] = true;
-						isHitable[i] = true;
-						belongPlayer[i] = true;
-						flag[i] = 1;
-						cnt--;
-						if (cnt == 0) {
-							break;
-						}
-
-					}
-				}
-
-			} else if (NStgPlayer.POWER == 5) {
-
-				int cnt = 4;
-
-				for (int i = 0; i < MAX; i++) {
-					if (flag[i] == 0 && type[i] == 0) {
-
-						type[i] = 3;
-						imageIndex[i] = 49;
-
-						dX[i] = NStgPlayer.dX + (48 - 14) + (3 * cnt);
-						dY[i] = NStgPlayer.dY + 48 + 5;
-						if (Input.K_SHIFT) {
-							spdX[i] = 50 * (cnt - 2) * Math.sin(angle[i]);
-						} else {
-							spdX[i] = 200 * (cnt - 2) * Math.cos(angle[i]);
-						}
-						spdY[i] = -600;
-						isVisible[i] = true;
-						isHitable[i] = true;
-						belongPlayer[i] = true;
-						flag[i] = 1;
-						cnt--;
-						if (cnt == 0) {
-							break;
-						}
-
-					}
-				}
-
-			} else if (NStgPlayer.POWER == 6) {
-
-				int cnt = 4;
-
-				for (int i = 0; i < MAX; i++) {
-					if (flag[i] == 0 && type[i] == 0) {
-
-						type[i] = Input.K_SHIFT ? 5 : 4;
-						imageIndex[i] = 21;
-
-						spdX[i] = 0;
-						spdY[i] = 0;
-						accY[i] = -2000;
-
-						dX[i] = optionX[Math.abs(cnt - 4)];
-						dY[i] = optionY[Math.abs(cnt - 4)];
-						if (Input.K_SHIFT) {
-							VFX.request(dX[i] + 8, dY[i] + 8, 4);
-						} else {
-							VFX.request(dX[i] + 8, dY[i] + 8, 5);
-						}
-						if (dX[i] < SYS.WINDOW_SIZE_X - 16) {
+							type[i] = 1;
+							imageIndex[i] = 1;
+							dX[i] = NStgPlayer.dX + 48 - 8;
+							dY[i] = NStgPlayer.dY + 48 - 8;
+							spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
+							spdY[i] = -550;
 							isVisible[i] = true;
 							isHitable[i] = true;
 							belongPlayer[i] = true;
 							flag[i] = 1;
-						}
-						cnt--;
-						if (cnt == 0) {
+
 							break;
 						}
+					}
 
+				} else if (NStgPlayer.POWER == 1) {
+
+					int cnt = 2;
+
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
+
+							type[i] = 2;
+							imageIndex[i] = 1;
+							dX[i] = NStgPlayer.dX + 48 - 8 - 45 + (30 * cnt);
+							dY[i] = NStgPlayer.dY + 48 - 8;
+							spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
+							spdY[i] = -570;
+							isVisible[i] = true;
+							isHitable[i] = true;
+							belongPlayer[i] = true;
+							flag[i] = 1;
+							cnt--;
+							if (cnt == 0) {
+								break;
+							}
+
+						}
+					}
+
+				} else if (NStgPlayer.POWER == 2) {
+
+					int cnt = 3;
+
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
+
+							type[i] = 2;
+							imageIndex[i] = 1;
+							dX[i] = NStgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
+							dY[i] = NStgPlayer.dY + 48 - 8;
+							spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
+							spdY[i] = -570;
+							isVisible[i] = true;
+							isHitable[i] = true;
+							belongPlayer[i] = true;
+							flag[i] = 1;
+							cnt--;
+							if (cnt == 0) {
+								break;
+							}
+
+						}
+					}
+
+				} else if (NStgPlayer.POWER == 3) {
+
+					int cnt = 3;
+
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
+
+							type[i] = 2;
+							imageIndex[i] = 49;
+							dX[i] = NStgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
+							dY[i] = NStgPlayer.dY + 48 - 8;
+							spdX[i] = -300 + (150 * cnt);
+							spdY[i] = -570;
+							isVisible[i] = true;
+							isHitable[i] = true;
+							belongPlayer[i] = true;
+							flag[i] = 1;
+							cnt--;
+							if (cnt == 0) {
+								break;
+							}
+
+						}
+					}
+
+				} else if (NStgPlayer.POWER == 4) {
+
+					int cnt = 4;
+
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
+
+							type[i] = 2;
+							imageIndex[i] = 49;
+							dX[i] = NStgPlayer.dX + 48 - 8 - 50 + (20 * cnt);
+							dY[i] = NStgPlayer.dY + 48 - 8;
+							spdX[i] = -500 + (200 * cnt);
+							spdY[i] = -570;
+							isVisible[i] = true;
+							isHitable[i] = true;
+							belongPlayer[i] = true;
+							flag[i] = 1;
+							cnt--;
+							if (cnt == 0) {
+								break;
+							}
+
+						}
+					}
+
+				} else if (NStgPlayer.POWER == 5) {
+
+					int cnt = 6;
+
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
+
+							type[i] = 3;
+							imageIndex[i] = 49;
+
+							dX[i] = NStgPlayer.dX + (48 - 14) + (3 * cnt);
+							dY[i] = NStgPlayer.dY + 48 + 5;
+							if (Input.K_SHIFT) {
+								spdX[i] = 50 * (cnt - 2) * Math.sin(angle[i]);
+							} else {
+								spdX[i] = 200 * (cnt - 2) * Math.cos(angle[i]);
+							}
+							spdY[i] = -600;
+							isVisible[i] = true;
+							isHitable[i] = true;
+							belongPlayer[i] = true;
+							flag[i] = 1;
+							cnt--;
+							if (cnt == 0) {
+								break;
+							}
+
+						}
+					}
+
+				} else if (NStgPlayer.POWER == 6) {
+
+					int cnt = 4;
+
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
+
+							type[i] = Input.K_SHIFT ? 5 : 4;
+							imageIndex[i] = 21;
+
+							spdX[i] = 0;
+							spdY[i] = 0;
+							accY[i] = -2000;
+
+							dX[i] = optionX[Math.abs(cnt - 4)];
+							dY[i] = optionY[Math.abs(cnt - 4)];
+							if (Input.K_SHIFT) {
+								VFX.request(dX[i] + 8, dY[i] + 8, 4);
+							} else {
+								VFX.request(dX[i] + 8, dY[i] + 8, 5);
+							}
+							if (dX[i] < SYS.WINDOW_SIZE_X - 16) {
+								isVisible[i] = true;
+								isHitable[i] = true;
+								belongPlayer[i] = true;
+								flag[i] = 1;
+							}
+							cnt--;
+							if (cnt == 0) {
+								break;
+							}
+
+						}
+					}
+
+				} else if (NStgPlayer.POWER == 7) {
+
+					int cnt = 4;
+
+					for (int i = 0; i < MAX; i++) {
+						if (flag[i] == 0 && type[i] == 0) {
+
+							type[i] = Input.K_SHIFT ? 7 : 6;
+							imageIndex[i] = 163;
+							dX[i] = NStgPlayer.dX + 48 - 8;
+							dY[i] = NStgPlayer.dY + 48 - 8;
+							spdX[i] = 0;
+							spdY[i] = Input.K_SHIFT ? 100 + Math.random() * 200 : -500;
+							accX[i] = Input.K_SHIFT ? -1200 + Math.random() * 2400 : -800 + Math.random() * 1600;
+							accY[i] = Input.K_SHIFT ? -500 : 0;
+							isVisible[i] = true;
+							isHitable[i] = true;
+							belongPlayer[i] = true;
+							flag[i] = 2;
+							cnt--;
+							if (cnt == 0) {
+								break;
+							}
+
+						}
 					}
 				}
+			}
 
-			} else if (NStgPlayer.POWER == 7) {
+			if (NStgPlayer.BOMBING) {
 
-				int cnt = 4;
+				int cnt = 8;
 
 				for (int i = 0; i < MAX; i++) {
 					if (flag[i] == 0 && type[i] == 0) {
 
-						type[i] = Input.K_SHIFT ? 7 : 6;
+						type[i] = cnt % 2 == 0 ? 7 : 6;
 						imageIndex[i] = 163;
 						dX[i] = NStgPlayer.dX + 48 - 8;
 						dY[i] = NStgPlayer.dY + 48 - 8;
 						spdX[i] = 0;
-						spdY[i] = Input.K_SHIFT ? 100 + Math.random() * 200 : -500;
-						accX[i] = Input.K_SHIFT ? -1200 + Math.random() * 2400 : -800 + Math.random() * 1600;
-						accY[i] = Input.K_SHIFT ? -500 : 0;
+						spdY[i] = cnt % 2 == 0 ? 0 + Math.random() * 200 : -500;
+						accX[i] = cnt % 2 == 0 ? -1200 + Math.random() * 2400 : -800 + Math.random() * 1600;
+						accY[i] = cnt % 2 == 0 ? -500 : 0;
 						isVisible[i] = true;
 						isHitable[i] = true;
 						belongPlayer[i] = true;
