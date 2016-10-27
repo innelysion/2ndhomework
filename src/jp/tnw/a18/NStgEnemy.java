@@ -1,5 +1,6 @@
 package jp.tnw.a18;
 
+//◆敵のクラス◆//
 public class NStgEnemy extends NStgUnit {
 
 	// 動くパタン処理用フラグ、タイプとアクション
@@ -72,6 +73,7 @@ public class NStgEnemy extends NStgUnit {
 
 		}
 
+		// 雑魚らの動くパターン
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
 				continue;
@@ -88,31 +90,7 @@ public class NStgEnemy extends NStgUnit {
 				break;
 
 			case 2:// 雑魚B
-				if (timerAni[i] % 10 == 0) {
-					imageIndex[i] = (imageIndex[i] > 49) ? 41 : imageIndex[i] + 1;
-				}
-				if (flag[i] == 1) {
-					move(i);
-					if (timerLife[i] > 50) {
-						flag[i]++;
-					}
-				} else if (flag[i] == 2) {
-					if (timerLife[i] > 80) {
-						flag[i]++;
-					}
-				} else if (flag[i] == 3) {
-					if (timerLife[i] > 300) {
-						flag[i]++;
-					}
-				} else if (flag[i] == 4) {
-					if (timerLife[i] > 700){
-						spdY[i] = 150;
-						flag[i]++;
-					}
-				}else if (flag[i] == 5){
-					move(i);
-					resetAuto(i);
-				}
+				enemy_ACTION_ZAKOB(i);
 				break;
 			}
 
@@ -125,6 +103,7 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
+	//リセット
 	public void reset(int index) {
 
 		super.reset(index);
@@ -138,12 +117,14 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
+	//AUTOリセット
 	public void resetAuto(int index) {
 		if (isOutBorder(this, index)) {
 			reset(index);
 		}
 	}
 
+	//TEST雑魚A
 	private void enemy_ZAKO_A() {
 
 		int qtycount = 2; // 一回出す敵の数
@@ -183,6 +164,7 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
+	//TEST雑魚B
 	private void enemy_ZAKO_B() {
 
 		int qtycount = 3; // 一回出す敵の数
@@ -222,6 +204,36 @@ public class NStgEnemy extends NStgUnit {
 				break;
 			}
 		}
+	}
+
+	private void enemy_ACTION_ZAKOB(int index){
+
+		if (timerAni[index] % 10 == 0) {
+			imageIndex[index] = (imageIndex[index] > 49) ? 41 : imageIndex[index] + 1;
+		}
+		if (flag[index] == 1) {
+			move(index);
+			if (timerLife[index] > 50) {
+				flag[index]++;
+			}
+		} else if (flag[index] == 2) {
+			if (timerLife[index] > 80) {
+				flag[index]++;
+			}
+		} else if (flag[index] == 3) {
+			if (timerLife[index] > 300) {
+				flag[index]++;
+			}
+		} else if (flag[index] == 4) {
+			if (timerLife[index] > 700){
+				spdY[index] = 150;
+				flag[index]++;
+			}
+		}else if (flag[index] == 5){
+			move(index);
+			resetAuto(index);
+		}
+
 	}
 
 }

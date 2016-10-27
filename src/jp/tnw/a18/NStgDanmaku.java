@@ -1,5 +1,6 @@
 package jp.tnw.a18;
 
+//◆弾幕のクラス◆//
 public class NStgDanmaku extends NStgUnit {
 
 	// 誰から撃つ◆true:自機◆false:敵
@@ -100,6 +101,7 @@ public class NStgDanmaku extends NStgUnit {
 
 	}
 
+	//リセット
 	public void reset(int index) {
 
 		super.reset(index);
@@ -113,6 +115,7 @@ public class NStgDanmaku extends NStgUnit {
 		}
 	}
 
+	//AUTOリセット
 	public void resetAuto(int index) {
 		if (isOutBorder(this, index)) {
 			reset(index);
@@ -144,8 +147,8 @@ public class NStgDanmaku extends NStgUnit {
 
 			dX[i] = fromUnit.dX[index] + offsetX;
 			dY[i] = fromUnit.dY[index] + offsetY;
-			spdX[i] = -100;
-			spdY[i] = -100;
+			spdX[i] = -80;
+			spdY[i] = -80;
 			accX[i] = 50;
 			accY[i] = 50;
 			angle[i] = motionAngle[dmPattern][dmIndex] + timerReq;

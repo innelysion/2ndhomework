@@ -9,10 +9,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 
+//◆入力管理のクラス◆//
 public class Input implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 
 	static boolean K_SHIFT, K_ESC, K_Z, K_X, LEFT, UP, RIGHT, DOWN, UPLEFT, UPRIGHT, DOWNRIGHT, DOWNLEFT; // 各キーの状態

@@ -4,8 +4,10 @@ import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
+//◆自機クラス◆//
 public class NStgPlayer extends NStgUnit {
 
+	//便利のため一応たくさんstatic変数を作ったぞ
 	static double dX, dY;
 	// ダメージフラッシュ
 	static boolean IMMORTAL; // 無敵
@@ -14,19 +16,19 @@ public class NStgPlayer extends NStgUnit {
 
 	// 手ごたえ調整
 	int timerInput;
+	int timerPowerUp;
+	int timerBombing;
 
-	// 自機の向き
+	// 自機の向き(主にマウス操作向け)
 	int timerFacing;
 	double facingAngle;
 	double facingX;
 	double facingY;
 
-	// 自機のやつら
+	// 自機のステータス
 	static int HP, MAXHP, BOMB, MAXBOMB, POWER, MAXPOWER;
 	static boolean STOPSHOOT;
 	static boolean BOMBING;
-	int timerPowerUp;
-	int timerBombing;
 
 	// 初期化
 	NStgPlayer() {
@@ -45,8 +47,6 @@ public class NStgPlayer extends NStgUnit {
 		hitBoxH[0] = 96;
 
 		flagFlash = 0;
-		timerInput = 0;
-		timerFacing = 0;
 		facingAngle = 0;
 		facingX = dX;
 		facingY = dY;
@@ -61,6 +61,8 @@ public class NStgPlayer extends NStgUnit {
 		FLASHTIME = 0;
 		STOPSHOOT = false;
 
+		timerInput = 0;
+		timerFacing = 0;
 		timerBombing = 0;
 		BOMBING = false;
 

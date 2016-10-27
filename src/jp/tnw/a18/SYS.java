@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-//◆System Control◆//
+//◆システム設定クラス◆//
 public class SYS {
 
 	static int WINDOW_SIZE_X, WINDOW_SIZE_Y;
@@ -22,7 +22,7 @@ public class SYS {
 
 	public static void setupPC(){
 		FRAME_TIME = 0.017;
-		MOUSE_CONTROLING = false;
+		MOUSE_CONTROLING = true;
 		WINDOW_SIZE_X = 960;
 		WINDOW_SIZE_Y = 540;
 		GAMEOVERING = false;
@@ -60,22 +60,22 @@ interface GameTools {
 				: blockH * (imageIndex / image.widthBlock);// else do
 		// 不透明度
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)));
-		// 描画
 
+		// 描画
 		g.drawImage(image.file,
 				// 画面に出したいところ
 				(int) (dX), // 左上端X座標
 				(int) (dY), // 左上端Y座標
 				(int) (dX + blockW), // 右下端X座標
 				(int) (dY + blockH), // 右下端Y座標
-				// 画像のどこを使う
+				// 画像ファイルのどこを使う
 				(int) (indexX), // 左上端X座標
 				(int) (indexY), // 左上端Y座標
 				(int) (indexX + blockW), // 右下端X座標
 				(int) (indexY + blockH), // 右下端Y座標
 				window);
-		// 不透明度リセット
 
+		// 不透明度リセット
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 
 	}

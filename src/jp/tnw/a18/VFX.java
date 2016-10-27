@@ -7,9 +7,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-//--------------------
-//爆発関連
-//--------------------
+
+//◆ドカーーーンのクラス◆//
 public class VFX {
 
 	BufferedImage image;// 背景の読み込むメモリ宣言
@@ -120,7 +119,7 @@ public class VFX {
 
 		for (int cnt = 0; cnt < max; cnt++) {
 			if (flag[cnt] != 0)
-				g.drawImage(image, 
+				g.drawImage(image,
 						(int) zx[cnt],
 						(int) zy[cnt],
 						(int) zx[cnt] + nox2[cnt],

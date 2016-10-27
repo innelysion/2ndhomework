@@ -1,6 +1,6 @@
 package jp.tnw.a18;
 
-//◆動けるやつら
+//◆動けるもののスーパークラス◆//
 public class NStgUnit extends GameObject {
 
 	// 速度と加速度

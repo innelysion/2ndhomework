@@ -1,9 +1,10 @@
 package jp.tnw.a18;
 
+//◆自機弾のクラス◆//
 public class NStgPlayerShoot extends NStgDanmaku {
 
 	// 自機弾に必要なもの
-	StgMap map; // 背景との衝突判定
+	NStgMap map; // 背景との衝突判定
 	double timerJikiReq = 0;
 
 	// オプションの運動
