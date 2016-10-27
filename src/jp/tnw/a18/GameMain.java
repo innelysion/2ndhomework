@@ -107,7 +107,7 @@ public class GameMain {
 
 				ui.drawImage(g, wind);
 
-				g.drawString("A18張瀚夫20161004", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 10);
+				g.drawString("A17張瀚夫20161027", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 10);
 
 				///////////////////////////////////////////////////////////////////////////////////
 				if (SYS.GAMEOVERING) {
@@ -128,12 +128,12 @@ public class GameMain {
 
 			// map.drawImage(g, wind);
 			mp.drawImage(g, wind);
-			vfx.draw(g, wind);
 			en.drawKoma(g, wind);
 			item.drawImage(g, wind);
 			pr.draw(g, wind);
 			ps.drawKoma(g, wind);
 			dm.drawKoma(g, wind);
+			vfx.draw(g, wind);
 			g.setColor(Color.MAGENTA);// 色指定
 			g.setFont(f);
 		}

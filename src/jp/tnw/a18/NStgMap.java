@@ -12,6 +12,8 @@ public class NStgMap extends GameObject {
 
 	double scrollX;
 	double scrollY;
+	
+	boolean startRolling;
 
 	Font f = new Font("Default", Font.BOLD, 16);
 	BufferedImage image[] = new BufferedImage[5];
@@ -24,6 +26,8 @@ public class NStgMap extends GameObject {
 		image[2] = loadImage("Maps/StgMap_01_02.png");
 		image[3] = loadImage("Maps/StgMap_01_03.png");
 		image[4] = loadImage("Maps/StgMap_01_04.png");
+		
+		startRolling = false;
 
 		for (int i = 0; i < MAX; i++) {
 			isVisible[i] = true;
@@ -42,20 +46,20 @@ public class NStgMap extends GameObject {
 		g.setColor(Color.WHITE);// 色指定
 		g.setFont(f);
 
-		for (int i = 0; i < 60; i++) {
-			for (int j = 0; j < 33 * 5; j++) {
-				if (mapHitData[j][i] == 1) {
-					g.drawString("H", i * 16, -(528 * 4) + 16 + j * 16 + (int) scrollY);
-				}
-			}
-		}
+//		for (int i = 0; i < 60; i++) {
+//			for (int j = 0; j < 33 * 5; j++) {
+//				if (mapHitData[j][i] == 1) {
+//					g.drawString("H", i * 16, -(528 * 4) + 16 + j * 16 + (int) scrollY);
+//				}
+//			}
+//		}
 	}
 
 	public void update() {
-		if (scrollY < 528 * 4) {
-			scrollY += 1;
+		if (scrollY < 528 * 4 && startRolling) {
+			scrollY += 0.5;
 			for (int i = 0; i < MAX; i++) {
-				dY[i] += 1;
+				dY[i] += 0.5;
 			}
 		}
 	}

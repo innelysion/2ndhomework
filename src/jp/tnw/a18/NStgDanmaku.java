@@ -77,7 +77,7 @@ public class NStgDanmaku extends NStgUnit {
 		for (int i = 0; i < enemy.MAX; i++) {
 
 			if (enemy.flag[i] == 3 && enemy.type[i] == 2 && timerReq % 5 == 0){
-				request("花火A", counterReq % 4, enemy, i, 16, 48);
+				request("花火A", counterReq % 4, enemy, i, 18, 24);
 			}
 
 		}
@@ -169,6 +169,8 @@ public class NStgDanmaku extends NStgUnit {
 				break;
 			}
 		} // for(i) end
+		
+		VFX.request(fromUnit.dX[index] + offsetX + 8, fromUnit.dY[index] + offsetY + 8, 4);
 	}// funtion end
 
 	private void danmaku_ACTION_A(int index){
