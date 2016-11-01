@@ -23,12 +23,12 @@ public class SYS {
 	static double Xx, Yy;
 
 	SYS(String platform){
-		
+
 		switch (platform){
 		case "PC":
 			TIMERSTAGE = 0;
 			FRAME_TIME = 0.017;
-			MOUSE_CONTROLING = true;
+			MOUSE_CONTROLING = false;
 			WINDOW_SIZE_X = 960;
 			WINDOW_SIZE_Y = 540;
 			GAMEOVERING = false;
@@ -36,9 +36,9 @@ public class SYS {
 			VFX_LIMIT = 5000;
 			break;
 		}
-		
+
 	}
-	
+
 }
 
 interface GameTools {
@@ -94,7 +94,7 @@ interface GameTools {
 	//画面外判断
 	public default boolean isOutBorder(int x, int y, int xSize, int ySize) {
 
-		return (x < 0 - xSize || x > SYS.WINDOW_SIZE_X || y < 0 - ySize || y > SYS.WINDOW_SIZE_Y);
+		return (x < 0 - xSize || x > SYS.WINDOW_SIZE_X || y < -SYS.WINDOW_SIZE_X - ySize || y > SYS.WINDOW_SIZE_X);
 
 	}
 

@@ -78,7 +78,7 @@ public class NStgEnemy extends NStgUnit {
 				enemy_ACTION_ZAKOB(i);
 				break;
 			}
-			
+
 			// HP = 0なら消滅
 			if (hp[i] <= 0){
 				VFX.request(dX[i] + 24, dY[i] + 24, 0);
@@ -187,7 +187,7 @@ public class NStgEnemy extends NStgUnit {
 			hitBoxW[i] = 16;
 			hitBoxH[i] = 16;
 
-			hp[i] = 500;
+			hp[i] = 150;
 			type[i] = 2;
 			flag[i] = 1;
 

@@ -49,9 +49,15 @@ public class GameObject implements GameTools {
 
 	public void drawKoma(Graphics2D g, JFrame wind) {
 
+		drawKoma(g, wind, komaImage);
+
+	}
+
+	public void drawKoma(Graphics2D g, JFrame wind, KomaImage image) {
+
 		for (int i = 0; i < MAX; i++) {
 			if (isVisible[i]) {
-				drawKoma(g, wind, komaImage, imageIndex[i], dX[i], dY[i], opacity[i]);
+				drawKoma(g, wind, image, imageIndex[i], dX[i], dY[i], opacity[i]);
 			}
 		}
 

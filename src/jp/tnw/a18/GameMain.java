@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 //◆メーン◆//
 public class GameMain {
 
+	static double GAMEVERSON = 0.10111;
 	SYS setting = new SYS("PC");
 	JFrame wind = new JFrame("Shooooooooooooooooting!!!");// NEW JFrame
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
@@ -30,7 +31,7 @@ public class GameMain {
 	NStgEnemy en = new NStgEnemy();
 	NStgMap mp = new NStgMap();
 
-	StgUI ui = new StgUI();
+	NStgUI ui = new NStgUI();
 	StgItem item = new StgItem();
 
 	// -----------------------------
@@ -92,30 +93,28 @@ public class GameMain {
 
 				// Clear the graphic for next frame
 				g.translate(sz.left, sz.top); // ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
-				if (SYS.GAMEOVERING) {
-					g.translate(Math.random() * 10 - 5, Math.random() * 10 - 5);
-				}
+				gg.translate(sz.left, sz.top);
+
+
 				g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
+				gg.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
 				///////////////////////////////////////////////////////////////////////////////////
 
 				// Main Update
-
+				ui.effect(g, wind);
 				drawMain(g);
 
-				ui.drawImage(g, wind);
 
-				g.drawString("A17張瀚夫20161027", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 10);
+				ui.draw(gg, wind);
+//				gg.drawString(String.valueOf(ui.gRotate), SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 50);
 
 				///////////////////////////////////////////////////////////////////////////////////
-				if (SYS.GAMEOVERING) {
-					gg.translate(sz.left, sz.top);
-					ui.drawGameover(gg, wind);
-					offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
-					gg.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
-				}
+				//	Show gameover screen
+
 
 				offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
 				g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
+				gg.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 
 			} // if end ｸﾞﾗﾌｨｯｸOK??
 
@@ -123,18 +122,17 @@ public class GameMain {
 
 		private void drawMain(Graphics2D g) {
 
-			// map.drawImage(g, wind);
 			mp.drawImage(g, wind);
 			en.drawKoma(g, wind);
 			ps.drawKoma(g, wind);
 			item.drawImage(g, wind);
 			pr.draw(g, wind);
 			dm.drawKoma(g, wind);
+
 			vfx.draw(g, wind);
-			
-			
-			g.setColor(Color.MAGENTA);// 色指定
-			g.setFont(f);
+
+
+
 		}
 
 		private void mainUpdate() {
@@ -144,12 +142,10 @@ public class GameMain {
 			manager.enemy = en;
 			manager.danmaku = dm;
 			manager.shoot = ps;
-			
-			manager.update();
-			
+			manager.ui = ui;
+
 			// stage main (4200frame made)
-
-
+			manager.update();
 
 			// All Update Here
 			mp.update();
@@ -161,7 +157,7 @@ public class GameMain {
 			item.update();
 			ui.update();
 
-			SYS.TIMERSTAGE++;
+
 		}
 
 	}// timer task class end

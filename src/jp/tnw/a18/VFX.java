@@ -101,17 +101,6 @@ public class VFX {
 
 	}
 
-	// ---------------
-	// ○敵読み込み
-	// ----------------
-//	public void Load() {
-//		try {
-//			image = ImageIO.read(getClass().getResource("Image/bomb.png"));
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}// Load end
 	// -----------------------
 	// 表示関数
 	// -----------------------

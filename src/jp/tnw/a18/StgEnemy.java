@@ -247,7 +247,7 @@ public class StgEnemy extends GameObject {
 							StgPlayer.damage(50);
 						}
 					}
-					bom.request(dX[i] + 24, dY[i] + 24, 0);
+					VFX.request(dX[i] + 24, dY[i] + 24, 0);
 					if (itemFlag[i]) {
 						item.request(dX[i], dY[i]);
 					}

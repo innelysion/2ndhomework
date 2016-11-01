@@ -2,12 +2,16 @@ package jp.tnw.a18;
 
 public class NStgManager {
 
+
 	NStgDanmaku danmaku;
 	NStgEnemy enemy;
 	NStgPlayerShoot shoot;
 	NStgMap map;
-	int stage;
+	NStgUI ui;
+
 	// NStgItem item;
+
+	int stage;
 
 	NStgManager() {
 
@@ -18,27 +22,50 @@ public class NStgManager {
 		requestDanmaku();
 		requestEnemy();
 		hitManage();
+		SYS.TIMERSTAGE++;
 
 	}
 
+
+
+
+
+	//当たり判定
+	private void hitManage() {
+
+		playerHitDanmaku();
+		playerHitEnemy();
+		playerShootHitMap();
+		playerShootHitEnemy();
+
+	}
+
+
+
+
+	// 敵を呼び出す
 	private void requestEnemy() {
 		// TODO Auto-generated method stub
 		// ここから敵
+
+		switch (SYS.TIMERSTAGE){
+		case 200:
+			enemy.request("雑魚B");
+			break;
+		}
+
 //		if (SYS.TIMERSTAGE % 15 == 0) {
 //			enemy.request("雑魚A");
 //		}
 
-		if (SYS.TIMERSTAGE % 1000 == 0) {
-			enemy.request("雑魚B");
-		}
-
 	}
 
+	// 弾幕を撒け
 	private void requestDanmaku() {
 		// TODO Auto-generated method stub
 		// ここから弾幕
 		for (int i = 0; i < enemy.MAX; i++) {
-			if (enemy.flag[i] == 3 && enemy.type[i] == 2 && SYS.TIMERSTAGE % 1 == 0) {
+			if (enemy.flag[i] == 3 && enemy.type[i] == 2 && SYS.TIMERSTAGE % 9 == 0) {
 				danmaku.request("花火A", SYS.TIMERSTAGE % 4, enemy, i, 18, 24);
 			}
 		}
@@ -52,26 +79,46 @@ public class NStgManager {
 		}
 	}
 
-	private void hitManage() {
-
-		playerHitDanmaku();
-		playerShootHitMap();
-		playerShootHitEnemy();
-
+	// 自機＆敵弾との当たり判定
+	private void playerHitDanmaku() {
 		// TODO Auto-generated method stub
-		// ここからあたり判定
+		for (int i = 0; i < danmaku.MAX; i++){
+			if (danmaku.flag[i] != 0){
+				if (isCircleHit(danmaku.dX[i], danmaku.dY[i], NStgPlayer.dX + 48, NStgPlayer.dY + 48, danmaku.hitCir[i], NStgPlayer.hitCir)){
+					NStgPlayer.damage(1);
+					danmaku.reset(i);
+				}
+			}
+		}
 
 	}
 
+	// 自機＆敵との当たり判定
+	private void playerHitEnemy() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < enemy.MAX; i++){
+			if (!NStgPlayer.IMMORTAL && enemy.flag[i] != 0){
+				if (isCircleHit(enemy.dX[i], enemy.dY[i], NStgPlayer.dX + 48, NStgPlayer.dY + 48, enemy.hitCir[i], NStgPlayer.hitCir)){
+					NStgPlayer.damage(2);
+					enemy.hp[i] -= 5000;
+					break;
+				}
+			}
+		}
+
+	}
+
+	// 自機弾＆敵との当たり判定
 	private void playerShootHitEnemy() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < shoot.MAX; i++) {
 			if (shoot.type[i] != 0) {
 
 				for (int j = 0; j < enemy.MAX; j++) {
-//					if (enemy.type[i] == 0 || enemy.flag[i] == 0) {
-//						continue;
-//					}
+					//待機中と当たり判定なしのものを除く
+					if (enemy.type[i] == 0 || enemy.flag[i] == 0 || !enemy.isHitable[i]) {
+						continue;
+					}
 
 					if (isCircleHit(shoot.dX[i], shoot.dY[i], enemy.dX[j], enemy.dY[j], shoot.hitCir[i],
 							enemy.hitCir[j])) {
@@ -87,23 +134,11 @@ public class NStgManager {
 
 	}
 
-	private void playerHitDanmaku() {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < danmaku.MAX; i++){
-			if (danmaku.flag[i] != 0){
-				if (isCircleHit(danmaku.dX[i], danmaku.dY[i], NStgPlayer.dX + 48, NStgPlayer.dY + 48, danmaku.hitCir[i], NStgPlayer.hitCir)){
-					NStgPlayer.damage(1);
-					danmaku.reset(i);
-				}
-			}
-		}
-
-	}
-
+	// 自機弾＆背景との当たり判定
 	private void playerShootHitMap() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < shoot.MAX; i++) {
-			if (shoot.flag[i] > 0 && map.isMapHit(shoot.dX[i] + 8, shoot.dY[i] + 8)) {
+			if (shoot.flag[i] > 0 && shoot.isHitable[i] && map.isMapHit(shoot.dX[i] + 8, shoot.dY[i] + 8)) {
 				VFX.request(shoot.dX[i] + 8, shoot.dY[i] + 8, 7);
 				shoot.reset(i);
 				break;
@@ -111,7 +146,7 @@ public class NStgManager {
 		}
 	}
 
-	// 四角形同士あたり判定
+	// 四角形同士あたり判定 rect(lefttop_x, lefttop_y, width, height)
 	public boolean isRectHit(double rx1, double ry1, double rw1, double rh1, double rx2, double ry2, double rw2,
 			double rh2) {
 		return !(rx1 >= rx2 && rx1 >= rx2 + rw2) || //
@@ -120,7 +155,7 @@ public class NStgManager {
 				!(ry1 <= ry2 && ry1 + rh1 <= ry2);
 	}
 
-	// 円同士あたり判定
+	// 円同士あたり判定 circle(center_x, center_y, radius)
 	public boolean isCircleHit(double cx1, double cy1, double cx2, double cy2, double cr1, double cr2) {
 		return //
 		(Math.sqrt(//
@@ -130,7 +165,7 @@ public class NStgManager {
 
 	}
 
-	// 四角形と円あたり判定
+	// 四角形と円あたり判定 circle(center_x, center_y, radius) rect(lefttop_x, lefttop_y, width, height)
 	public boolean isCricleHitRect(double rx, double ry, double rw, double rh, double cx, double cy, double cr) {
 		double rcx = cx - (rx + rw * 0.5);
 		double rcy = cy - (ry + rh * 0.5);

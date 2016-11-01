@@ -4,7 +4,7 @@ package jp.tnw.a18;
 public class NStgPlayerShoot extends NStgDanmaku {
 
 	// 自機弾に必要なもの
-	
+
 	double timerJikiReq = 0;
 
 	// オプションの運動
@@ -14,7 +14,7 @@ public class NStgPlayerShoot extends NStgDanmaku {
 
 	public void update() {
 
-		if ((SYS.MOUSE_CONTROLING) || (!SYS.MOUSE_CONTROLING && Input.K_Z) || (!NStgPlayer.STOPSHOOT)) {
+		if (((SYS.MOUSE_CONTROLING) || (!SYS.MOUSE_CONTROLING && Input.K_Z)) && (!NStgPlayer.STOPSHOOT)) {
 			playerShoot();
 		}
 

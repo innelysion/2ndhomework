@@ -7,12 +7,16 @@ import javax.swing.JFrame;
 //◆自機クラス◆//
 public class NStgPlayer extends NStgUnit {
 
-	//便利のため一応たくさんstatic変数を作ったぞ
+	// 便利のため一応たくさんstatic変数を作ったぞ
 	static double dX, dY;
 	// ダメージフラッシュ
 	static boolean IMMORTAL; // 無敵
-	static int FLASHTIME;
-	int flagFlash; // 被弾するときコマ画像の切り替え
+	static boolean CONTROLLABLE; // 操作可能
+	static int FLASHTIME; // フラッシュ中
+
+	boolean stageBegin;
+
+	int flagFlash; // フラッシュするときコマ画像の切り替え
 	double shiftY; // 左右移動するとき画像座標の調整
 
 	// 手ごたえ調整
@@ -40,8 +44,8 @@ public class NStgPlayer extends NStgUnit {
 		imageIndex[0] = 1;
 		isVisible[0] = true;
 		opacity[0] = 1.0f;
-		dX = 512;
-		dY = 400;
+		dX = SYS.WINDOW_SIZE_X / 2 - 48;
+		dY = SYS.WINDOW_SIZE_Y;
 
 		isHitable[0] = true;
 		hitCir = 4;
@@ -62,7 +66,10 @@ public class NStgPlayer extends NStgUnit {
 		MAXPOWER = 10;
 		IMMORTAL = false;
 		FLASHTIME = 0;
-		STOPSHOOT = false;
+		STOPSHOOT = true;
+
+		CONTROLLABLE = false;
+		stageBegin = false;
 
 		timerInput = 0;
 		timerFacing = 0;
@@ -85,21 +92,22 @@ public class NStgPlayer extends NStgUnit {
 		POWER = POWER > MAXPOWER ? MAXPOWER : POWER;
 		POWER = POWER < 0 ? 0 : POWER;
 
-		playerControl();
+		if (CONTROLLABLE) {
+			playerControl();
+		}
 		playerEffects();
-
 
 		// デバッグ用////////////////
 
-		if (timerBombing >= 0){
+		if (timerBombing >= 0) {
 
-			if (timerBombing == 0){
+			if (timerBombing == 0) {
 
 				BOMBING = false;
 
 			}
 
-		}else if ((Input.M_RC || Input.M_LC) && timerPowerUp < 0) {
+		} else if ((Input.M_RC || Input.M_LC) && timerPowerUp < 0) {
 
 			NStgPlayer.POWER = NStgPlayer.POWER >= 5 ? 0 : NStgPlayer.POWER + 1;
 			timerPowerUp = 30;
@@ -107,7 +115,7 @@ public class NStgPlayer extends NStgUnit {
 		}
 		// デバッグ用///////////////
 
-		if (Input.K_X && timerBombing < -60){
+		if (Input.K_X && timerBombing < -60) {
 			timerBombing = 240;
 			BOMBING = true;
 		}
@@ -268,16 +276,33 @@ public class NStgPlayer extends NStgUnit {
 
 	private void playerEffects() {
 
+		if (SYS.TIMERSTAGE < 150){
+
+			dY--;
+
+
+		}
+
+		if (SYS.TIMERSTAGE == 150){
+
+			CONTROLLABLE = true;
+			FLASHTIME = 200;
+			STOPSHOOT = false;
+
+		}
+
 		// 自機爆発
 		if (SYS.GAMEOVERING) {
 
-			VFX.request(dX + 48 + (Math.random() * 100 - 50), dY + 60 + (Math.random() * 100 - 50),
+			CONTROLLABLE = false;
+			VFX.request(dX + 48 + (Math.random() * 200 - 100), dY + 60 + (Math.random() * 200 - 100),
 					(int) (Math.random() * 9));
 
 		}
 
 		// 自機フラッシュ
 		if (FLASHTIME > 0) {
+			flagFlash = 0;
 			if (FLASHTIME > 50) {
 				if (FLASHTIME % 8 == 0) {
 					if (flagFlash == 1) {
@@ -297,9 +322,9 @@ public class NStgPlayer extends NStgUnit {
 			}
 			FLASHTIME--;
 		} else {
-			
+
 			IMMORTAL = false;
-			
+
 		}
 
 	}
