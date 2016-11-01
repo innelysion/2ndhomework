@@ -12,22 +12,33 @@ import javax.swing.JFrame;
 public class SYS {
 
 	static int WINDOW_SIZE_X, WINDOW_SIZE_Y;
+	static int TIMERSTAGE;
 	static double FRAME_TIME;
 	static boolean MOUSE_CONTROLING;
 	static boolean SCREEN_FREEZING;
 	static boolean GAMEOVERING;
+	static int DANMAKU_LIMIT, VFX_LIMIT;
 
 	// for mobile screen
 	static double Xx, Yy;
 
-	public static void setupPC(){
-		FRAME_TIME = 0.017;
-		MOUSE_CONTROLING = true;
-		WINDOW_SIZE_X = 960;
-		WINDOW_SIZE_Y = 540;
-		GAMEOVERING = false;
+	SYS(String platform){
+		
+		switch (platform){
+		case "PC":
+			TIMERSTAGE = 0;
+			FRAME_TIME = 0.017;
+			MOUSE_CONTROLING = true;
+			WINDOW_SIZE_X = 960;
+			WINDOW_SIZE_Y = 540;
+			GAMEOVERING = false;
+			DANMAKU_LIMIT = 5000;
+			VFX_LIMIT = 5000;
+			break;
+		}
+		
 	}
-
+	
 }
 
 interface GameTools {

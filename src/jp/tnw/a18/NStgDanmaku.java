@@ -21,12 +21,11 @@ public class NStgDanmaku extends NStgUnit {
 	double timerReq;
 	int counterReq;
 
-	NStgEnemy enemy;
 
 	// 初期化
 	NStgDanmaku() {
 
-		super(5000); // 弾数の上限
+		super(SYS.DANMAKU_LIMIT); // 弾数の上限
 		komaImage = new KomaImage("Image/tama.png", 20, 10);
 		belongPlayer = new boolean[MAX];
 		flag = new int[MAX];
@@ -53,34 +52,31 @@ public class NStgDanmaku extends NStgUnit {
 
 	}
 
-	public void request(String danmakuType, int danmakuPattern, NStgUnit fromUnit, int i, double offsetX,
+	public void request(String danmakuType, int danmakuPattern, NStgUnit fromUnit, int index, double offsetX,
 			double offsetY) {
 
 		switch (danmakuType) {
 		case "自機狙い弾いA":
-			danmaku_JKN_A(fromUnit, i, offsetX, offsetY);
+			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
 			break;
 		case "花火A":
-			danmaku_NOR_A(danmakuPattern, fromUnit, i, offsetX, offsetY);
+			danmaku_NOR_A(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
 			break;
 		case "ビームA":
-			danmaku_BEAM_A(danmakuPattern, fromUnit, i, offsetX, offsetY);
-
+			//danmaku_BEAM_A(danmakuPattern, fromUnit, index, offsetX, offsetY);
+			break;
+			
+			// ここから演出用弾幕
+		case "花火しっぽ":
+			effect_NOR_A(fromUnit.dX[index], fromUnit.dY[index]);
+			break;
 		}
 
 	}
 
 	public void update() {
-
-
-
-		for (int i = 0; i < enemy.MAX; i++) {
-
-			if (enemy.flag[i] == 3 && enemy.type[i] == 2 && timerReq % 5 == 0){
-				request("花火A", counterReq % 4, enemy, i, 18, 24);
-			}
-
-		}
+		
+		//ここから主処理
 
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
@@ -89,19 +85,24 @@ public class NStgDanmaku extends NStgUnit {
 
 			// 様々な弾幕のアクション
 			switch (type[i]) {
-			case 1://花火A
-				danmaku_ACTION_A(i);
+			case 1:// 花火A
+				danmakuACT_NOR_A(i);
+				break;
+			case 1000://花火しっぽ
+				effectACT_NOR_A(i);
 				break;
 			}
 
+			timerLife[i]++;
 		}
 
+		//タイマー++
 		timerReq++;
 		counterReq++;
 
 	}
 
-	//リセット
+	// リセット
 	public void reset(int index) {
 
 		super.reset(index);
@@ -115,22 +116,22 @@ public class NStgDanmaku extends NStgUnit {
 		}
 	}
 
-	//AUTOリセット
+	// AUTOリセット
 	public void resetAuto(int index) {
 		if (isOutBorder(this, index)) {
 			reset(index);
 		}
 	}
 
-	private void danmaku_JKN_A(NStgUnit fromUnit, int index, double offsetX, double offsetY) {
+	private void danmaku_JKN_A(double gX, double gY) {
 
 	}
 
-	private void danmaku_BEAM_A(int danmakuPattern, NStgUnit fromUnit, int i, double offsetX, double offsetY) {
+	private void danmaku_BEAM_A(double gX, double gY) {
 
 	}
 
-	private void danmaku_NOR_A(int dmPattern, NStgUnit fromUnit, int index, double offsetX, double offsetY) {
+	private void danmaku_NOR_A(int dmPattern, double gX, double gY) {
 		int[][] motionAngle = { //
 				//
 				{ 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 999 }, //
@@ -145,13 +146,13 @@ public class NStgDanmaku extends NStgUnit {
 				continue;
 			}
 
-			dX[i] = fromUnit.dX[index] + offsetX;
-			dY[i] = fromUnit.dY[index] + offsetY;
+			dX[i] = gX;
+			dY[i] = gY;
 			spdX[i] = -80;
 			spdY[i] = -80;
 			accX[i] = 50;
 			accY[i] = 50;
-			angle[i] = motionAngle[dmPattern][dmIndex] + timerReq;
+			angle[i] = motionAngle[dmPattern][dmIndex] + timerReq * 2;
 
 			isVisible[i] = true;
 			imageIndex[i] = 37;
@@ -169,16 +170,47 @@ public class NStgDanmaku extends NStgUnit {
 				break;
 			}
 		} // for(i) end
-		
-		VFX.request(fromUnit.dX[index] + offsetX + 8, fromUnit.dY[index] + offsetY + 8, 4);
+
+		VFX.request(gX + 8, gY + 8, 4);
 	}// funtion end
 
-	private void danmaku_ACTION_A(int index){
+	private void effect_NOR_A(double gX, double gY) {
+
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 && flag[i] == 0) {
+				dX[i] = gX;
+				dY[i] = gY;
+				spdX[i] = 0;
+				spdY[i] = 0;
+				accX[i] = 0;
+				accY[i] = 0;
+
+				isVisible[i] = true;
+				opacity[i] = 0.5f;
+				imageIndex[i] = 39;
+
+				type[i] = 1000;
+				flag[i] = 1000;
+				break;
+			}
+
+		} // for(i) end
+
+	}
+
+	private void danmakuACT_NOR_A(int index) {
 		if (timerReq % 4 == 0) {
 			imageIndex[index] = imageIndex[index] < 37 || imageIndex[index] >= 40 ? 37 : imageIndex[index] + 1;
 		}
-		moveCir(index, -0.5);
+		moveCir(index, (Math.random() - 0.5) * 15);
 		resetAuto(index);
+	}
+
+	private void effectACT_NOR_A(int index) {
+		 opacity[index] -= 0.05f;
+		if (opacity[index] <= 0.05f) {
+			reset(index);
+		}
 	}
 
 }

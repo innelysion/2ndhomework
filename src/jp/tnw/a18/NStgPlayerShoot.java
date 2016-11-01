@@ -4,7 +4,7 @@ package jp.tnw.a18;
 public class NStgPlayerShoot extends NStgDanmaku {
 
 	// 自機弾に必要なもの
-	NStgMap map; // 背景との衝突判定
+	
 	double timerJikiReq = 0;
 
 	// オプションの運動
@@ -89,26 +89,14 @@ public class NStgPlayerShoot extends NStgDanmaku {
 				flag[i] = 0;
 
 			}
-			if (flag[i] > 0 && isVisible[i] && map.isMapHit(dX[i] + 8, dY[i] + 8)) {
-				isVisible[i] = false;
-				isHitable[i] = false;
-				imageIndex[i] = 1;
-				dX[i] = 9999;
-				spdX[i] = 0;
-				spdY[i] = 0;
-				accX[i] = 0;
-				accY[i] = 0;
-				type[i] = 0;
-				flag[i] = 0;
-			}
+
 		}
 	}
 
 	private void playerShoot() {
-
 		timerReq = timerReq - SYS.FRAME_TIME;
 		if (timerReq < 0) {
-			timerReq = NStgPlayer.POWER == 7 ? 0.05 : 0.1;
+			timerReq = NStgPlayer.POWER >= 3 ? 0.1 : 0.05;
 
 			if (!NStgPlayer.BOMBING) {
 				if (NStgPlayer.POWER == 0) {
@@ -121,9 +109,11 @@ public class NStgPlayerShoot extends NStgDanmaku {
 							dX[i] = NStgPlayer.dX + 48 - 8;
 							dY[i] = NStgPlayer.dY + 48 - 8;
 							spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
-							spdY[i] = -550;
+							spdY[i] = -1000;
+							opacity[i] = 0.5f;
 							isVisible[i] = true;
 							isHitable[i] = true;
+							hitCir[i] = 16;
 							belongPlayer[i] = true;
 							flag[i] = 1;
 
@@ -143,9 +133,11 @@ public class NStgPlayerShoot extends NStgDanmaku {
 							dX[i] = NStgPlayer.dX + 48 - 8 - 45 + (30 * cnt);
 							dY[i] = NStgPlayer.dY + 48 - 8;
 							spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
-							spdY[i] = -570;
+							spdY[i] = -1000;
+							opacity[i] = 0.5f;
 							isVisible[i] = true;
 							isHitable[i] = true;
+							hitCir[i] = 16;
 							belongPlayer[i] = true;
 							flag[i] = 1;
 							cnt--;
@@ -168,9 +160,11 @@ public class NStgPlayerShoot extends NStgDanmaku {
 							dX[i] = NStgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
 							dY[i] = NStgPlayer.dY + 48 - 8;
 							spdX[i] = -100 + (Input.K_SHIFT ? Math.random() * 200 : 100);
-							spdY[i] = -570;
+							spdY[i] = -1000;
+							opacity[i] = 0.5f;
 							isVisible[i] = true;
 							isHitable[i] = true;
+							hitCir[i] = 16;
 							belongPlayer[i] = true;
 							flag[i] = 1;
 							cnt--;
@@ -193,9 +187,12 @@ public class NStgPlayerShoot extends NStgDanmaku {
 							dX[i] = NStgPlayer.dX + 48 - 8 - 40 + (20 * cnt);
 							dY[i] = NStgPlayer.dY + 48 - 8;
 							spdX[i] = -300 + (150 * cnt);
-							spdY[i] = -570;
+							spdY[i] = -1000;
+							opacity[i] = 0.5f;
 							isVisible[i] = true;
 							isHitable[i] = true;
+							hitCir[i] = 16;
+							damage[i] = 2;
 							belongPlayer[i] = true;
 							flag[i] = 1;
 							cnt--;
@@ -208,19 +205,22 @@ public class NStgPlayerShoot extends NStgDanmaku {
 
 				} else if (NStgPlayer.POWER == 4) {
 
-					int cnt = 4;
+					int cnt = 5;
 
 					for (int i = 0; i < MAX; i++) {
 						if (flag[i] == 0 && type[i] == 0) {
 
 							type[i] = 2;
 							imageIndex[i] = 49;
-							dX[i] = NStgPlayer.dX + 48 - 8 - 50 + (20 * cnt);
+							dX[i] = NStgPlayer.dX + 48 - 8 - 60 + (20 * cnt);
 							dY[i] = NStgPlayer.dY + 48 - 8;
-							spdX[i] = -500 + (200 * cnt);
-							spdY[i] = -570;
+							spdX[i] = -1200 + (400 * cnt);
+							spdY[i] = -1000;
+							opacity[i] = 0.5f;
 							isVisible[i] = true;
 							isHitable[i] = true;
+							hitCir[i] = 16;
+							damage[i] = 2;
 							belongPlayer[i] = true;
 							flag[i] = 1;
 							cnt--;
@@ -237,7 +237,7 @@ public class NStgPlayerShoot extends NStgDanmaku {
 
 					for (int i = 0; i < MAX; i++) {
 						if (flag[i] == 0 && type[i] == 0) {
-
+							opacity[i] = 0.5f;
 							type[i] = 3;
 							imageIndex[i] = 49;
 
@@ -248,9 +248,11 @@ public class NStgPlayerShoot extends NStgDanmaku {
 							} else {
 								spdX[i] = 200 * (cnt - 2) * Math.cos(angle[i]);
 							}
-							spdY[i] = -600;
+							spdY[i] = -SYS.WINDOW_SIZE_Y * 2;
 							isVisible[i] = true;
 							isHitable[i] = true;
+							hitCir[i] = 16;
+							damage[i] = 2;
 							belongPlayer[i] = true;
 							flag[i] = 1;
 							cnt--;
@@ -285,6 +287,7 @@ public class NStgPlayerShoot extends NStgDanmaku {
 							if (dX[i] < SYS.WINDOW_SIZE_X - 16) {
 								isVisible[i] = true;
 								isHitable[i] = true;
+								hitCir[i] = 16;
 								belongPlayer[i] = true;
 								flag[i] = 1;
 							}
@@ -313,6 +316,8 @@ public class NStgPlayerShoot extends NStgDanmaku {
 							accY[i] = Input.K_SHIFT ? -500 : 0;
 							isVisible[i] = true;
 							isHitable[i] = true;
+							hitCir[i] = 32;
+							damage[i] = 4;
 							belongPlayer[i] = true;
 							flag[i] = 2;
 							cnt--;

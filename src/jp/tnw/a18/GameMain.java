@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 //◆メーン◆//
 public class GameMain {
 
+	SYS setting = new SYS("PC");
 	JFrame wind = new JFrame("Shooooooooooooooooting!!!");// NEW JFrame
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
 	BufferStrategy offimage;// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧでちらつき防止
@@ -22,15 +23,15 @@ public class GameMain {
 	Input input = new Input();
 	VFX vfx = new VFX();
 
+	NStgManager manager = new NStgManager();
+	NStgPlayerShoot ps = new NStgPlayerShoot();
 	NStgDanmaku dm = new NStgDanmaku();
 	NStgPlayer pr = new NStgPlayer();
-	NStgPlayerShoot ps = new NStgPlayerShoot();
 	NStgEnemy en = new NStgEnemy();
 	NStgMap mp = new NStgMap();
 
 	StgUI ui = new StgUI();
 	StgItem item = new StgItem();
-	// StgMap map = new StgMap();
 
 	// -----------------------------
 	// 初期化用の関数
@@ -40,9 +41,6 @@ public class GameMain {
 	// -----------------------------
 
 	GameMain() {
-
-		// System setting
-		SYS.setupPC();
 
 		// Setup javaframe window & graphics2D buffer
 		wind.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 閉じﾎﾞﾀﾝ許可
@@ -98,7 +96,6 @@ public class GameMain {
 					g.translate(Math.random() * 10 - 5, Math.random() * 10 - 5);
 				}
 				g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
-
 				///////////////////////////////////////////////////////////////////////////////////
 
 				// Main Update
@@ -129,11 +126,13 @@ public class GameMain {
 			// map.drawImage(g, wind);
 			mp.drawImage(g, wind);
 			en.drawKoma(g, wind);
+			ps.drawKoma(g, wind);
 			item.drawImage(g, wind);
 			pr.draw(g, wind);
-			ps.drawKoma(g, wind);
 			dm.drawKoma(g, wind);
 			vfx.draw(g, wind);
+			
+			
 			g.setColor(Color.MAGENTA);// 色指定
 			g.setFont(f);
 		}
@@ -141,8 +140,16 @@ public class GameMain {
 		private void mainUpdate() {
 
 			// データのやり取り
-			ps.map = mp;
-			dm.enemy = en;
+			manager.map = mp;
+			manager.enemy = en;
+			manager.danmaku = dm;
+			manager.shoot = ps;
+			
+			manager.update();
+			
+			// stage main (4200frame made)
+
+
 
 			// All Update Here
 			mp.update();
@@ -153,6 +160,8 @@ public class GameMain {
 			pr.update();
 			item.update();
 			ui.update();
+
+			SYS.TIMERSTAGE++;
 		}
 
 	}// timer task class end

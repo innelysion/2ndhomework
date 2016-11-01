@@ -12,7 +12,8 @@ public class NStgPlayer extends NStgUnit {
 	// ダメージフラッシュ
 	static boolean IMMORTAL; // 無敵
 	static int FLASHTIME;
-	int flagFlash;
+	int flagFlash; // 被弾するときコマ画像の切り替え
+	double shiftY; // 左右移動するとき画像座標の調整
 
 	// 手ごたえ調整
 	int timerInput;
@@ -27,6 +28,7 @@ public class NStgPlayer extends NStgUnit {
 
 	// 自機のステータス
 	static int HP, MAXHP, BOMB, MAXBOMB, POWER, MAXPOWER;
+	static double hitCir;
 	static boolean STOPSHOOT;
 	static boolean BOMBING;
 
@@ -42,11 +44,12 @@ public class NStgPlayer extends NStgUnit {
 		dY = 400;
 
 		isHitable[0] = true;
-		hitCir[0] = 24;
+		hitCir = 4;
 		hitBoxW[0] = 96;
 		hitBoxH[0] = 96;
 
 		flagFlash = 0;
+		shiftY = 0;
 		facingAngle = 0;
 		facingX = dX;
 		facingY = dY;
@@ -115,12 +118,12 @@ public class NStgPlayer extends NStgUnit {
 	}
 
 	public void draw(Graphics2D g, JFrame wind) {
-		drawKoma(g, wind, komaImage, imageIndex[0] + flagFlash, dX, dY, opacity[0]);
+		drawKoma(g, wind, komaImage, imageIndex[0] + flagFlash, dX, dY + shiftY, opacity[0]);
 	}
 
 	public static void damage(int qty) {
 
-		if (!SYS.GAMEOVERING) {
+		if (!IMMORTAL && !SYS.GAMEOVERING) {
 
 			boolean isHeal;
 			isHeal = (HP < (HP - qty)) ? true : false;
@@ -131,6 +134,7 @@ public class NStgPlayer extends NStgUnit {
 
 			if (!isHeal) {
 				FLASHTIME = 150;
+				IMMORTAL = true;
 			}
 
 		}
@@ -138,6 +142,7 @@ public class NStgPlayer extends NStgUnit {
 		if (HP == 0) {
 			SYS.GAMEOVERING = true;
 			FLASHTIME = 5000;
+			IMMORTAL = true;
 		}
 
 	}
@@ -222,12 +227,16 @@ public class NStgPlayer extends NStgUnit {
 			facingAngle = temp / Math.PI * 180;
 			if (facingAngle <= 60 && facingAngle >= -60) {
 				imageIndex[0] = 5;
+				shiftY = 14;
 			} else if (facingAngle > 60 && facingAngle < 120) {
 				imageIndex[0] = 1;
+				shiftY = 0;
 			} else if (facingAngle >= 120 || facingAngle <= -120) {
 				imageIndex[0] = 3;
+				shiftY = 14;
 			} else if (facingAngle < -60 && facingAngle > -120) {
 				imageIndex[0] = 1;
+				shiftY = 0;
 			}
 
 			if (SYS.MOUSE_CONTROLING) {
@@ -243,6 +252,7 @@ public class NStgPlayer extends NStgUnit {
 
 			if (timerFacing == 0) {
 				imageIndex[0] = 1;
+				shiftY = 0;
 				timerFacing = 3;
 			}
 			facingAngle = 0;
@@ -286,6 +296,10 @@ public class NStgPlayer extends NStgUnit {
 				}
 			}
 			FLASHTIME--;
+		} else {
+			
+			IMMORTAL = false;
+			
 		}
 
 	}

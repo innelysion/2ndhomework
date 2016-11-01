@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 public class VFX {
 
 	BufferedImage image;// 背景の読み込むメモリ宣言
-	final static int max = 5000;// 最大数
+	final static int max = SYS.VFX_LIMIT;// 最大数
 
 	static int flag[] = new int[max];// 0:出現していない
 	static double a_wait[] = new double[max];// ｱﾆﾒwait time

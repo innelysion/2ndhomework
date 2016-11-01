@@ -40,9 +40,7 @@ public class NStgEnemy extends NStgUnit {
 			for (int j = 0; j < 50; j++) {
 				action[i][j] = 0;
 			}
-
 		}
-
 	}
 
 	public void request(String enemyType) {
@@ -51,7 +49,6 @@ public class NStgEnemy extends NStgUnit {
 		case "雑魚A":
 			enemy_ZAKO_A();
 			break;
-
 		case "雑魚B":
 			enemy_ZAKO_B();
 			break;
@@ -60,18 +57,6 @@ public class NStgEnemy extends NStgUnit {
 	}
 
 	public void update() {
-
-		if (timerReq % 15 == 0) {
-
-			request("雑魚A");
-
-		}
-
-		if (timerReq % 1000 == 0) {
-
-			request("雑魚B");
-
-		}
 
 		// 雑魚らの動くパターン
 		for (int i = 0; i < MAX; i++) {
@@ -92,6 +77,12 @@ public class NStgEnemy extends NStgUnit {
 			case 2:// 雑魚B
 				enemy_ACTION_ZAKOB(i);
 				break;
+			}
+			
+			// HP = 0なら消滅
+			if (hp[i] <= 0){
+				VFX.request(dX[i] + 24, dY[i] + 24, 0);
+				reset(i);
 			}
 
 			timerLife[i]++;
@@ -150,10 +141,11 @@ public class NStgEnemy extends NStgUnit {
 			imageIndex[i] = 61;
 
 			isHitable[i] = true;
-			hitCir[i] = 24;
+			hitCir[i] = 8;
 			hitBoxW[i] = 48;
 			hitBoxH[i] = 48;
 
+			hp[i] = 3;
 			type[i] = 1;
 			flag[i] = 1;
 
@@ -186,16 +178,16 @@ public class NStgEnemy extends NStgUnit {
 			}
 			dY[i] = -48;
 			spdX[i] = 0;
-
 			// 主処理END///////////////////////
 			isVisible[i] = true;
 			imageIndex[i] = 41;
 
 			isHitable[i] = true;
-			hitCir[i] = 16;
+			hitCir[i] = 32;
 			hitBoxW[i] = 16;
 			hitBoxH[i] = 16;
 
+			hp[i] = 500;
 			type[i] = 2;
 			flag[i] = 1;
 
