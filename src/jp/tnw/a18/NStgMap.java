@@ -12,7 +12,7 @@ public class NStgMap extends GameObject {
 
 	double scrollX;
 	double scrollY;
-	
+
 	boolean rolling;
 
 	Font f = new Font("Default", Font.BOLD, 16);
@@ -26,7 +26,7 @@ public class NStgMap extends GameObject {
 		image[2] = loadImage("Maps/StgMap_01_02.png");
 		image[3] = loadImage("Maps/StgMap_01_03.png");
 		image[4] = loadImage("Maps/StgMap_01_04.png");
-		
+
 		rolling = true;
 
 		for (int i = 0; i < MAX; i++) {
@@ -57,16 +57,16 @@ public class NStgMap extends GameObject {
 
 	public void update() {
 		if (scrollY < 528 * 4 && rolling) {
-			scrollY += 0.5;
+			scrollY += 1.5;
 			for (int i = 0; i < MAX; i++) {
-				dY[i] += 0.5;
+				dY[i] += 1.5;
 			}
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
 	}
 
 	public boolean isMapHit(double x, double y){
