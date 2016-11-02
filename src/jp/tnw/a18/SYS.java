@@ -1,6 +1,7 @@
 package jp.tnw.a18;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,13 +12,14 @@ import javax.swing.JFrame;
 //◆システム設定クラス◆//
 public class SYS {
 
-	static int WINDOW_SIZE_X, WINDOW_SIZE_Y;
-	static int TIMERSTAGE;
-	static double FRAME_TIME;
-	static boolean MOUSE_CONTROLING;
-	static boolean SCREEN_FREEZING;
-	static boolean GAMEOVERING;
-	static int DANMAKU_LIMIT, VFX_LIMIT;
+	public static int WINDOW_SIZE_X;
+	public static int WINDOW_SIZE_Y;
+	public static int TIMERSTAGE;
+	public static double FRAME_TIME;
+	public static boolean MOUSE_CONTROLING;
+	public static boolean SCREEN_FREEZING;
+	public static boolean GAMEOVERING;
+	public static int DANMAKU_LIMIT, VFX_LIMIT;
 
 	// for mobile screen
 	static double Xx, Yy;
@@ -87,6 +89,7 @@ interface GameTools {
 				window);
 
 		// 不透明度リセット
+
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 
 	}

@@ -32,7 +32,8 @@ public class GameMain {
 	NStgMap mp = new NStgMap();
 
 	NStgUI ui = new NStgUI();
-	StgItem item = new StgItem();
+	GameMessage msgbox = new GameMessage();
+//	StgItem item = new StgItem();
 
 	// -----------------------------
 	// 初期化用の関数
@@ -62,7 +63,7 @@ public class GameMain {
 		wind.addMouseWheelListener(input);
 
 		// Load game data and resources
-		item.loadImage("Image/Item", 1);
+//		item.loadImage("Image/Item", 1);
 
 		// Setup timer task
 		Timer TM = new Timer();
@@ -84,10 +85,13 @@ public class GameMain {
 
 			///////////////////////////////////////////////////////////////////////////////////////
 			// Garphics update
+			
 			Graphics g2 = offimage.getDrawGraphics();// ｸﾞﾗﾌｨｯｸ初期化
 			Graphics2D g = (Graphics2D) g2;
 			Graphics gg2 = offimage.getDrawGraphics();
 			Graphics2D gg = (Graphics2D) gg2;
+			
+			
 
 			if (offimage.contentsLost() == false) {//
 
@@ -103,9 +107,11 @@ public class GameMain {
 				// Main Update
 				ui.effect(g, wind);
 				drawMain(g);
-
+				
 
 				ui.draw(gg, wind);
+				msgbox.draw(gg);
+				
 //				gg.drawString(String.valueOf(ui.gRotate), SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 50);
 
 				///////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +131,7 @@ public class GameMain {
 			mp.drawImage(g, wind);
 			en.drawKoma(g, wind);
 			ps.drawKoma(g, wind);
-			item.drawImage(g, wind);
+//			item.drawImage(g, wind);
 			pr.draw(g, wind);
 			dm.drawKoma(g, wind);
 
@@ -154,8 +160,9 @@ public class GameMain {
 			dm.update();
 			en.update();
 			pr.update();
-			item.update();
+//			item.update();
 			ui.update();
+			msgbox.update();
 
 
 		}

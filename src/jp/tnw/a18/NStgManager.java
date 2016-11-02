@@ -12,8 +12,12 @@ public class NStgManager {
 	// NStgItem item;
 
 	int stage;
+	int playerHitMapDelay;
 
 	NStgManager() {
+		
+		stage = 1;
+		playerHitMapDelay = 0;
 
 	}
 
@@ -23,6 +27,7 @@ public class NStgManager {
 		requestEnemy();
 		hitManage();
 		SYS.TIMERSTAGE++;
+		playerHitMapDelay = playerHitMapDelay == 0 ? 0 : playerHitMapDelay - 1;
 
 	}
 
@@ -35,10 +40,13 @@ public class NStgManager {
 
 		playerHitDanmaku();
 		playerHitEnemy();
+		playerHitMap();
 		playerShootHitMap();
 		playerShootHitEnemy();
 
 	}
+
+
 
 
 
@@ -105,8 +113,22 @@ public class NStgManager {
 				}
 			}
 		}
-
 	}
+	
+	private void playerHitMap() {
+		// TODO Auto-generated method stub
+		if (map.isMapHit(NStgPlayer.dX + 48, NStgPlayer.dY + 48)){
+			if (!NStgPlayer.IMMORTAL){
+				NStgPlayer.damage(1);
+			}
+			if (playerHitMapDelay == 0){
+				VFX.request(NStgPlayer.dX + 48, NStgPlayer.dY + 48, 0);
+			playerHitMapDelay = 5;
+			}
+		}
+		
+	}
+	
 
 	// 自機弾＆敵との当たり判定
 	private void playerShootHitEnemy() {
@@ -116,7 +138,7 @@ public class NStgManager {
 
 				for (int j = 0; j < enemy.MAX; j++) {
 					//待機中と当たり判定なしのものを除く
-					if (enemy.type[i] == 0 || enemy.flag[i] == 0 || !enemy.isHitable[i]) {
+					if (enemy.type[j] == 0 || enemy.flag[j] == 0 || !enemy.isHitable[j]) {
 						continue;
 					}
 
@@ -138,7 +160,7 @@ public class NStgManager {
 	private void playerShootHitMap() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < shoot.MAX; i++) {
-			if (shoot.flag[i] > 0 && shoot.isHitable[i] && map.isMapHit(shoot.dX[i] + 8, shoot.dY[i] + 8)) {
+			if (shoot.flag[i] > 0 && map.isMapHit(shoot.dX[i] + 8, shoot.dY[i] + 8)) {
 				VFX.request(shoot.dX[i] + 8, shoot.dY[i] + 8, 7);
 				shoot.reset(i);
 				break;

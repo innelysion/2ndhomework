@@ -17,6 +17,10 @@ public class NStgPlayerShoot extends NStgDanmaku {
 		if (((SYS.MOUSE_CONTROLING) || (!SYS.MOUSE_CONTROLING && Input.K_Z)) && (!NStgPlayer.STOPSHOOT)) {
 			playerShoot();
 		}
+		
+		if (NStgPlayer.BOMBING){
+			playerShoot();
+		}
 
 		for (int i = 0; i < 4; i++) {
 			if (Input.K_SHIFT) {

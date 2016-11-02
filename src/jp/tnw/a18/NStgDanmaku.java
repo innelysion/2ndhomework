@@ -207,8 +207,8 @@ public class NStgDanmaku extends NStgUnit {
 	}
 
 	private void effectACT_NOR_A(int index) {
-		 opacity[index] -= 0.05f;
-		if (opacity[index] <= 0.05f) {
+		 opacity[index] -= 0.1f;
+		if (opacity[index] <= 0.1f) {
 			reset(index);
 		}
 	}

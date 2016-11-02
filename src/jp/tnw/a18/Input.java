@@ -22,6 +22,9 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	Insets sz; // ウィンドウの枠
 	boolean left_first = false;
 	boolean right_first = false;
+	static boolean M_RCR;
+	static boolean M_MCR;
+	static boolean M_LCR;
 
 	//
 
@@ -255,12 +258,21 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 		switch (arg0.getButton()) {
 		case 1:
 			M_LC = true;
+			M_LCR = false;
+			M_MCR = false;
+			M_RCR = false;
 			break;
 		case 2:
 			M_MC = true;
+			M_LCR = false;
+			M_MCR = false;
+			M_RCR = false;
 			break;
 		case 3:
 			M_RC = true;
+			M_LCR = false;
+			M_MCR = false;
+			M_RCR = false;
 			break;
 		}
 
@@ -274,12 +286,15 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 		switch (arg0.getButton()) {
 		case 1:
 			M_LC = false;
+			M_LCR = true;
 			break;
 		case 2:
 			M_MC = false;
+			M_MCR = true;
 			break;
 		case 3:
 			M_RC = false;
+			M_RCR = true;
 			break;
 		}
 

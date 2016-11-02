@@ -1,5 +1,6 @@
 package jp.tnw.a18;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
@@ -115,7 +116,7 @@ public class NStgPlayer extends NStgUnit {
 		}
 		// デバッグ用///////////////
 
-		if (Input.K_X && timerBombing < -60) {
+		if (Input.K_X && timerBombing < -60 && CONTROLLABLE) {
 			timerBombing = 240;
 			BOMBING = true;
 		}
