@@ -12,14 +12,14 @@ import javax.swing.JFrame;
 //◆システム設定クラス◆//
 public class SYS {
 
-	public static int WINDOW_SIZE_X;
-	public static int WINDOW_SIZE_Y;
-	public static int TIMERSTAGE;
-	public static double FRAME_TIME;
-	public static boolean MOUSE_CONTROLING;
-	public static boolean SCREEN_FREEZING;
-	public static boolean GAMEOVERING;
-	public static int DANMAKU_LIMIT, VFX_LIMIT;
+	static int WINDOW_SIZE_X;
+	static int WINDOW_SIZE_Y;
+	static int TIMERSTAGE;
+	static double FRAME_TIME;
+	static boolean MOUSE_CONTROLING;
+	static boolean SCREEN_FREEZING;
+	static boolean GAMEOVERING;
+	static int DANMAKU_LIMIT, VFX_LIMIT;
 
 	// for mobile screen
 	static double Xx, Yy;

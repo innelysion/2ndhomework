@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 //◆メーン◆//
 public class GameMain {
 
-	static double GAMEVERSON = 0.10111;
+	static double GAMEVERSON = 0.11111;
 	SYS setting = new SYS("PC");
 	JFrame wind = new JFrame("Shooooooooooooooooting!!!");// NEW JFrame
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
