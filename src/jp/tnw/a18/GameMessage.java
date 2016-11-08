@@ -8,29 +8,29 @@ import java.awt.RenderingHints;
 //◆会話システム◆//
 public class GameMessage {
 
-	Font f = new Font("Meiryo", Font.BOLD, 20);
-	Font bf = new Font("Meiryo", Font.BOLD, 60);
+	private Font f = new Font("Meiryo", Font.BOLD, 20);
+	private Font bf = new Font("Meiryo", Font.BOLD, 60);
 
 	boolean pause;
 	boolean fastPlay;
 	boolean pauseWhenFastplay;
 
-	final int M_MAX = 40;
-	int dataCharCnt = 0;
-	int dataLineCnt = 0;
-	int msgboxCharCnt = 0;
-	int msgboxLineCntTop = 0; // 0-1
-	int msgboxLineCntBot = 0; // 0-1
-	Color colorBot;
-	Color colorTop;
-	Color color1, color2, color3, color4, color5, color6, color7, color8, color9;
-	int usingWitchMsgbox = 0; // 0:bot 1:top
+	private final int M_MAX = 40;
+	private int dataCharCnt = 0;
+	private int dataLineCnt = 0;
+	private int msgboxCharCnt = 0;
+	private int msgboxLineCntTop = 0; // 0-1
+	private int msgboxLineCntBot = 0; // 0-1
+	private Color colorBot;
+	private Color colorTop;
+	private Color color1, color2, color3, color4, color5, color6, color7, color8, color9;
+	private int usingWitchMsgbox = 0; // 0:bot 1:top
 
 	int textTimer = 0;
 	int startWait = 0;
 
-	char msgboxTop[][] = new char[2][40];
-	char msgboxBot[][] = new char[2][40];
+	private char msgboxTop[][] = new char[2][40];
+	private char msgboxBot[][] = new char[2][40];
 
 	String requesting[];
 
@@ -289,7 +289,7 @@ public class GameMessage {
         
     }
 
-	public String text01[] = {
+    private String text01[] = {
 
 			"ふん。アタシのマネなんて十年早いわよ！@E", // takeo勝ち
 			"@U1あらあら、@P随分弱いわねぇ～@P偽者さん。@E", "@U1このブス！　アタシはもっとプリチ～だわ！@E", "@U0なかなかやるじゃない……。@E", // 負け

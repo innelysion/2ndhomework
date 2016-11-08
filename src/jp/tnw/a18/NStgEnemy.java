@@ -15,8 +15,8 @@ public class NStgEnemy extends NStgUnit {
 	int timerLife[];
 
 	// リクェスト用
-	double timerReq;
-	int counterReq;
+	private double timerReq;
+	private int counterReq;
 
 	NStgEnemy() {
 
@@ -114,6 +114,27 @@ public class NStgEnemy extends NStgUnit {
 			reset(index);
 		}
 	}
+	
+	public void killAllEnemy() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				continue;
+			}
+			hp[i] = 0;
+		}
+	}
+	
+	private int findVoidEnemy(){
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				continue;
+			}
+			return i;
+		}
+		System.out.println("STGWarning: <ENEMY> out of limit");
+		return MAX;
+	}
 
 	//TEST雑魚A
 	private void enemy_ZAKO_A() {
@@ -198,6 +219,7 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
+	//TEST雑魚Bの行動
 	private void enemy_ACTION_ZAKOB(int index){
 
 		if (timerAni[index] % 10 == 0) {
@@ -228,14 +250,6 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
-	public void killAllEnemy() {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < MAX; i++) {
-			if (type[i] == 0 || flag[i] == 0) {
-				continue;
-			}
-			hp[i] = 0;
-		}
-	}
+
 
 }

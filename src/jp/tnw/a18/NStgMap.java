@@ -15,8 +15,7 @@ public class NStgMap extends GameObject {
 
 	boolean rolling;
 
-	Font f = new Font("Default", Font.BOLD, 16);
-	BufferedImage image[] = new BufferedImage[5];
+	private BufferedImage image[] = new BufferedImage[5];
 
 	NStgMap() {
 
@@ -44,15 +43,7 @@ public class NStgMap extends GameObject {
 		}
 
 		g.setColor(Color.WHITE);// 色指定
-		g.setFont(f);
 
-//		for (int i = 0; i < 60; i++) {
-//			for (int j = 0; j < 33 * 5; j++) {
-//				if (mapHitData[j][i] == 1) {
-//					g.drawString("H", i * 16, -(528 * 4) + 16 + j * 16 + (int) scrollY);
-//				}
-//			}
-//		}
 	}
 
 	public void update() {

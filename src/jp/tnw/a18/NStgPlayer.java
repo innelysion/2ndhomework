@@ -15,21 +15,19 @@ public class NStgPlayer extends NStgUnit {
 	static boolean CONTROLLABLE; // 操作可能
 	static int FLASHTIME; // フラッシュ中
 
-	boolean stageBegin;
-
 	int flagFlash; // フラッシュするときコマ画像の切り替え
 	double shiftY; // 左右移動するとき画像座標の調整
 
 	// 手ごたえ調整
-	int timerInput;
-	int timerPowerUp;
-	int timerBombing;
+	private int timerInput;
+	private int timerPowerUp;
+	private int timerBombing;
 
 	// 自機の向き(主にマウス操作向け)
-	int timerFacing;
-	double facingAngle;
-	double facingX;
-	double facingY;
+	private int timerFacing;
+	private double facingAngle;
+	private double facingX;
+	private double facingY;
 
 	// 自機のステータス
 	static int HP, MAXHP, BOMB, MAXBOMB, POWER, MAXPOWER;
@@ -70,7 +68,6 @@ public class NStgPlayer extends NStgUnit {
 		STOPSHOOT = true;
 
 		CONTROLLABLE = false;
-		stageBegin = false;
 
 		timerInput = 0;
 		timerFacing = 0;
@@ -95,6 +92,8 @@ public class NStgPlayer extends NStgUnit {
 
 		if (CONTROLLABLE) {
 			playerControl();
+		} else {
+			imageIndex[0] = 1;
 		}
 		playerEffects();
 

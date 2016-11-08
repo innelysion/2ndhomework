@@ -19,9 +19,9 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	static boolean M_LC, M_MC, M_RC; // マウスボタン
 	static int DIR4, DIR8; // 十字と8方向入力
 	static int M_X, M_Y, M_W; // カーソル座標とマウスホイール
-	Insets sz; // ウィンドウの枠
-	boolean left_first = false;
-	boolean right_first = false;
+	private Insets sz; // ウィンドウの枠
+	private boolean left_first = false;
+	private boolean right_first = false;
 	
 	// for message system
 	static boolean M_LCR;
@@ -48,7 +48,7 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 
 	}
 
-	public void dirCheck() {
+	private void dirCheck() {
 
 		if (LEFT && UP && RIGHT && DOWN) {
 			DIR8 = 0;
@@ -118,9 +118,6 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 			DIR8 = 0;
 			DIR4 = 0;
 		}
-
-		// TEST = Arrays.copyOf(index, 8);
-		// TEST2 = Arrays.copyOf(check, 4);
 
 	}
 

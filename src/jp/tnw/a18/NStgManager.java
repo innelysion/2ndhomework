@@ -3,12 +3,12 @@ package jp.tnw.a18;
 //◆ゲームの流れを制御するクラス◆//
 public class NStgManager {
 
-	NStgDanmaku danmaku;
-	NStgEnemy enemy;
-	NStgPlayerShoot shoot;
-	NStgMap map;
-	NStgUI ui;
-	GameMessage msgbox;
+	public NStgDanmaku danmaku;
+	public NStgEnemy enemy;
+	public NStgPlayerShoot shoot;
+	public NStgMap map;
+	public NStgUI ui;
+	public GameMessage msgbox;
 
 	// NStgItem item;
 
@@ -125,6 +125,7 @@ public class NStgManager {
 						NStgPlayer.hitCir)) {
 					NStgPlayer.damage(1);
 					danmaku.reset(i);
+					break;
 				}
 			}
 		}

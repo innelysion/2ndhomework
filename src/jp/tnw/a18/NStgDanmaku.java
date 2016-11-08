@@ -21,7 +21,6 @@ public class NStgDanmaku extends NStgUnit {
 	double timerReq;
 	int counterReq;
 
-
 	// 初期化
 	NStgDanmaku() {
 
@@ -63,10 +62,11 @@ public class NStgDanmaku extends NStgUnit {
 			danmaku_NOR_A(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
 			break;
 		case "ビームA":
-			//danmaku_BEAM_A(danmakuPattern, fromUnit, index, offsetX, offsetY);
+			// danmaku_BEAM_A(danmakuPattern, fromUnit, index, offsetX,
+			// offsetY);
 			break;
-			
-			// ここから演出用弾幕
+
+		// ここから演出用弾幕
 		case "花火しっぽ":
 			effect_NOR_A(fromUnit.dX[index], fromUnit.dY[index]);
 			break;
@@ -75,8 +75,8 @@ public class NStgDanmaku extends NStgUnit {
 	}
 
 	public void update() {
-		
-		//ここから主処理
+
+		// ここから主処理
 
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
@@ -88,7 +88,7 @@ public class NStgDanmaku extends NStgUnit {
 			case 1:// 花火A
 				danmakuACT_NOR_A(i);
 				break;
-			case 1000://花火しっぽ
+			case 1000:// 花火しっぽ
 				effectACT_NOR_A(i);
 				break;
 			}
@@ -96,7 +96,7 @@ public class NStgDanmaku extends NStgUnit {
 			timerLife[i]++;
 		}
 
-		//タイマー++
+		// タイマー++
 		timerReq++;
 		counterReq++;
 
@@ -207,7 +207,7 @@ public class NStgDanmaku extends NStgUnit {
 	}
 
 	private void effectACT_NOR_A(int index) {
-		 opacity[index] -= 0.1f;
+		opacity[index] -= 0.1f;
 		if (opacity[index] <= 0.1f) {
 			reset(index);
 		}

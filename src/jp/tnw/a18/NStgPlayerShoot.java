@@ -5,12 +5,12 @@ public class NStgPlayerShoot extends NStgDanmaku {
 
 	// 自機弾に必要なもの
 
-	double timerJikiReq = 0;
+	private double timerJikiReq = 0;
 
 	// オプションの運動
-	double optionX[] = { 0, 0, 0, 0 };
-	double optionY[] = { 0, 0, 0, 0 };
-	double optionAngle[] = { 0, 90, 180, 270 };
+	private double optionX[] = { 0, 0, 0, 0 };
+	private double optionY[] = { 0, 0, 0, 0 };
+	private double optionAngle[] = { 0, 90, 180, 270 };
 
 	public void update() {
 
