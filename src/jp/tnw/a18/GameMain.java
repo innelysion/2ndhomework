@@ -105,7 +105,7 @@ public class GameMain {
 				///////////////////////////////////////////////////////////////////////////////////
 
 				// Main Update
-				ui.effect(g, wind);
+				ui.screenEffect(g, wind);
 				drawMain(g);
 				
 
@@ -149,6 +149,7 @@ public class GameMain {
 			manager.danmaku = dm;
 			manager.shoot = ps;
 			manager.ui = ui;
+			manager.msgbox = msgbox;
 
 			// stage main (4200frame made)
 			manager.update();

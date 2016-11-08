@@ -228,4 +228,14 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
+	public void killAllEnemy() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				continue;
+			}
+			hp[i] = 0;
+		}
+	}
+
 }

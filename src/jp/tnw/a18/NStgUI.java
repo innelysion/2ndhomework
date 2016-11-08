@@ -1,5 +1,6 @@
 package jp.tnw.a18;
 
+//◆UI◆//
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
@@ -11,24 +12,31 @@ import javax.swing.JFrame;
 
 public class NStgUI extends GameObject {
 
-	KomaImage bar_hp;
-	BufferedImage gameover;
-	Font f = new Font("Default", Font.BOLD, 13);
+	boolean isReadyForPlay;
+	
+	private KomaImage bar_hp;
+	private BufferedImage gameover;
+	private Font f = new Font("Default", Font.BOLD, 13);
 
-	float opacity;
-	int dX, dY;
-	int fadeHP;
+	private float opacity;
+	private int dX, dY;
+	private int fadeHP;
 
 	// ストーリーシーン用
-	boolean playStory;
-	int storyBackHeight;
-	boolean screenRotation;
-	double gRotate;
-	int timerStoryAni;
+	private boolean playStory;
+	private int storyBackHeight;
+	private boolean willScreenRotation;
+	private boolean screenRotation;
+	private double gRotate;
+	private int timerStoryAni;
 
 	NStgUI() {
 
 		super(2);
+		
+		isReadyForPlay = false;
+		
+		
 		bar_hp = new KomaImage("Image/dmg.png", 1, 4);
 		gameover = loadImage("Image/g_over.png");
 		opacity = 0.0f;
@@ -38,11 +46,37 @@ public class NStgUI extends GameObject {
 		dY = (int) NStgPlayer.dY + 80;
 
 		playStory = false;
+		willScreenRotation = false;
 		screenRotation = false;
 		storyBackHeight = 0;
 		gRotate = 0;
 		timerStoryAni = 0;
 
+	}
+	
+	public void requestStoryMode(){
+		// story mode
+		if (timerStoryAni == 0) {
+			playStory = true;
+			timerStoryAni = 150;
+		}
+
+	}
+	
+	public void requestStoryModeWithRotation(){
+		// story mode
+		if (timerStoryAni == 0) {
+			willScreenRotation = true;
+			playStory = true;
+			timerStoryAni = 150;
+		}
+	}
+	
+	public void stopStoryMode(){
+		// story mode
+			System.out.println("a");
+			playStory = false;
+			timerStoryAni = 150;
 	}
 
 	public void draw(Graphics2D g, JFrame wind) {
@@ -66,7 +100,11 @@ public class NStgUI extends GameObject {
 			} else {
 				g.fillRect(0, 0, SYS.WINDOW_SIZE_X, storyBackHeight);
 				g.fillRect(0, SYS.WINDOW_SIZE_Y - storyBackHeight, SYS.WINDOW_SIZE_X, storyBackHeight);
+				if (willScreenRotation){
 				screenRotation = true;
+				} else {
+					isReadyForPlay = true;
+				}
 			}
 
 		} else {
@@ -76,6 +114,8 @@ public class NStgUI extends GameObject {
 				g.fillRect(0, SYS.WINDOW_SIZE_Y - storyBackHeight, SYS.WINDOW_SIZE_X, storyBackHeight);
 				storyBackHeight -= 2;
 				screenRotation = false;
+			} else {
+				isReadyForPlay = false;
 			}
 
 			if (gRotate == 0 && !SYS.GAMEOVERING) {
@@ -115,11 +155,6 @@ public class NStgUI extends GameObject {
 	
 	public void update() {
 
-		// story mode
-		if (Input.M_RC && timerStoryAni == 0) {
-			playStory = !playStory;
-			timerStoryAni = 150;
-		}
 
 		// opacito of gameover image
 		if (SYS.GAMEOVERING) {
@@ -140,11 +175,11 @@ public class NStgUI extends GameObject {
 		dY = (int) NStgPlayer.dY + 80;
 
 		//story switch timer--
-		timerStoryAni = timerStoryAni < 0 ? 0 : timerStoryAni - 1;
+		timerStoryAni = timerStoryAni <= 0 ? 0 : timerStoryAni - 1;
 
 	}
 
-	public void effect(Graphics2D g, JFrame wind) {
+	public void screenEffect(Graphics2D g, JFrame wind) {
 
 		if (SYS.GAMEOVERING) {
 			g.translate(Math.random() * 10 - 5, Math.random() * 10 - 5);
@@ -155,8 +190,11 @@ public class NStgUI extends GameObject {
 			if (gRotate < 90) {
 				g.rotate(Math.toRadians(gRotate), SYS.WINDOW_SIZE_X / 2, SYS.WINDOW_SIZE_Y / 2);
 				gRotate += (90 - gRotate) / 15;
+				NStgPlayer.dX += ((SYS.WINDOW_SIZE_X / 2 - 48) - NStgPlayer.dX) / 35;
+				NStgPlayer.dY += ((SYS.WINDOW_SIZE_Y - 100) - NStgPlayer.dY) / 35;
 				if (gRotate > 89.9) {
 					gRotate = 90;
+					isReadyForPlay = true;
 				}
 			} else {
 				g.rotate(Math.toRadians(90), SYS.WINDOW_SIZE_X / 2, SYS.WINDOW_SIZE_Y / 2);
@@ -171,6 +209,7 @@ public class NStgUI extends GameObject {
 					gRotate = 0;
 					NStgPlayer.CONTROLLABLE = true;
 					NStgPlayer.STOPSHOOT = false;
+					isReadyForPlay = false;
 				}
 			}
 
@@ -178,13 +217,13 @@ public class NStgUI extends GameObject {
 
 	}
 
-	public void drawGameover(Graphics2D g, JFrame wind) {
+	private void drawGameover(Graphics2D g, JFrame wind) {
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)));
 		g.drawImage(gameover, 0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y, 0, 0, 800, 600, wind);
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 	}
 	
-	public void drawRandomLine(Graphics2D g){
+	private void drawRandomLine(Graphics2D g){
 		//find a random angle :
 		double randomAngle = Math.random()*Math.PI*2;
 		//find the diameter of the circle around your ship that contains all the screen

@@ -5,15 +5,17 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+//◆会話システム◆//
 public class GameMessage {
 
 	Font f = new Font("Meiryo", Font.BOLD, 20);
+	Font bf = new Font("Meiryo", Font.BOLD, 60);
 
 	boolean pause;
 	boolean fastPlay;
 	boolean pauseWhenFastplay;
 
-	final int M_Max = 40;
+	final int M_MAX = 40;
 	int dataCharCnt = 0;
 	int dataLineCnt = 0;
 	int msgboxCharCnt = 0;
@@ -21,11 +23,11 @@ public class GameMessage {
 	int msgboxLineCntBot = 0; // 0-1
 	Color colorBot;
 	Color colorTop;
-	Color color1;
-	Color color2;
+	Color color1, color2, color3, color4, color5, color6, color7, color8, color9;
 	int usingWitchMsgbox = 0; // 0:bot 1:top
 
 	int textTimer = 0;
+	int startWait = 0;
 
 	char msgboxTop[][] = new char[2][40];
 	char msgboxBot[][] = new char[2][40];
@@ -34,9 +36,16 @@ public class GameMessage {
 
 	GameMessage() {
 
-		requesting = text01; // dbing
-		color1 = new Color(255, 255, 255);
-		color2 = new Color(160, 160, 160);
+		//requesting = text01; // dbing
+		color1 = Color.white;
+		color2 = Color.gray;
+		color3 = Color.black;
+		color4 = Color.red;
+		color5 = Color.green;
+		color6 = Color.blue;
+		color7 = new Color(160, 160, 160);
+		color8 = new Color(160, 160, 160);
+		color9 = new Color(160, 160, 160);
 		colorBot = color1;
 		colorTop = color1;
 		pause = false;
@@ -47,6 +56,7 @@ public class GameMessage {
 	public void draw(Graphics2D g) {
 		g.setFont(f);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
 		g.setColor(colorBot);
 		g.drawString(String.valueOf(msgboxBot[0]), (int) (214), (int) (480));
 		g.drawString(String.valueOf(msgboxBot[1]), (int) (214), (int) (510));
@@ -54,25 +64,32 @@ public class GameMessage {
 		g.setColor(colorTop);
 		g.drawString(String.valueOf(msgboxTop[0]), (int) (50), (int) (40));
 		g.drawString(String.valueOf(msgboxTop[1]), (int) (50), (int) (70));
+		
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 		// g.drawString(String.valueOf(pauseWhenFastplay), 300, 100);
 	}
 
-	public void request(String msg[]) {
+	public void request(int msg) {
 
-		requesting = msg;
+		switch (msg){
+		case 0:
+			requesting = text01;
+			startWait = 60;
+			break;
+		}
+		
 
 	}
 
 	public void update() {
 
 		// セリフリクエストあるとき
-		if (requesting != null) {
+		if (requesting != null && startWait == 0) {
 
 			textTimer++;
 
 			// PAUSE処理（マウスボタンを離す と 早送りではない場合）
-			if (pause && Input.M_LCR == true && !pauseWhenFastplay) {
+			if (pause && (Input.M_LCR || Input.K_ZR) == true && !pauseWhenFastplay) {
 				// クリアするかしないかの判断（中途一旦PAUSE場合あるいは行が終わり）
 				if (dataCharCnt == 0 || (requesting[dataLineCnt].charAt(dataCharCnt - 1) != 'P'
 						&& requesting[dataLineCnt].charAt(dataCharCnt - 2) != '@')) {
@@ -83,7 +100,7 @@ public class GameMessage {
 					}
 				}
 
-				//　使ってない会話ボックスの文字を灰色に
+				// 使ってない会話ボックスの文字を灰色に
 				colorBot = usingWitchMsgbox == 0 ? color1 : color2;
 				colorTop = usingWitchMsgbox == 1 ? color1 : color2;
 
@@ -91,17 +108,18 @@ public class GameMessage {
 			}
 
 			// 早送り処理
-			if (Input.M_LC) {
+			if (Input.M_LC || Input.K_Z) {
 				fastPlay = true;
 			} else {
 				fastPlay = false;
 			}
-			if (pauseWhenFastplay && Input.M_LCR) {
+			if (pauseWhenFastplay && (Input.M_LCR || Input.K_ZR)) {
 				pauseWhenFastplay = false;
 			}
 
 			// マウスボタン状態リセットdbing
 			Input.M_LCR = false;
+			Input.K_ZR = false;
 
 			// データの解析と会話ボックスに渡す
 			if (textTimer % (fastPlay ? 1 : 3) == 0) {
@@ -136,10 +154,12 @@ public class GameMessage {
 				}
 			} // if timer end
 		} // if req end
+		
+		startWait = startWait > 0 ? startWait - 1 : 0;
 
 	}
 
-	public void specialCode(char chr) {
+	private void specialCode(char chr) {
 
 		// 行の終わり
 		switch (chr) {
@@ -235,24 +255,39 @@ public class GameMessage {
 	}
 
 	// 表示エリア初期化
-	public void clear() {
+	private void clear() {
 		clearTop();
 		clearBot();
 	}
 
-	public void clearTop() {
-		for (int i = 0; i < M_Max; i++) {
+	private void clearTop() {
+		for (int i = 0; i < M_MAX; i++) {
 			msgboxTop[0][i] = ' ';
 			msgboxTop[1][i] = ' ';
 		}
 	}
 
-	public void clearBot() {
-		for (int i = 0; i < M_Max; i++) {
+	private void clearBot() {
+		for (int i = 0; i < M_MAX; i++) {
 			msgboxBot[0][i] = ' ';
 			msgboxBot[1][i] = ' ';
 		}
 	}
+	
+    private int getStringLength(String s)
+    {
+        int length = 0;
+        for(int i = 0; i < s.length(); i++)
+        {
+            int ascii = Character.codePointAt(s, i);
+			if (ascii >= 0 && ascii <= 255)
+                length++;
+            else
+                length += 2;
+        }
+        return length;
+        
+    }
 
 	public String text01[] = {
 

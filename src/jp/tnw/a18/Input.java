@@ -22,9 +22,10 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	Insets sz; // ウィンドウの枠
 	boolean left_first = false;
 	boolean right_first = false;
-	static boolean M_RCR;
-	static boolean M_MCR;
+	
+	// for message system
 	static boolean M_LCR;
+	static boolean K_ZR;
 
 	//
 
@@ -164,6 +165,7 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 			break;
 		case 90:
 			K_Z = true;
+			K_ZR = false;
 			break;
 		}
 
@@ -212,6 +214,7 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 			break;
 		case 90:
 			K_Z = false;
+			K_ZR = true;
 			break;
 		}
 
@@ -259,20 +262,12 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 		case 1:
 			M_LC = true;
 			M_LCR = false;
-			M_MCR = false;
-			M_RCR = false;
 			break;
 		case 2:
 			M_MC = true;
-			M_LCR = false;
-			M_MCR = false;
-			M_RCR = false;
 			break;
 		case 3:
 			M_RC = true;
-			M_LCR = false;
-			M_MCR = false;
-			M_RCR = false;
 			break;
 		}
 
@@ -290,11 +285,9 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 			break;
 		case 2:
 			M_MC = false;
-			M_MCR = true;
 			break;
 		case 3:
 			M_RC = false;
-			M_RCR = true;
 			break;
 		}
 

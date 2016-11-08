@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
-//◆画面に表示したい全てのもののスーパークラス◆//
+//◆コマ画像をもとにして全てのスーパークラス◆//
 public class GameObject implements GameTools {
 
 	// オブジェクトの数
