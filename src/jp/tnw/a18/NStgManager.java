@@ -193,7 +193,6 @@ public class NStgManager {
 			if (shoot.flag[i] > 0 && map.isMapHit(shoot.dX[i] + 8, shoot.dY[i] + 8)) {
 				VFX.request(shoot.dX[i] + 8, shoot.dY[i] + 8, 7);
 				shoot.reset(i);
-				break;
 			}
 		}
 	}
