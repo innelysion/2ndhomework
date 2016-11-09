@@ -173,12 +173,11 @@ public class NStgManager {
 						continue;
 					}
 
-					if (isCircleHit(shoot.dX[i], shoot.dY[i], enemy.dX[j], enemy.dY[j], shoot.hitCir[i],
+					if (isCircleHit(shoot.dX[i], shoot.dY[i], enemy.dX[j] + 24, enemy.dY[j] + 24, shoot.hitCir[i],
 							enemy.hitCir[j])) {
 						enemy.hp[j] -= shoot.damage[i];
 						VFX.request(shoot.dX[i] + 8, shoot.dY[i] + 8, 7);
 						shoot.reset(i);
-						break;
 					}
 
 				}

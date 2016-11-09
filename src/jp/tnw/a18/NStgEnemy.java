@@ -176,7 +176,7 @@ public class NStgEnemy extends NStgUnit {
 			imageIndex[i] = 61;
 
 			isHitable[i] = true;
-			hitCir[i] = 6;
+			hitCir[i] = 16;
 			hitBoxW[i] = 48;
 			hitBoxH[i] = 48;
 
@@ -258,7 +258,7 @@ public class NStgEnemy extends NStgUnit {
 			imageIndex[i] = 41;
 
 			isHitable[i] = true;
-			hitCir[i] = 32;
+			hitCir[i] = 8;
 			hitBoxW[i] = 16;
 			hitBoxH[i] = 16;
 
