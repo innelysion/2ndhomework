@@ -26,6 +26,7 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	// for message system
 	static boolean M_LCR;
 	static boolean K_ZR;
+	static boolean K_ESC_R;
 
 	//
 
@@ -37,7 +38,8 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 	// int KEY, KEYR, MB;
 
 	Input() {
-
+		
+		K_ESC_R = false;
 	}
 
 	public void update(JFrame wind) {
@@ -132,6 +134,7 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 			break;
 		case 27:
 			K_ESC = true;
+			K_ESC_R = false;
 			break;
 		case KeyEvent.VK_LEFT:
 			LEFT = true;
@@ -181,6 +184,7 @@ public class Input implements MouseListener, MouseMotionListener, MouseWheelList
 			break;
 		case 27:
 			K_ESC = false;
+			K_ESC_R = true;
 			break;
 		case KeyEvent.VK_LEFT:
 			LEFT = false;

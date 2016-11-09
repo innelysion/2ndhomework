@@ -1,6 +1,6 @@
 package jp.tnw.a18;
 
-//◆UI◆//
+//◆UIと画面エフェクト◆//
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;

@@ -87,7 +87,7 @@ public class NStgManager {
 
 		switch (SYS.TIMERSTAGE) {
 		case 200:
-			enemy.request("雑魚B");
+			//enemy.request("雑魚B");
 			break;
 		}
 
@@ -105,7 +105,13 @@ public class NStgManager {
 			if (enemy.flag[i] == 3 && enemy.type[i] == 2 && SYS.TIMERSTAGE % 9 == 0) {
 				danmaku.request("花火A", SYS.TIMERSTAGE % 4, enemy, i, 18, 24);
 			}
+			
+			if (enemy.flag[i] == 1 && enemy.type[i] == 10 && SYS.TIMERSTAGE % 20 == 0) {
+				danmaku.request("自機狙い弾いA", 0, enemy, i, 18, 24);
+			}
 		}
+		
+		
 
 		// ここから演出用弾幕
 		for (int i = 0; i < danmaku.MAX; i++) {

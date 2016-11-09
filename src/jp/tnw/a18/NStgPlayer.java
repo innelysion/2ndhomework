@@ -47,7 +47,7 @@ public class NStgPlayer extends NStgUnit {
 		dY = SYS.WINDOW_SIZE_Y;
 
 		isHitable[0] = true;
-		hitCir = 4;
+		hitCir = 2;
 		hitBoxW[0] = 96;
 		hitBoxH[0] = 96;
 
@@ -205,9 +205,17 @@ public class NStgPlayer extends NStgUnit {
 				}
 			}
 		} else {
-			// マウス
-			dX = Input.M_X - 48;
-			dY = Input.M_Y - 48;
+			// マウスの操作と手ごたえ調整
+			if (Math.abs(dX - (Input.M_X - 48)) < 30) {
+				dX = Input.M_X - 48;
+			} else {
+				dX += ((Input.M_X - 48) - dX) / 3;
+			}
+			if (Math.abs(dY - (Input.M_Y - 48)) < 30) {
+				dY = Input.M_Y - 48;
+			} else {
+				dY += ((Input.M_Y - 48) - dY) / 3;
+			}
 		}
 
 		// 画面外に行かないように
@@ -276,14 +284,13 @@ public class NStgPlayer extends NStgUnit {
 
 	private void playerEffects() {
 
-		if (SYS.TIMERSTAGE < 150){
+		if (SYS.TIMERSTAGE < 150) {
 
 			dY--;
 
-
 		}
 
-		if (SYS.TIMERSTAGE == 150){
+		if (SYS.TIMERSTAGE == 150) {
 
 			CONTROLLABLE = true;
 			FLASHTIME = 200;

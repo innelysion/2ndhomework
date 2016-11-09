@@ -11,10 +11,10 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
-//◆メーン◆//
+//◆MAIN◆//
 public class GameMain {
 
-	static double GAMEVERSON = 0.11111;
+	final static double GAMEVERSON = 0.12111;
 	SYS setting = new SYS("PC");
 	JFrame wind = new JFrame("Shooooooooooooooooting!!!");// NEW JFrame
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
@@ -33,7 +33,7 @@ public class GameMain {
 
 	NStgUI ui = new NStgUI();
 	GameMessage msgbox = new GameMessage();
-//	StgItem item = new StgItem();
+	// StgItem item = new StgItem();
 
 	// -----------------------------
 	// 初期化用の関数
@@ -45,6 +45,7 @@ public class GameMain {
 	GameMain() {
 
 		// Setup javaframe window & graphics2D buffer
+		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
 		wind.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 閉じﾎﾞﾀﾝ許可
 		wind.setBackground(new Color(0, 0, 0));// 色指定
 		wind.setResizable(false);// ｻｲｽﾞ変更不可
@@ -52,7 +53,6 @@ public class GameMain {
 		sz = wind.getInsets();// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
 		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽﾞ
 		wind.setLocationRelativeTo(null);// 中央に表示
-		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
 		wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
 		offimage = wind.getBufferStrategy();
 
@@ -62,14 +62,11 @@ public class GameMain {
 		wind.addKeyListener(input);
 		wind.addMouseWheelListener(input);
 
-		// Load game data and resources
-//		item.loadImage("Image/Item", 1);
-
 		// Setup timer task
-		Timer TM = new Timer();
-		TM.schedule(new timer_TSK(), 17, 17);
 		// どこ？ 17[ms]=プログラムが動き出す最初の時間
 		// 17[ms]その後は17[ms]繰り返し
+		Timer TM = new Timer();
+		TM.schedule(new timer_TSK(), 17, 17);
 
 	}// GameMain end
 
@@ -77,50 +74,44 @@ public class GameMain {
 	class timer_TSK extends TimerTask {
 
 		public void run() {
-			///////////////////////////////////////////////////////////////////////////////////////
 
+			///////////////////////////////////////////////////////////////////////////////////////
 			// Game data update
 			input.update(wind);
 			mainUpdate();
 
 			///////////////////////////////////////////////////////////////////////////////////////
 			// Garphics update
-			
+
 			Graphics g2 = offimage.getDrawGraphics();// ｸﾞﾗﾌｨｯｸ初期化
 			Graphics2D g = (Graphics2D) g2;
 			Graphics gg2 = offimage.getDrawGraphics();
 			Graphics2D gg = (Graphics2D) gg2;
-			
-			
 
 			if (offimage.contentsLost() == false) {//
 
 				// Clear the graphic for next frame
-				g.translate(sz.left, sz.top); // ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
-				gg.translate(sz.left, sz.top);
-
-
+				// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
+				g.translate(sz.left, sz.top);
 				g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
+				gg.translate(sz.left, sz.top);
 				gg.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
-				///////////////////////////////////////////////////////////////////////////////////
 
-				// Main Update
+				// Main Graphics Update
 				ui.screenEffect(g, wind);
 				drawMain(g);
-				
-
 				ui.draw(gg, wind);
 				msgbox.draw(gg);
-				
-//				gg.drawString(String.valueOf(ui.gRotate), SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 50);
 
-				///////////////////////////////////////////////////////////////////////////////////
-				//	Show gameover screen
-
-
+				//Dispose last frame graphics
 				offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
 				g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 				gg.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
+
+				//Stop timertask when restart the game
+				if (Input.K_ESC_R) {
+					this.cancel();
+				}
 
 			} // if end ｸﾞﾗﾌｨｯｸOK??
 
@@ -131,13 +122,11 @@ public class GameMain {
 			mp.drawImage(g, wind);
 			en.drawKoma(g, wind);
 			ps.drawKoma(g, wind);
-//			item.drawImage(g, wind);
+			// item.drawImage(g, wind);
 			pr.draw(g, wind);
 			dm.drawKoma(g, wind);
 
 			vfx.draw(g, wind);
-
-
 
 		}
 
@@ -161,20 +150,47 @@ public class GameMain {
 			dm.update();
 			en.update();
 			pr.update();
-//			item.update();
+			// item.update();
 			ui.update();
 			msgbox.update();
-
 
 		}
 
 	}// timer task class end
 
 	// ◆ここからプログラムが動く◆//
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Throwable {
 
-		@SuppressWarnings("unused")
 		GameMain Game = new GameMain();
+		do {
+			Thread.sleep(250);
+			if (Input.K_ESC_R) {
+				Game.setting = null;
+				Game.f = null;
+				Game.input = null;
+				Game.vfx = null;
+				Game.manager = null;
+				Game.ps = null;
+				Game.dm = null;
+				Game.pr = null;
+				Game.en = null;
+				Game.mp = null;
+				Game.ui = null;
+				Game.msgbox = null;
+				
+				Game.sz = null;
+				Game.offimage.dispose();
+				Game.offimage = null;				
+				Game.wind.dispose();
+				Game.wind = null;
+				
+				Game.finalize();
+				Game = null;
+			
+				Game = new GameMain();
+			}
+			Thread.sleep(50);
+		} while (Game != null);
 
 	}
 

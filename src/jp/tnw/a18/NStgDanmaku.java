@@ -7,8 +7,8 @@ public class NStgDanmaku extends NStgUnit {
 	boolean belongPlayer[];
 
 	// 動くパタン処理用フラグ、タイプとアクション
-	int flag[];
-	int type[];
+	int flag[]; // 1000からはエフェクト
+	int type[]; // 1000からはエフェクト
 	int action[][];
 
 	// 弾幕のステータス
@@ -56,7 +56,7 @@ public class NStgDanmaku extends NStgUnit {
 
 		switch (danmakuType) {
 		case "自機狙い弾いA":
-			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
+			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 3, 15, 100);
 			break;
 		case "花火A":
 			danmaku_NOR_A(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
@@ -91,6 +91,10 @@ public class NStgDanmaku extends NStgUnit {
 			case 1000:// 花火しっぽ
 				effectACT_NOR_A(i);
 				break;
+			case 10:// 花火しっぽ
+				moveCir(i, 0);
+				resetAuto(i);
+				break;
 			}
 
 			timerLife[i]++;
@@ -123,7 +127,36 @@ public class NStgDanmaku extends NStgUnit {
 		}
 	}
 
-	private void danmaku_JKN_A(double gX, double gY) {
+	private void danmaku_JKN_A(double gX, double gY, int qty, double angleBetween, double spd) {
+
+		int i;
+		// 自機狙い角度
+		double jikinerai = //
+				Math.atan2((NStgPlayer.dY + 24 - (gY - 16)), (NStgPlayer.dX + 24 - (gX - 16))) / Math.PI * 180;
+
+		for (int j = 0; j < qty; j++) {
+
+			i = findVoidDanmaku();
+			imageIndex[i] = 235;
+			dX[i] = gX;
+			dY[i] = gY;
+			spdX[i] = spd;
+			spdY[i] = spd;
+
+			isVisible[i] = true;
+			imageIndex[i] = 161;
+
+			isHitable[i] = true;
+			hitCir[i] = 8;
+			hitBoxW[i] = 16;
+			hitBoxH[i] = 16;
+
+			type[i] = 10;
+			flag[i] = 1;
+
+			angle[i] = -((angleBetween * (qty - 1)) / 2) + j * angleBetween + jikinerai;
+
+		}
 
 	}
 
@@ -211,6 +244,16 @@ public class NStgDanmaku extends NStgUnit {
 		if (opacity[index] <= 0.1f) {
 			reset(index);
 		}
+	}
+
+	private int findVoidDanmaku() {
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				return i;
+			}
+		}
+		System.out.println("STGWarning: <DANMAKU> out of limit");
+		return MAX;
 	}
 
 }
