@@ -26,7 +26,7 @@ public class NStgManager {
 
 	public void update() {
 
-			requestGaming();
+//			requestGaming();
 			requestDanmaku();
 			requestEnemy();
 			hitManage();
@@ -58,7 +58,7 @@ public class NStgManager {
 			ui.requestStoryModeWithRotation();
 			break;
 		}
-		
+
 		switch (stageFlag){
 		case 0:
 			if (SYS.TIMERSTAGE > 300 && ui.isReadyForPlay) {
@@ -75,8 +75,8 @@ public class NStgManager {
 		}
 
 
-		
-		
+
+
 
 	}
 

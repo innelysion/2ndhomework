@@ -52,12 +52,20 @@ public class NStgEnemy extends NStgUnit {
 		case "雑魚B":
 			enemy_ZAKO_B();
 			break;
+		case "demo01":
+			e01();
+			break;
 		}
 
 	}
 
 	public void update() {
 
+		if (SYS.TIMERSTAGE % 60 == 0){
+
+			request("demo01");
+
+		}
 		// 雑魚らの動くパターン
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
@@ -77,10 +85,16 @@ public class NStgEnemy extends NStgUnit {
 			case 2:// 雑魚B
 				enemy_ACTION_ZAKOB(i);
 				break;
+
+			case 10://demo01
+				e01action(i);
+				break;
 			}
 
+
+
 			// HP = 0なら消滅
-			if (hp[i] <= 0){
+			if (hp[i] <= 0) {
 				VFX.request(dX[i] + 24, dY[i] + 24, 0);
 				reset(i);
 			}
@@ -94,7 +108,7 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
-	//リセット
+	// リセット
 	public void reset(int index) {
 
 		super.reset(index);
@@ -108,13 +122,13 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
-	//AUTOリセット
+	// AUTOリセット
 	public void resetAuto(int index) {
 		if (isOutBorder(this, index)) {
 			reset(index);
 		}
 	}
-	
+
 	public void killAllEnemy() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < MAX; i++) {
@@ -124,19 +138,59 @@ public class NStgEnemy extends NStgUnit {
 			hp[i] = 0;
 		}
 	}
-	
-	private int findVoidEnemy(){
+
+	private int findVoidEnemy() {
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
-				continue;
+				return i;
 			}
-			return i;
 		}
 		System.out.println("STGWarning: <ENEMY> out of limit");
 		return MAX;
 	}
 
-	//TEST雑魚A
+	// demo敵01
+	private void e01() {
+
+		int qtycount = 2;
+		while (qtycount > 0) {
+
+			int i = findVoidEnemy();
+			if (qtycount == 2) {
+				dX[i] = 150 + Math.random() * 100;
+				dY[i] = -48;
+				spdX[i] = (NStgPlayer.dX - dX[i]) / 8 + Math.random() * 20;
+				spdY[i] = 200 + Math.random() * 50 - 25;
+				accX[i] = -spdX[i] / 3;
+				accY[i] = -100;
+			} else if (qtycount == 1) {
+				dX[i] = SYS.WINDOW_SIZE_X - 150 - Math.random() * 100;
+				dY[i] = -48;
+				spdX[i] = (NStgPlayer.dX - dX[i]) / 8 + Math.random() * 20;
+				spdY[i] = 200 + Math.random() * 50 - 25;
+				accX[i] = -spdX[i] / 3;
+				accY[i] = -100;
+			}
+
+			isVisible[i] = true;
+			imageIndex[i] = 61;
+
+			isHitable[i] = true;
+			hitCir[i] = 6;
+			hitBoxW[i] = 48;
+			hitBoxH[i] = 48;
+
+			hp[i] = 15;
+			type[i] = 10;
+			flag[i] = 1;
+
+			qtycount--;
+
+		}
+
+	}
+
+	// TEST雑魚A
 	private void enemy_ZAKO_A() {
 
 		int qtycount = 2; // 一回出す敵の数
@@ -177,7 +231,7 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
-	//TEST雑魚B
+	// TEST雑魚B
 	private void enemy_ZAKO_B() {
 
 		int qtycount = 3; // 一回出す敵の数
@@ -218,9 +272,34 @@ public class NStgEnemy extends NStgUnit {
 			}
 		}
 	}
+	private void e01action(int index){
+		if (timerAni[index] % 10 == 0) {
+			imageIndex[index] = (imageIndex[index] > 69) ? 61 : imageIndex[index] + 1;
+		}
 
-	//TEST雑魚Bの行動
-	private void enemy_ACTION_ZAKOB(int index){
+		switch (flag[index]){
+		case 1:
+			move(index);
+			if (spdY[index] <= 0){
+				spdX[index] = 0;
+				spdY[index] = 0;
+				accX[index] = dX[index] > NStgPlayer.dX ? 6 : -6;
+				accY[index] = -3;
+				flag[index]++;
+			}
+			break;
+		case 2:
+			if (spdY[index] < -10){
+				accY[index] = -50;
+			}
+			move(index);
+			resetAuto(index);
+			break;
+		}
+	}
+
+	// TEST雑魚Bの行動
+	private void enemy_ACTION_ZAKOB(int index) {
 
 		if (timerAni[index] % 10 == 0) {
 			imageIndex[index] = (imageIndex[index] > 49) ? 41 : imageIndex[index] + 1;
@@ -239,17 +318,15 @@ public class NStgEnemy extends NStgUnit {
 				flag[index]++;
 			}
 		} else if (flag[index] == 4) {
-			if (timerLife[index] > 700){
+			if (timerLife[index] > 700) {
 				spdY[index] = 150;
 				flag[index]++;
 			}
-		}else if (flag[index] == 5){
+		} else if (flag[index] == 5) {
 			move(index);
 			resetAuto(index);
 		}
 
 	}
-
-
 
 }
