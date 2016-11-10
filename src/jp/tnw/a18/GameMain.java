@@ -48,7 +48,7 @@ public class GameMain {
 	GameMain() {
 
 		// Setup javaframe window & graphics2D buffer
-
+		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
 		wind.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 閉じﾎﾞﾀﾝ許可
 		wind.setBackground(new Color(0, 0, 0));// 色指定
 		wind.setResizable(false);// ｻｲｽﾞ変更不可
@@ -56,7 +56,6 @@ public class GameMain {
 		sz = wind.getInsets();// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
 		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽ
 		wind.setLocationRelativeTo(null);// 中央に表示
-		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
 		try {
 			wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
 		} catch (Exception e) {
@@ -196,11 +195,12 @@ public class GameMain {
 				Game.offimage = null;
 				Game.wind.dispose();
 				Game.wind = null;
+				Game.MAINLOOP.cancel();
+				Game.MAINLOOP = null;
 				Game.TM.cancel();
 				Game.TM.purge();
 				Game.TM = null;
-				Game.MAINLOOP.cancel();
-				Game.MAINLOOP = null;
+
 
 				Game.finalize();
 				Game = null;

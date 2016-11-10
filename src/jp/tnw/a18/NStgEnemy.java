@@ -61,11 +61,7 @@ public class NStgEnemy extends NStgUnit {
 
 	public void update() {
 
-		if (SYS.TIMERSTAGE % 60 == 0){
 
-			request("demo01");
-
-		}
 		// 雑魚らの動くパターン
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
@@ -180,7 +176,7 @@ public class NStgEnemy extends NStgUnit {
 			hitBoxW[i] = 48;
 			hitBoxH[i] = 48;
 
-			hp[i] = 15;
+			hp[i] = 25;
 			type[i] = 10;
 			flag[i] = 1;
 
@@ -272,6 +268,7 @@ public class NStgEnemy extends NStgUnit {
 			}
 		}
 	}
+
 	private void e01action(int index){
 		if (timerAni[index] % 10 == 0) {
 			imageIndex[index] = (imageIndex[index] > 69) ? 61 : imageIndex[index] + 1;

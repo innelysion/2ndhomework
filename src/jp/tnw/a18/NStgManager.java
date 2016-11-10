@@ -26,12 +26,12 @@ public class NStgManager {
 
 	public void update() {
 
-//			requestGaming();
-			requestDanmaku();
-			requestEnemy();
-			hitManage();
-			playerHitMapDelay = playerHitMapDelay == 0 ? 0 : playerHitMapDelay - 1;
-			SYS.TIMERSTAGE++;
+		requestGaming();
+		requestDanmaku();
+		requestEnemy();
+		hitManage();
+		playerHitMapDelay = playerHitMapDelay == 0 ? 0 : playerHitMapDelay - 1;
+		SYS.TIMERSTAGE++;
 
 	}
 
@@ -52,6 +52,7 @@ public class NStgManager {
 		case 280:
 			for (int i = 0; i < enemy.MAX; i++) {
 				enemy.killAllEnemy();
+				danmaku.resetAllDanmaku();
 			}
 			break;
 		case 300:
@@ -59,7 +60,7 @@ public class NStgManager {
 			break;
 		}
 
-		switch (stageFlag){
+		switch (stageFlag) {
 		case 0:
 			if (SYS.TIMERSTAGE > 300 && ui.isReadyForPlay) {
 				msgbox.request(0);
@@ -67,16 +68,12 @@ public class NStgManager {
 			}
 			break;
 		case 1:
-			if (msgbox.requesting == null){
+			if (msgbox.requesting == null) {
 				ui.stopStoryMode();
 				stageFlag++;
 			}
 			break;
 		}
-
-
-
-
 
 	}
 
@@ -87,13 +84,20 @@ public class NStgManager {
 
 		switch (SYS.TIMERSTAGE) {
 		case 200:
-			//enemy.request("雑魚B");
+			// enemy.request("雑魚B");
 			break;
 		}
 
 		// if (SYS.TIMERSTAGE % 15 == 0) {
 		// enemy.request("雑魚A");
 		// }
+
+		if (SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE % 60 == 0 && SYS.TIMERSTAGE < 1150) {
+			enemy.request("demo01");
+			if (SYS.TIMERSTAGE >= 650){
+				danmaku.other1direction = true;
+			}
+		}
 
 	}
 
@@ -106,12 +110,10 @@ public class NStgManager {
 				danmaku.request("花火A", SYS.TIMERSTAGE % 4, enemy, i, 18, 24);
 			}
 
-			if (enemy.flag[i] == 1 && enemy.type[i] == 10 && SYS.TIMERSTAGE % 20 == 0) {
-				danmaku.request("自機狙い弾いA", 0, enemy, i, 18, 24);
+			if (enemy.flag[i] == 1 && enemy.type[i] == 10 && SYS.TIMERSTAGE % 2 == 0) {
+				danmaku.request("自機狙いバリア弾", 0, enemy, i, 18, 24);
 			}
 		}
-
-
 
 		// ここから演出用弾幕
 		for (int i = 0; i < danmaku.MAX; i++) {
@@ -130,6 +132,7 @@ public class NStgManager {
 				if (isCircleHit(danmaku.dX[i], danmaku.dY[i], NStgPlayer.dX + 48, NStgPlayer.dY + 48, danmaku.hitCir[i],
 						NStgPlayer.hitCir)) {
 					NStgPlayer.damage(1);
+					VFX.request(danmaku.dX[i], danmaku.dY[i], 5);
 					danmaku.reset(i);
 					break;
 				}

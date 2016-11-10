@@ -29,7 +29,7 @@ public class SYS {
 		case "PC":
 			TIMERSTAGE = 0;
 			FRAME_TIME = 0.017;
-			MOUSE_CONTROLING = true;
+			MOUSE_CONTROLING = false;
 			WINDOW_SIZE_X = 960;
 			WINDOW_SIZE_Y = 540;
 			GAMEOVERING = false;

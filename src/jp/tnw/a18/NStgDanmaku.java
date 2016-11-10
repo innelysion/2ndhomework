@@ -10,6 +10,9 @@ public class NStgDanmaku extends NStgUnit {
 	int flag[]; // 1000からはエフェクト
 	int type[]; // 1000からはエフェクト
 	int action[][];
+	double other1 = 90;
+	boolean other1flag = false;
+	boolean other1direction = false;
 
 	// 弾幕のステータス
 	int damage[];
@@ -58,6 +61,10 @@ public class NStgDanmaku extends NStgUnit {
 		case "自機狙い弾いA":
 			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 3, 15, 100);
 			break;
+		case "自機狙いバリア弾":
+
+			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 2, other1, 500);
+			break;
 		case "花火A":
 			danmaku_NOR_A(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
 			break;
@@ -91,8 +98,8 @@ public class NStgDanmaku extends NStgUnit {
 			case 1000:// 花火しっぽ
 				effectACT_NOR_A(i);
 				break;
-			case 10:// 花火しっぽ
-				moveCir(i, 0);
+			case 10:// JKN01
+				moveCir(i, SYS.TIMERSTAGE > 250 && SYS.TIMERSTAGE < 1150 ? (other1direction ? 0.7 : -0.7) : 0);
 				resetAuto(i);
 				break;
 			}
@@ -100,10 +107,31 @@ public class NStgDanmaku extends NStgUnit {
 			timerLife[i]++;
 		}
 
-		// タイマー++
+		// 各種タイム依存変数
 		timerReq++;
 		counterReq++;
+		if (!other1flag) {
+			other1 += 2;
+			if (other1 >= 150) {
+				other1flag = true;
+			}
+		} else {
+			other1 -= 2;
+			if (other1 <= 30) {
+				other1flag = false;
+			}
+		}
 
+	}
+
+	public void resetAllDanmaku(){
+		for (int i = 0; i < MAX; i++){
+			if (type[i] == 0 || flag[i] == 0){
+				continue;
+			}
+			VFX.request(dX[i], dY[i], 5);
+			reset(i);
+		}
 	}
 
 	// リセット
