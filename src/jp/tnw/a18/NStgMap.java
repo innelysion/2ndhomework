@@ -1,7 +1,6 @@
 package jp.tnw.a18;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -66,11 +65,18 @@ public class NStgMap extends GameObject {
 		int MapX = (int)(x / 16);
 		int MapY = (int)((y + (528 * 4) - scrollY) / 16);
 
-		try {
-			hit = mapHitData[MapY][MapX] == 0 ? false : true;
-		} catch (Exception e) {
-			return false;
+		if (MapY >= mapHitData.length || MapX >= mapHitData[MapY].length){
+			hit = false;
+		} else {
+			if (mapHitData[MapY][MapX] == 1){
+				hit = true;
+			}
 		}
+//		try {
+//			hit = mapHitData[MapY][MapX] == 0 ? false : true;
+//		} catch (Exception e) {
+//			return false;
+//		}
 
 		return hit;
 	}

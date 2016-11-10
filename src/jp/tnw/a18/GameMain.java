@@ -33,6 +33,9 @@ public class GameMain {
 
 	NStgUI ui = new NStgUI();
 	GameMessage msgbox = new GameMessage();
+
+	Timer TM = new Timer();
+	timer_TSK MAINLOOP = new timer_TSK();
 	// StgItem item = new StgItem();
 
 	// -----------------------------
@@ -45,15 +48,20 @@ public class GameMain {
 	GameMain() {
 
 		// Setup javaframe window & graphics2D buffer
-		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
+
 		wind.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 閉じﾎﾞﾀﾝ許可
 		wind.setBackground(new Color(0, 0, 0));// 色指定
 		wind.setResizable(false);// ｻｲｽﾞ変更不可
 		wind.setVisible(true);// 表示or非表示
 		sz = wind.getInsets();// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
-		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽﾞ
+		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽ
 		wind.setLocationRelativeTo(null);// 中央に表示
-		wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
+		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
+		try {
+			wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
+		} catch (Exception e) {
+			Input.K_ESC_R = true;// 強制再起動
+		}
 		offimage = wind.getBufferStrategy();
 
 		// For input class
@@ -65,8 +73,8 @@ public class GameMain {
 		// Setup timer task
 		// どこ？ 17[ms]=プログラムが動き出す最初の時間
 		// 17[ms]その後は17[ms]繰り返し
-		Timer TM = new Timer();
-		TM.schedule(new timer_TSK(), 17, 17);
+
+		TM.schedule(MAINLOOP, 17, 17);
 
 	}// GameMain end
 
@@ -74,43 +82,46 @@ public class GameMain {
 	class timer_TSK extends TimerTask {
 
 		public void run() {
+			if (Input.K_ESC_R) {
 
-			///////////////////////////////////////////////////////////////////////////////////////
-			// Game data update
-			input.update(wind);
-			mainUpdate();
+				this.cancel();
 
-			///////////////////////////////////////////////////////////////////////////////////////
-			// Garphics update
+			} else {
+				///////////////////////////////////////////////////////////////////////////////////////
+				// Game data update
+				input.update(wind);
+				mainUpdate();
 
-			Graphics g2 = offimage.getDrawGraphics();// ｸﾞﾗﾌｨｯｸ初期化
-			Graphics2D g = (Graphics2D) g2;
-			Graphics gg2 = offimage.getDrawGraphics();
-			Graphics2D gg = (Graphics2D) gg2;
+				///////////////////////////////////////////////////////////////////////////////////////
+				// Garphics update
 
-			if (offimage.contentsLost() == false) {//
+				Graphics g2 = offimage.getDrawGraphics();// ｸﾞﾗﾌｨｯｸ初期化
+				Graphics2D g = (Graphics2D) g2;
+				Graphics gg2 = offimage.getDrawGraphics();
+				Graphics2D gg = (Graphics2D) gg2;
 
-				// Clear the graphic for next frame
-				// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
-				g.translate(sz.left, sz.top);
-				g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
-				gg.translate(sz.left, sz.top);
-				gg.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
+				if (offimage.contentsLost() == false) {//
 
-				// Main Graphics Update
-				ui.screenEffect(g, wind);
-				drawMain(g);
-				ui.draw(gg, wind);
-				msgbox.draw(gg);
+					// Clear the graphic for next frame
+					// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
+					g.translate(sz.left, sz.top);
+					g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
+					gg.translate(sz.left, sz.top);
+					gg.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
 
-				//Dispose last frame graphics
-				offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
-				g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
-				gg.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
+					// Main Graphics Update
+					ui.screenEffect(g, wind);
+					drawMain(g);
+					ui.draw(gg, wind);
+					msgbox.draw(gg);
 
-				//Stop timertask when restart the game
-				if (Input.K_ESC_R) {
-					this.cancel();
+					// Dispose last frame graphics
+					offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
+					g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
+					gg.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
+
+					// Stop timertask when restart the game
+
 				}
 
 			} // if end ｸﾞﾗﾌｨｯｸOK??
@@ -177,16 +188,23 @@ public class GameMain {
 				Game.mp = null;
 				Game.ui = null;
 				Game.msgbox = null;
-				
+
 				Game.sz = null;
-				Game.offimage.dispose();
-				Game.offimage = null;				
+				if (Game.offimage != null) {
+					Game.offimage.dispose();
+				}
+				Game.offimage = null;
 				Game.wind.dispose();
 				Game.wind = null;
-				
+				Game.TM.cancel();
+				Game.TM.purge();
+				Game.TM = null;
+				Game.MAINLOOP.cancel();
+				Game.MAINLOOP = null;
+
 				Game.finalize();
 				Game = null;
-			
+
 				Game = new GameMain();
 			}
 			Thread.sleep(50);
