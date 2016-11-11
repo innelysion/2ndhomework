@@ -5,7 +5,6 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
@@ -13,7 +12,7 @@ import javax.swing.JFrame;
 public class NStgUI extends GameObject {
 
 	boolean isReadyForPlay;
-	
+
 	private KomaImage bar_hp;
 	private BufferedImage gameover;
 	private Font f = new Font("Default", Font.BOLD, 13);
@@ -33,10 +32,10 @@ public class NStgUI extends GameObject {
 	NStgUI() {
 
 		super(2);
-		
+
 		isReadyForPlay = false;
-		
-		
+
+
 		bar_hp = new KomaImage("Image/dmg.png", 1, 4);
 		gameover = loadImage("Image/g_over.png");
 		opacity = 0.0f;
@@ -53,7 +52,7 @@ public class NStgUI extends GameObject {
 		timerStoryAni = 0;
 
 	}
-	
+
 	public void requestStoryMode(){
 		// story mode
 		if (timerStoryAni == 0) {
@@ -62,7 +61,7 @@ public class NStgUI extends GameObject {
 		}
 
 	}
-	
+
 	public void requestStoryModeWithRotation(){
 		// story mode
 		if (timerStoryAni == 0) {
@@ -71,7 +70,7 @@ public class NStgUI extends GameObject {
 			timerStoryAni = 150;
 		}
 	}
-	
+
 	public void stopStoryMode(){
 		// story mode
 			System.out.println("a");
@@ -86,7 +85,7 @@ public class NStgUI extends GameObject {
 		g.setFont(f);
 
 		drawGameover(g, wind);
-		
+
 
 		if (playStory) {
 
@@ -138,21 +137,22 @@ public class NStgUI extends GameObject {
 
 		}
 		//DB
-		
+
 //		g.setColor(Color.WHITE);// 色指定
-//		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+//		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 //                RenderingHints.VALUE_ANTIALIAS_ON);
 //		g.fillArc(100 - 64, 460 - 64, 128, 128, 0, 180);
-//		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+//		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 //                RenderingHints.VALUE_ANTIALIAS_OFF);
 
 		g.setColor(Color.MAGENTA);
 
+		g.drawString(String.valueOf(SYS.TIMERSTAGE), SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 30);
 		g.drawString("A17張瀚夫 Ver" + GameMain.GAMEVERSON, SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 10);
 
 		//DB END
 	}
-	
+
 	public void update() {
 
 
@@ -222,7 +222,7 @@ public class NStgUI extends GameObject {
 		g.drawImage(gameover, 0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y, 0, 0, 800, 600, wind);
 		g.setComposite((AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)));
 	}
-	
+
 	private void drawRandomLine(Graphics2D g){
 		//find a random angle :
 		double randomAngle = Math.random()*Math.PI*2;
@@ -231,7 +231,7 @@ public class NStgUI extends GameObject {
 		double maxY = Math.max( dY, SYS.WINDOW_SIZE_Y - dY );
 		int diam = (int) Math.sqrt( maxX * maxX + maxY * maxY );
 
-		//Then take the point of this circle at randomAngle : 
+		//Then take the point of this circle at randomAngle :
 		int x2 = (int)(dX + (int) diam*Math.cos( randomAngle ));
 		int y2 = (int)(dY + (int) diam*Math.sin( randomAngle ));
 		g.setColor(new Color(0,255,255));

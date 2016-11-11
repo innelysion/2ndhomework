@@ -26,7 +26,7 @@ public class NStgManager {
 
 	public void update() {
 
-		requestGaming();
+//		requestStory();
 		requestDanmaku();
 		requestEnemy();
 		hitManage();
@@ -46,7 +46,8 @@ public class NStgManager {
 
 	}
 
-	private void requestGaming() {
+	// 会話と特殊演出
+	private void requestStory() {
 		// TODO Auto-generated method stub
 		switch (SYS.TIMERSTAGE) {
 		case 280:
@@ -92,9 +93,9 @@ public class NStgManager {
 		// enemy.request("雑魚A");
 		// }
 
-		if (SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE % 60 == 0 && SYS.TIMERSTAGE < 1150) {
+		if (SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE % 60 == 0 && SYS.TIMERSTAGE < 1650) {
 			enemy.request("demo01");
-			if (SYS.TIMERSTAGE >= 650){
+			if (SYS.TIMERSTAGE >= 1000){
 				danmaku.other1direction = true;
 			}
 		}
@@ -112,6 +113,7 @@ public class NStgManager {
 
 			if (enemy.flag[i] == 1 && enemy.type[i] == 10 && SYS.TIMERSTAGE % 2 == 0) {
 				danmaku.request("自機狙いバリア弾", 0, enemy, i, 18, 24);
+				VFX.request(enemy.dX[i] + 24, enemy.dY[i] + 35, 5);
 			}
 		}
 
@@ -156,6 +158,7 @@ public class NStgManager {
 		}
 	}
 
+	// 自機＆背景との当たり判定
 	private void playerHitMap() {
 		// TODO Auto-generated method stub
 		if (map.isMapHit(NStgPlayer.dX + 48, NStgPlayer.dY + 48)) {

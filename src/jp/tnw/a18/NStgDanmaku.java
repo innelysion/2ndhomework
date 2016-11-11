@@ -59,7 +59,7 @@ public class NStgDanmaku extends NStgUnit {
 
 		switch (danmakuType) {
 		case "自機狙い弾いA":
-			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 3, 15, 100);
+			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 1, 15, 100);
 			break;
 		case "自機狙いバリア弾":
 
@@ -99,7 +99,12 @@ public class NStgDanmaku extends NStgUnit {
 				effectACT_NOR_A(i);
 				break;
 			case 10:// JKN01
-				moveCir(i, SYS.TIMERSTAGE > 250 && SYS.TIMERSTAGE < 1150 ? (other1direction ? 0.7 : -0.7) : 0);
+				if (timerAni[i] % 30 == 0 && imageIndex[i] < 187) {
+					imageIndex[i] = (imageIndex[i] > 185) ? 181 : imageIndex[i] + 1;
+				} else if (timerAni[i] % 30 == 0 && imageIndex[i] >= 187){
+					imageIndex[i] = (imageIndex[i] > 191) ? 187 : imageIndex[i] + 1;
+				}
+				moveCir(i, SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE < 1650 ? (other1direction ? 0.85 : -0.85) : 0);
 				resetAuto(i);
 				break;
 			}
@@ -172,7 +177,7 @@ public class NStgDanmaku extends NStgUnit {
 			spdY[i] = spd;
 
 			isVisible[i] = true;
-			imageIndex[i] = 161;
+			imageIndex[i] = other1direction ? 181 : 187;
 
 			isHitable[i] = true;
 			hitCir[i] = 8;
