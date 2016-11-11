@@ -59,14 +59,14 @@ public class NStgDanmaku extends NStgUnit {
 
 		switch (danmakuType) {
 		case "自機狙い弾いA":
-			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 1, 15, 100);
+			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 1, 15, 100);
 			break;
 		case "自機狙いバリア弾":
 
-			danmaku_JKN_A(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 2, other1, 500);
+			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 2, other1, 500);
 			break;
 		case "花火A":
-			danmaku_NOR_A(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
+			reqNor01(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
 			break;
 		case "ビームA":
 			// danmaku_BEAM_A(danmakuPattern, fromUnit, index, offsetX,
@@ -75,7 +75,7 @@ public class NStgDanmaku extends NStgUnit {
 
 		// ここから演出用弾幕
 		case "花火しっぽ":
-			effect_NOR_A(fromUnit.dX[index], fromUnit.dY[index]);
+			reqEffect01(fromUnit.dX[index], fromUnit.dY[index]);
 			break;
 		}
 
@@ -93,10 +93,10 @@ public class NStgDanmaku extends NStgUnit {
 			// 様々な弾幕のアクション
 			switch (type[i]) {
 			case 1:// 花火A
-				danmakuACT_NOR_A(i);
+				actNor01(i);
 				break;
 			case 1000:// 花火しっぽ
-				effectACT_NOR_A(i);
+				actEffect01(i);
 				break;
 			case 10:// JKN01
 				if (timerAni[i] % 30 == 0 && imageIndex[i] < 187) {
@@ -129,15 +129,9 @@ public class NStgDanmaku extends NStgUnit {
 
 	}
 
-	public void resetAllDanmaku(){
-		for (int i = 0; i < MAX; i++){
-			if (type[i] == 0 || flag[i] == 0){
-				continue;
-			}
-			VFX.request(dX[i], dY[i], 5);
-			reset(i);
-		}
-	}
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから機能的関数◆ ///////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
 
 	// リセット
 	public void reset(int index) {
@@ -153,14 +147,40 @@ public class NStgDanmaku extends NStgUnit {
 		}
 	}
 
-	// AUTOリセット
+	// 画面外に行くと自動リセット
 	public void resetAuto(int index) {
 		if (isOutBorder(this, index)) {
 			reset(index);
 		}
 	}
 
-	private void danmaku_JKN_A(double gX, double gY, int qty, double angleBetween, double spd) {
+	// すべての敵弾を強制リセット
+	public void resetAllDanmaku(){
+		for (int i = 0; i < MAX; i++){
+			if (type[i] == 0 || flag[i] == 0){
+				continue;
+			}
+			VFX.request(dX[i], dY[i], 5);
+			reset(i);
+		}
+	}
+
+	// 弾幕配列の中に待機しているものを探す
+	private int findIdleDanmaku() {
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				return i;
+			}
+		}
+		System.out.println("STGWarning: <DANMAKU> out of limit");
+		return MAX;
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから弾幕の初期設定◆ ///////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	private void reqJKN01(double gX, double gY, int qty, double angleBetween, double spd) {
 
 		int i;
 		// 自機狙い角度
@@ -169,7 +189,7 @@ public class NStgDanmaku extends NStgUnit {
 
 		for (int j = 0; j < qty; j++) {
 
-			i = findVoidDanmaku();
+			i = findIdleDanmaku();
 			imageIndex[i] = 235;
 			dX[i] = gX;
 			dY[i] = gY;
@@ -193,11 +213,11 @@ public class NStgDanmaku extends NStgUnit {
 
 	}
 
-	private void danmaku_BEAM_A(double gX, double gY) {
+	private void reqBeamLazer01(double gX, double gY) {
 
 	}
 
-	private void danmaku_NOR_A(int dmPattern, double gX, double gY) {
+	private void reqNor01(int dmPattern, double gX, double gY) {
 		int[][] motionAngle = { //
 				//
 				{ 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 999 }, //
@@ -240,7 +260,11 @@ public class NStgDanmaku extends NStgUnit {
 		VFX.request(gX + 8, gY + 8, 4);
 	}// funtion end
 
-	private void effect_NOR_A(double gX, double gY) {
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから演出用弾幕の初期設定（particleのようなもの）◆ /////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	private void reqEffect01(double gX, double gY) {
 
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 && flag[i] == 0) {
@@ -264,7 +288,11 @@ public class NStgDanmaku extends NStgUnit {
 
 	}
 
-	private void danmakuACT_NOR_A(int index) {
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから動作パターン◆ /////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	private void actNor01(int index) {
 		if (timerReq % 4 == 0) {
 			imageIndex[index] = imageIndex[index] < 37 || imageIndex[index] >= 40 ? 37 : imageIndex[index] + 1;
 		}
@@ -272,21 +300,15 @@ public class NStgDanmaku extends NStgUnit {
 		resetAuto(index);
 	}
 
-	private void effectACT_NOR_A(int index) {
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから演出用弾幕動作パターン◆ ///////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	private void actEffect01(int index) {
 		opacity[index] -= 0.1f;
 		if (opacity[index] <= 0.1f) {
 			reset(index);
 		}
-	}
-
-	private int findVoidDanmaku() {
-		for (int i = 0; i < MAX; i++) {
-			if (type[i] == 0 || flag[i] == 0) {
-				return i;
-			}
-		}
-		System.out.println("STGWarning: <DANMAKU> out of limit");
-		return MAX;
 	}
 
 }

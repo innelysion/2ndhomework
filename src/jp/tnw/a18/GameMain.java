@@ -45,7 +45,7 @@ public class GameMain {
 	// ・windowの場所
 	// -----------------------------
 
-	GameMain() {
+	GameMain() throws InterruptedException {
 
 		// Setup javaframe window & graphics2D buffer
 		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
@@ -56,10 +56,12 @@ public class GameMain {
 		sz = wind.getInsets();// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
 		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽ
 		wind.setLocationRelativeTo(null);// 中央に表示
+
+		Thread.sleep(10);
 		try {
 			wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
 		} catch (Exception e) {
-			Input.K_ESC_R = true;// 強制再起動
+			Input.K_ESC_R = true;// もしﾀﾞﾌﾞﾙﾊﾞｯﾌｧ生成失敗すると強制再起動
 		}
 		offimage = wind.getBufferStrategy();
 
@@ -77,7 +79,7 @@ public class GameMain {
 
 	}// GameMain end
 
-	// ◆メーン処理クラス◆//
+	// ◆メーン処理繰り返しタスク◆//
 	class timer_TSK extends TimerTask {
 
 		public void run() {

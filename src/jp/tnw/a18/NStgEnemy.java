@@ -47,20 +47,19 @@ public class NStgEnemy extends NStgUnit {
 
 		switch (enemyType) {
 		case "雑魚A":
-			enemy_ZAKO_A();
+			reqTestA();
 			break;
 		case "雑魚B":
-			enemy_ZAKO_B();
+			reqTestB();
 			break;
 		case "demo01":
-			e01();
+			reqE01();
 			break;
 		}
 
 	}
 
 	public void update() {
-
 
 		// 雑魚らの動くパターン
 		for (int i = 0; i < MAX; i++) {
@@ -79,15 +78,13 @@ public class NStgEnemy extends NStgUnit {
 				break;
 
 			case 2:// 雑魚B
-				enemy_ACTION_ZAKOB(i);
+				actTestB(i);
 				break;
 
-			case 10://demo01
-				e01action(i);
+			case 10:// demo01
+				actE01(i);
 				break;
 			}
-
-
 
 			// HP = 0なら消滅
 			if (hp[i] <= 0) {
@@ -104,6 +101,10 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから機能的関数◆ ///////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
 	// リセット
 	public void reset(int index) {
 
@@ -118,13 +119,14 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
-	// AUTOリセット
+	// 画面外に行くと自動リセット
 	public void resetAuto(int index) {
 		if (isOutBorder(this, index)) {
 			reset(index);
 		}
 	}
 
+	// すべて雑魚敵を自爆
 	public void killAllEnemy() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < MAX; i++) {
@@ -135,7 +137,8 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
-	private int findVoidEnemy() {
+	// 敵配列の中に待機しているものを探す
+	private int findIdleEnemy() {
 		for (int i = 0; i < MAX; i++) {
 			if (type[i] == 0 || flag[i] == 0) {
 				return i;
@@ -145,13 +148,17 @@ public class NStgEnemy extends NStgUnit {
 		return MAX;
 	}
 
-	// demo敵01
-	private void e01() {
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから敵の初期設定◆ /////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	// サモン!DemoStage敵01
+	private void reqE01() {
 
 		int qtycount = 2;
 		while (qtycount > 0) {
 
-			int i = findVoidEnemy();
+			int i = findIdleEnemy();
 			if (qtycount == 2) {
 				dX[i] = 150 + Math.random() * 100;
 				dY[i] = -48;
@@ -186,8 +193,8 @@ public class NStgEnemy extends NStgUnit {
 
 	}
 
-	// TEST雑魚A
-	private void enemy_ZAKO_A() {
+	// サモン!雑魚A
+	private void reqTestA() {
 
 		int qtycount = 2; // 一回出す敵の数
 
@@ -227,8 +234,8 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
-	// TEST雑魚B
-	private void enemy_ZAKO_B() {
+	// サモン!雑魚B
+	private void reqTestB() {
 
 		int qtycount = 3; // 一回出す敵の数
 
@@ -269,15 +276,20 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
-	private void e01action(int index){
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから動作パターン◆ /////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	// 動作パターンDemoStage敵01
+	private void actE01(int index) {
 		if (timerAni[index] % 10 == 0) {
 			imageIndex[index] = (imageIndex[index] > 69) ? 61 : imageIndex[index] + 1;
 		}
 
-		switch (flag[index]){
+		switch (flag[index]) {
 		case 1:
 			move(index);
-			if (spdY[index] <= 0){
+			if (spdY[index] <= 0) {
 				spdX[index] = 0;
 				spdY[index] = 0;
 				accX[index] = dX[index] > NStgPlayer.dX ? 6 : -6;
@@ -286,7 +298,7 @@ public class NStgEnemy extends NStgUnit {
 			}
 			break;
 		case 2:
-			if (spdY[index] < -10){
+			if (spdY[index] < -10) {
 				accY[index] = -50;
 			}
 			move(index);
@@ -295,8 +307,8 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
-	// TEST雑魚Bの行動
-	private void enemy_ACTION_ZAKOB(int index) {
+	// 動作パターン雑魚B
+	private void actTestB(int index) {
 
 		if (timerAni[index] % 10 == 0) {
 			imageIndex[index] = (imageIndex[index] > 49) ? 41 : imageIndex[index] + 1;

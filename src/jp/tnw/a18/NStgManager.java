@@ -93,9 +93,10 @@ public class NStgManager {
 		// enemy.request("雑魚A");
 		// }
 
-		if (SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE % 60 == 0 && SYS.TIMERSTAGE < 1650) {
+		//弾幕バリア攻撃の雑魚
+		if (SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE % 60 == 0 && SYS.TIMERSTAGE < 1500) {
 			enemy.request("demo01");
-			if (SYS.TIMERSTAGE >= 1000){
+			if (SYS.TIMERSTAGE >= 900){
 				danmaku.other1direction = true;
 			}
 		}
@@ -111,7 +112,7 @@ public class NStgManager {
 				danmaku.request("花火A", SYS.TIMERSTAGE % 4, enemy, i, 18, 24);
 			}
 
-			if (enemy.flag[i] == 1 && enemy.type[i] == 10 && SYS.TIMERSTAGE % 2 == 0) {
+			if (enemy.type[i] == 10 && enemy.timerLife[i] < 300) {
 				danmaku.request("自機狙いバリア弾", 0, enemy, i, 18, 24);
 				VFX.request(enemy.dX[i] + 24, enemy.dY[i] + 35, 5);
 			}
@@ -191,7 +192,6 @@ public class NStgManager {
 						VFX.request(shoot.dX[i] + 8, shoot.dY[i] + 8, 7);
 						shoot.reset(i);
 					}
-
 				}
 			}
 		}

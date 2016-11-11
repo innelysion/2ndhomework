@@ -47,9 +47,9 @@ public class NStgMap extends GameObject {
 
 	public void update() {
 		if (scrollY < 528 * 4 && rolling) {
-			scrollY += 0.25;
+			scrollY += 0.4;
 			for (int i = 0; i < MAX; i++) {
-				dY[i] += 0.25;
+				dY[i] += 0.4;
 			}
 		}
 

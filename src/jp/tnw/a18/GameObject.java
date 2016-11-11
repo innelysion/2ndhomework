@@ -4,8 +4,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
-//◆コマ画像をもとにして全てのスーパークラス◆//
-public class GameObject implements GameTools {
+//◆コマ画像のスーパークラス◆//
+public abstract class GameObject implements GameTools {
 
 	// オブジェクトの数
 	int MAX;
