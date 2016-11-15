@@ -1,6 +1,5 @@
 package jp.tnw.a18;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
@@ -74,7 +73,7 @@ public class NStgPlayer extends NStgUnit {
 		timerFacing = 0;
 		timerBombing = 0;
 		BOMBING = false;
-		
+
 		CONFUSING = false;
 
 		// デバッグ用////////////////
@@ -289,20 +288,6 @@ public class NStgPlayer extends NStgUnit {
 	}
 
 	private void playerEffects() {
-
-		if (SYS.TIMERSTAGE < 150) {
-
-			dY--;
-
-		}
-
-		if (SYS.TIMERSTAGE == 150) {
-
-			CONTROLLABLE = true;
-			FLASHTIME = 200;
-			STOPSHOOT = false;
-
-		}
 
 		// 自機爆発
 		if (SYS.GAMEOVERING) {

@@ -11,14 +11,12 @@ public class NStgOptions extends NStgUnit {
 		for (int i = 0; i < MAX; i++) {
 			isActive[i] = false;
 		}
-		
-		//dbug
-		isActive[0] = isActive[4] = true;
-		
+
+
 	}
 
 	public void update() {
-		
+
 		int shift = Input.K_SHIFT ? 8 : 26;
 
 		for (int i = 0; i < MAX; i++) {

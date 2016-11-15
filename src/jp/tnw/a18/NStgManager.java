@@ -44,7 +44,7 @@ public class NStgManager {
 
 	public void update() {
 
-		// requestStory();
+		requestStory();
 		requestDanmaku();
 		requestEnemy();
 		hitManage();
@@ -54,10 +54,11 @@ public class NStgManager {
 
 		// option shoot
 		for (int i = 0; i < options.MAX; i++) {
-			if (options.isActive[i] && ((options.optionsAngle[i] % 60 == 0) || (options.optionsAngle[i] % 300 == 0))) {
+			if (!NStgPlayer.STOPSHOOT && options.isActive[i] && ((options.optionsAngle[i] % 60 == 0) || (options.optionsAngle[i] % 300 == 0))) {
 				shoot.optionShoot(options.dX[i], options.dY[i]);
 			}
 		}
+
 		// dbug
 		for (int i = 0; i < options.MAX; i++) {
 			if (SYS.TIMERSTAGE % 120 == 0 && !options.isActive[i]) {
@@ -65,6 +66,16 @@ public class NStgManager {
 				break;
 			}
 		}
+		if (SYS.TIMERSTAGE < 30) {
+			NStgPlayer.dY--;
+		}
+		if (SYS.TIMERSTAGE == 100) {
+			NStgPlayer.CONTROLLABLE = true;
+			NStgPlayer.FLASHTIME = 200;
+			NStgPlayer.STOPSHOOT = false;
+		}
+		// dbug end
+
 
 		// items effect timer
 		THEWORLD = THEWORLD <= 0 ? 0 : THEWORLD - 1;
@@ -120,15 +131,22 @@ public class NStgManager {
 			}
 		}
 
-		g.setFont(f);
-		g.setColor(Color.MAGENTA);
 		// g.drawString("", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y -
 		// 110);
 		// g.drawString("", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y -
 		// 90);
+		g.setFont(f);
+		g.setColor(Color.MAGENTA);
 		if (NStgPlayer.CONFUSING) {
 			g.drawString("反転中", (int) NStgPlayer.dX + 28, (int) NStgPlayer.dY + 30);
 		}
+
+	}
+
+	public void drawDebugMsg(Graphics2D g, JFrame wind){
+
+		g.setFont(f);
+		g.setColor(Color.MAGENTA);
 		g.drawString("先とったアイテム: " + lastItem, 100, SYS.WINDOW_SIZE_Y - 70);
 		g.drawString("活動敵弾数: " + String.valueOf(danmaku.activing), 100, SYS.WINDOW_SIZE_Y - 50);
 		g.drawString("ステージタイマー: " + String.valueOf(SYS.TIMERSTAGE), 100, SYS.WINDOW_SIZE_Y - 30);
@@ -140,20 +158,20 @@ public class NStgManager {
 	private void requestStory() {
 		// TODO Auto-generated method stub
 		switch (SYS.TIMERSTAGE) {
-		case 280:
+		case 3400:
 			for (int i = 0; i < enemy.MAX; i++) {
 				enemy.killAllEnemy();
 				danmaku.resetAllDanmaku();
 			}
 			break;
-		case 300:
+		case 3500:
 			ui.requestStoryModeWithRotation();
 			break;
 		}
 
 		switch (stageFlag) {
 		case 0:
-			if (SYS.TIMERSTAGE > 300 && ui.isReadyForPlay) {
+			if (SYS.TIMERSTAGE > 3500 && ui.isReadyForPlay) {
 				msgbox.request(0);
 				stageFlag++;
 			}
@@ -179,7 +197,7 @@ public class NStgManager {
 			break;
 		}
 
-		 if (SYS.TIMERSTAGE % 15 == 0 && !enemy.freezing && SYS.TIMERSTAGE > 2800) {
+		 if (SYS.TIMERSTAGE % 15 == 0 && !enemy.freezing && SYS.TIMERSTAGE > 2800 && SYS.TIMERSTAGE < 3400) {
 		 enemy.request("雑魚A");
 		 }
 

@@ -58,7 +58,7 @@ public class GameMain {
 		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽ
 		wind.setLocationRelativeTo(null);// 中央に表示
 
-		
+
 		try {
 			Thread.sleep(10);
 			wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
@@ -90,44 +90,42 @@ public class GameMain {
 				this.cancel();
 
 			} else {
-				///////////////////////////////////////////////////////////////////////////////////////
+
 				// Game data update
 				input.update(wind);
 				mainUpdate();
 
-				///////////////////////////////////////////////////////////////////////////////////////
-				// Garphics update
-
-				Graphics g2 = offimage.getDrawGraphics();// ｸﾞﾗﾌｨｯｸ初期化
+				// Graphics for new frame
+				Graphics g2 = offimage.getDrawGraphics();
 				Graphics2D g = (Graphics2D) g2;
 				Graphics gg2 = offimage.getDrawGraphics();
 				Graphics2D gg = (Graphics2D) gg2;
 
-				if (offimage.contentsLost() == false) {//
+				if (offimage.contentsLost() == false) {
 
-					// Clear the graphic for next frame
+					// Clear the prev frame
 					// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ補正
 					g.translate(sz.left, sz.top);
-					g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
 					gg.translate(sz.left, sz.top);
+					g.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
 					gg.clearRect(0, 0, SYS.WINDOW_SIZE_X, SYS.WINDOW_SIZE_Y);
 
 					// Main Graphics Update
 					ui.screenEffect(g, wind);
 					drawMain(g);
+					manager.drawHit(g, wind);
 					ui.draw(gg, wind);
 					msgbox.draw(gg);
+					manager.drawDebugMsg(gg, wind);
 
 					// Dispose last frame graphics
 					offimage.show();// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧの切り替え
 					g.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 					gg.dispose();// ｸﾞﾗﾌｨｯｸｲﾝｽﾀﾝｽの破棄
 
-					// Stop timertask when restart the game
-
 				}
-				
-		        
+
+
 			} // if end ｸﾞﾗﾌｨｯｸOK??
 
 		}// run end
@@ -142,7 +140,6 @@ public class GameMain {
 			dm.drawKoma(g, wind);
 			it.drawKoma(g, wind);
 			vfx.draw(g, wind);
-			manager.drawHit(g, wind);
 
 		}
 

@@ -14,16 +14,16 @@ public class NStgPlayerShoot extends NStgDanmaku {
 	private boolean optionActive[] = {false, false, false, false, false, false, false, false};
 
 	public void update() {
-		
+
 
 		if (((SYS.MOUSE_CONTROLING) || (!SYS.MOUSE_CONTROLING)) && (!NStgPlayer.STOPSHOOT)) {
 			playerShoot();
 		}
-		
+
 		if (NStgPlayer.BOMBING){
 			playerShoot();
 		}
-		
+
 
 		for (int i = 0; i < 8; i++) {
 			if (Input.K_SHIFT) {
@@ -40,7 +40,7 @@ public class NStgPlayerShoot extends NStgDanmaku {
 				optionAngle[i] += 2.5;
 			}
 		}
-		
+
 
 		for (int i = 0; i < MAX; i++) {
 
@@ -49,10 +49,10 @@ public class NStgPlayerShoot extends NStgDanmaku {
 			dX[i] += SYS.FRAME_TIME * spdX[i];
 			dY[i] += SYS.FRAME_TIME * spdY[i];
 			angle[i]++;
-			
+
 			if (type[i] == 1000 && SYS.TIMERSTAGE % 2 == 0){
 				imageIndex[i] = imageIndex[i] > 123 ? 121 : imageIndex[i] + 1;
-			} 
+			}
 
 			if (type[i] == 4 && (dX[i] < SYS.WINDOW_SIZE_X - 16)) {
 
@@ -104,7 +104,7 @@ public class NStgPlayerShoot extends NStgDanmaku {
 
 		}
 	}
-	
+
 	public void optionShoot(double gX, double gY) {
 		for (int i = 0; i < MAX; i++) {
 			if (flag[i] == 0 && type[i] == 0) {
@@ -113,6 +113,7 @@ public class NStgPlayerShoot extends NStgDanmaku {
 				spdY[i] = -300;
 				type[i] = 1000;
 				flag[i] = 1000;
+				opacity[i] = 1.0f;
 				imageIndex[i] = 121;
 				isVisible[i] = true;
 				isHitable[i] = true;
@@ -355,7 +356,7 @@ public class NStgPlayerShoot extends NStgDanmaku {
 //							}
 //						}
 //					}
-					
+
 				}
 			}
 

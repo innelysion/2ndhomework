@@ -27,7 +27,7 @@ public class NStgMap extends GameObject {
 		image[4] = loadImage("Maps/StgMap_01_04.png");
 
 		rolling = true;
-		scrollSpd = 0.4;
+		scrollSpd = 0.2;
 
 		for (int i = 0; i < MAX; i++) {
 			isVisible[i] = true;

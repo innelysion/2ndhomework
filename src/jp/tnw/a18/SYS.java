@@ -27,7 +27,7 @@ public class SYS {
 
 		switch (platform) {
 		case "PC":
-			TIMERSTAGE = 0;
+			TIMERSTAGE = -200;
 			FRAME_TIME = 0.017;
 			MOUSE_CONTROLING = false;
 			WINDOW_SIZE_X = 960;
