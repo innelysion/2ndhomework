@@ -11,6 +11,7 @@ public class NStgMap extends GameObject {
 
 	double scrollX;
 	double scrollY;
+	double scrollSpd;
 
 	boolean rolling;
 
@@ -26,6 +27,7 @@ public class NStgMap extends GameObject {
 		image[4] = loadImage("Maps/StgMap_01_04.png");
 
 		rolling = true;
+		scrollSpd = 0.4;
 
 		for (int i = 0; i < MAX; i++) {
 			isVisible[i] = true;
@@ -47,9 +49,9 @@ public class NStgMap extends GameObject {
 
 	public void update() {
 		if (scrollY < 528 * 4 && rolling) {
-			scrollY += 0.4;
+			scrollY += scrollSpd;
 			for (int i = 0; i < MAX; i++) {
-				dY[i] += 0.4;
+				dY[i] += scrollSpd;
 			}
 		}
 

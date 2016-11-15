@@ -23,9 +23,9 @@ public class SYS {
 	// for mobile screen
 	static double Xx, Yy;
 
-	SYS(String platform){
+	SYS(String platform) {
 
-		switch (platform){
+		switch (platform) {
 		case "PC":
 			TIMERSTAGE = 0;
 			FRAME_TIME = 0.017;
@@ -44,7 +44,7 @@ public class SYS {
 
 interface GameTools {
 
-	//画像ファイルを読み込む
+	// 画像ファイルを読み込む
 	public default BufferedImage loadImage(String filename) {
 		BufferedImage image = null;
 		try {
@@ -55,7 +55,7 @@ interface GameTools {
 		return image;
 	}
 
-	//コマ画像を描画
+	// コマ画像を描画
 	public default void drawKoma(Graphics2D g, JFrame window, KomaImage image, int imageIndex, double dX, double dY,
 			float opacity) {
 
@@ -93,14 +93,14 @@ interface GameTools {
 
 	}
 
-	//画面外判断
+	// 画面外判断
 	public default boolean isOutBorder(int x, int y, int xSize, int ySize) {
 
 		return (x < 0 - xSize || x > SYS.WINDOW_SIZE_X || y < -SYS.WINDOW_SIZE_X - ySize || y > SYS.WINDOW_SIZE_X);
 
 	}
 
-	//画面端との接触判断
+	// 画面端との接触判断
 	public default boolean isTouchBorder(int x, int y, int xSize, int ySize) {
 
 		return (x < 0 || x > SYS.WINDOW_SIZE_X - xSize || y < 0 || y > SYS.WINDOW_SIZE_Y - ySize);
@@ -108,7 +108,6 @@ interface GameTools {
 	}
 
 }
-
 
 
 class KomaImage implements GameTools {

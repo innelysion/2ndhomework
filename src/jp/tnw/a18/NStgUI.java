@@ -145,11 +145,6 @@ public class NStgUI extends GameObject {
 //		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 //                RenderingHints.VALUE_ANTIALIAS_OFF);
 
-		g.setColor(Color.MAGENTA);
-
-		g.drawString(String.valueOf(SYS.TIMERSTAGE), SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 30);
-		g.drawString("A17張瀚夫 Ver" + GameMain.GAMEVERSON, SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y - 10);
-
 		//DB END
 	}
 
@@ -159,6 +154,9 @@ public class NStgUI extends GameObject {
 		// opacito of gameover image
 		if (SYS.GAMEOVERING) {
 			opacity = opacity >= 0.99f ? 1.0f : opacity + 0.004f;
+			if (opacity >= 0.99f){
+				Input.K_ESC_R = true;
+			}
 		}
 
 		// red hpbar update

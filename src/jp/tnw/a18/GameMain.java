@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 //◆MAIN◆//
 public class GameMain {
 
-	final static double GAMEVERSON = 0.12111;
+	//final static double GAMEVERSON = 0.14112;
 	SYS setting = new SYS("PC");
 	JFrame wind = new JFrame("Shooooooooooooooooting!!!");// NEW JFrame
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
@@ -24,19 +24,20 @@ public class GameMain {
 	Input input = new Input();
 	VFX vfx = new VFX();
 
-	NStgManager manager = new NStgManager();
 	NStgPlayerShoot ps = new NStgPlayerShoot();
+	NStgManager manager = new NStgManager();
 	NStgDanmaku dm = new NStgDanmaku();
+	NStgOptions op = new NStgOptions();
 	NStgPlayer pr = new NStgPlayer();
 	NStgEnemy en = new NStgEnemy();
+	NStgItem it = new NStgItem();
 	NStgMap mp = new NStgMap();
-
 	NStgUI ui = new NStgUI();
+
 	GameMessage msgbox = new GameMessage();
 
 	Timer TM = new Timer();
 	timer_TSK MAINLOOP = new timer_TSK();
-	// StgItem item = new StgItem();
 
 	// -----------------------------
 	// 初期化用の関数
@@ -45,7 +46,7 @@ public class GameMain {
 	// ・windowの場所
 	// -----------------------------
 
-	GameMain() throws InterruptedException {
+	GameMain() {
 
 		// Setup javaframe window & graphics2D buffer
 		wind.setIgnoreRepaint(true);// JFrameの標準書き換え処理無効
@@ -57,8 +58,9 @@ public class GameMain {
 		wind.setSize(SYS.WINDOW_SIZE_X + sz.left + sz.right, SYS.WINDOW_SIZE_Y + sz.top + sz.bottom);// ｳｨﾝﾄﾞｳのｻｲｽ
 		wind.setLocationRelativeTo(null);// 中央に表示
 
-		Thread.sleep(10);
+		
 		try {
+			Thread.sleep(10);
 			wind.createBufferStrategy(2);// 2でﾀﾞﾌﾞﾙ
 		} catch (Exception e) {
 			Input.K_ESC_R = true;// もしﾀﾞﾌﾞﾙﾊﾞｯﾌｧ生成失敗すると強制再起動
@@ -124,21 +126,23 @@ public class GameMain {
 					// Stop timertask when restart the game
 
 				}
-
+				
+		        
 			} // if end ｸﾞﾗﾌｨｯｸOK??
 
 		}// run end
 
 		private void drawMain(Graphics2D g) {
 
+			// 描画
 			mp.drawImage(g, wind);
 			en.drawKoma(g, wind);
 			ps.drawKoma(g, wind);
-			// item.drawImage(g, wind);
 			pr.draw(g, wind);
 			dm.drawKoma(g, wind);
-
+			it.drawKoma(g, wind);
 			vfx.draw(g, wind);
+			manager.drawHit(g, wind);
 
 		}
 
@@ -148,8 +152,10 @@ public class GameMain {
 			manager.map = mp;
 			manager.enemy = en;
 			manager.danmaku = dm;
+			manager.options = op;
 			manager.shoot = ps;
 			manager.ui = ui;
+			manager.item = it;
 			manager.msgbox = msgbox;
 
 			// stage main (4200frame made)
@@ -157,12 +163,13 @@ public class GameMain {
 
 			// All Update Here
 			mp.update();
-			vfx.update();
-			ps.update();
-			dm.update();
 			en.update();
+			ps.update();
+			op.update();
 			pr.update();
-			// item.update();
+			dm.update();
+			it.update();
+			vfx.update();
 			ui.update();
 			msgbox.update();
 
@@ -202,7 +209,6 @@ public class GameMain {
 				Game.TM.cancel();
 				Game.TM.purge();
 				Game.TM = null;
-
 
 				Game.finalize();
 				Game = null;

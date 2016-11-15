@@ -7,6 +7,7 @@ public class NStgEnemy extends NStgUnit {
 	int flag[];
 	int type[]; // 0=待機 1=雑魚A 2=
 	int action[][];
+	int itemDrop[];
 
 	// ステータス
 	int hp[];
@@ -18,6 +19,9 @@ public class NStgEnemy extends NStgUnit {
 	private double timerReq;
 	private int counterReq;
 
+	// KISS OF ANGEL
+	boolean freezing;
+
 	NStgEnemy() {
 
 		super(200); // 敵数の上限
@@ -27,6 +31,7 @@ public class NStgEnemy extends NStgUnit {
 		action = new int[MAX][50]; // アクションは50個まで
 		hp = new int[MAX];
 		timerLife = new int[MAX];
+		itemDrop = new int[MAX];
 
 		for (int i = 0; i < MAX; i++) {
 
@@ -40,11 +45,12 @@ public class NStgEnemy extends NStgUnit {
 			for (int j = 0; j < 50; j++) {
 				action[i][j] = 0;
 			}
+
+			freezing = false;
 		}
 	}
 
 	public void request(String enemyType) {
-
 		switch (enemyType) {
 		case "雑魚A":
 			reqTestA();
@@ -56,7 +62,6 @@ public class NStgEnemy extends NStgUnit {
 			reqE01();
 			break;
 		}
-
 	}
 
 	public void update() {
@@ -92,60 +97,15 @@ public class NStgEnemy extends NStgUnit {
 				reset(i);
 			}
 
-			timerLife[i]++;
+			if (!freezing) {
+				timerLife[i]++;
+			}
 			timerAni[i]++;
 
 		}
 
 		timerReq++;
 
-	}
-
-	/////////////////////////////////////////////////////////////////////////
-	// ◆ここから機能的関数◆ ///////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////
-
-	// リセット
-	public void reset(int index) {
-
-		super.reset(index);
-		flag[index] = 0;
-		type[index] = 0;
-		hp[index] = 1;
-		timerLife[index] = 0;
-		for (int j = 0; j < 50; j++) {
-			action[index][j] = 0;
-		}
-
-	}
-
-	// 画面外に行くと自動リセット
-	public void resetAuto(int index) {
-		if (isOutBorder(this, index)) {
-			reset(index);
-		}
-	}
-
-	// すべて雑魚敵を自爆
-	public void killAllEnemy() {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < MAX; i++) {
-			if (type[i] == 0 || flag[i] == 0) {
-				continue;
-			}
-			hp[i] = 0;
-		}
-	}
-
-	// 敵配列の中に待機しているものを探す
-	private int findIdleEnemy() {
-		for (int i = 0; i < MAX; i++) {
-			if (type[i] == 0 || flag[i] == 0) {
-				return i;
-			}
-		}
-		System.out.println("STGWarning: <ENEMY> out of limit");
-		return MAX;
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -166,6 +126,8 @@ public class NStgEnemy extends NStgUnit {
 				spdY[i] = 200 + Math.random() * 50 - 25;
 				accX[i] = -spdX[i] / 3;
 				accY[i] = -100;
+				itemDrop[i] = Math.random() > 0.6 ? 1 : 5;
+
 			} else if (qtycount == 1) {
 				dX[i] = SYS.WINDOW_SIZE_X - 150 - Math.random() * 100;
 				dY[i] = -48;
@@ -173,6 +135,8 @@ public class NStgEnemy extends NStgUnit {
 				spdY[i] = 200 + Math.random() * 50 - 25;
 				accX[i] = -spdX[i] / 3;
 				accY[i] = -100;
+				itemDrop[i] = Math.random() > 0.4 ? 3 : 4;
+
 			}
 
 			isVisible[i] = true;
@@ -243,7 +207,7 @@ public class NStgEnemy extends NStgUnit {
 			if (type[i] != 0 || flag[i] != 0) {
 				continue;
 			}
-			// 主処理/////////////////////////
+
 			if (qtycount == 3) {
 				dX[i] = 0 + 150;
 				spdY[i] = 150;
@@ -256,7 +220,7 @@ public class NStgEnemy extends NStgUnit {
 			}
 			dY[i] = -48;
 			spdX[i] = 0;
-			// 主処理END///////////////////////
+
 			isVisible[i] = true;
 			imageIndex[i] = 41;
 
@@ -268,6 +232,8 @@ public class NStgEnemy extends NStgUnit {
 			hp[i] = 150;
 			type[i] = 2;
 			flag[i] = 1;
+			
+			itemDrop[i] = 6;
 
 			qtycount--;
 			if (qtycount == 0) {
@@ -336,6 +302,67 @@ public class NStgEnemy extends NStgUnit {
 			resetAuto(index);
 		}
 
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから機能的関数◆ ///////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	// KISS OF ANGEL
+	public void move(int i) {
+		if (!freezing) {
+			super.move(i);
+		}
+	}
+
+	public void moveCir(int i, double rotateSpd) {
+		if (!freezing) {
+			super.moveCir(i, rotateSpd);
+		}
+	}
+
+	// リセット
+	public void reset(int index) {
+
+		super.reset(index);
+		flag[index] = 0;
+		type[index] = 0;
+		hp[index] = 1;
+		timerLife[index] = 0;
+		itemDrop[index] = 0;
+		for (int j = 0; j < 50; j++) {
+			action[index][j] = 0;
+		}
+
+	}
+
+	// 画面外に行くと自動リセット
+	public void resetAuto(int index) {
+		if (isOutBorder(this, index)) {
+			reset(index);
+		}
+	}
+
+	// すべて雑魚敵を自爆
+	public void killAllEnemy() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				continue;
+			}
+			hp[i] = 0;
+		}
+	}
+
+	// 敵配列の中に待機しているものを探す
+	private int findIdleEnemy() {
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				return i;
+			}
+		}
+		System.out.println("STGWarning: <ENEMY> out of limit");
+		return MAX;
 	}
 
 }

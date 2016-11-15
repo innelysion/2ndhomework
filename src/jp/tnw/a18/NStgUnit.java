@@ -23,6 +23,8 @@ public class NStgUnit extends GameObject {
 	double hitBoxH[];
 	// 画像の切り替えアニメのカウンター
 	int timerAni[];
+	// 使ているユニット
+	int activing;
 
 	// 初期値で初期化
 	NStgUnit() {
@@ -50,6 +52,7 @@ public class NStgUnit extends GameObject {
 		hitBoxW = new double[MAX];
 		hitBoxH = new double[MAX];
 		timerAni = new int[MAX];
+		activing = 0;
 
 		for (int i = 0; i < MAX; i++) {
 
@@ -71,7 +74,7 @@ public class NStgUnit extends GameObject {
 		}
 
 	}
-
+	
 	public void reset(int index) {
 
 		imageIndex[index] = 1;

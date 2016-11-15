@@ -34,6 +34,7 @@ public class NStgPlayer extends NStgUnit {
 	static double hitCir;
 	static boolean STOPSHOOT;
 	static boolean BOMBING;
+	static boolean CONFUSING;
 
 	// 初期化
 	NStgPlayer() {
@@ -57,11 +58,11 @@ public class NStgPlayer extends NStgUnit {
 		facingX = dX;
 		facingY = dY;
 
-		HP = 4;
-		MAXHP = 10;
+		HP = 5;
+		MAXHP = 5;
 		BOMB = 2;
 		MAXBOMB = 10;
-		POWER = 0;
+		POWER = 2;
 		MAXPOWER = 10;
 		IMMORTAL = false;
 		FLASHTIME = 0;
@@ -73,6 +74,8 @@ public class NStgPlayer extends NStgUnit {
 		timerFacing = 0;
 		timerBombing = 0;
 		BOMBING = false;
+		
+		CONFUSING = false;
 
 		// デバッグ用////////////////
 		timerPowerUp = 0;
@@ -191,6 +194,9 @@ public class NStgPlayer extends NStgUnit {
 			case 8:
 				radian = 90 + 45;
 				break;
+			}
+			if (CONFUSING){
+				radian += 180;
 			}
 
 			if (Input.DIR8 > 0) {

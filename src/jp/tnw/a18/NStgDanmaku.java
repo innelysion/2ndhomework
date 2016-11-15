@@ -24,6 +24,9 @@ public class NStgDanmaku extends NStgUnit {
 	double timerReq;
 	int counterReq;
 
+	// THEWORLD
+	boolean freezing;
+
 	// 初期化
 	NStgDanmaku() {
 
@@ -52,6 +55,8 @@ public class NStgDanmaku extends NStgUnit {
 
 		}
 
+		freezing = false;
+
 	}
 
 	public void request(String danmakuType, int danmakuPattern, NStgUnit fromUnit, int index, double offsetX,
@@ -77,6 +82,9 @@ public class NStgDanmaku extends NStgUnit {
 		case "花火しっぽ":
 			reqEffect01(fromUnit.dX[index], fromUnit.dY[index]);
 			break;
+		case "オプションしっぽ":
+			reqEffect02(fromUnit.dX[index], fromUnit.dY[index]);
+			break;
 		}
 
 	}
@@ -98,18 +106,22 @@ public class NStgDanmaku extends NStgUnit {
 			case 1000:// 花火しっぽ
 				actEffect01(i);
 				break;
+			case 1001:
+				actEffect02(i);
+				break;
 			case 10:// JKN01
-				if (timerAni[i] % 30 == 0 && imageIndex[i] < 187) {
+				if (SYS.TIMERSTAGE % 3 == 0 && imageIndex[i] < 187) {
 					imageIndex[i] = (imageIndex[i] > 185) ? 181 : imageIndex[i] + 1;
-				} else if (timerAni[i] % 30 == 0 && imageIndex[i] >= 187){
+				} else if (SYS.TIMERSTAGE % 3 == 0 && imageIndex[i] >= 187) {
 					imageIndex[i] = (imageIndex[i] > 191) ? 187 : imageIndex[i] + 1;
 				}
 				moveCir(i, SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE < 1650 ? (other1direction ? 0.85 : -0.85) : 0);
 				resetAuto(i);
 				break;
 			}
-
-			timerLife[i]++;
+			if (!freezing) {
+				timerLife[i]++;
+			}
 		}
 
 		// 各種タイム依存変数
@@ -127,53 +139,8 @@ public class NStgDanmaku extends NStgUnit {
 			}
 		}
 
-	}
+		countActive();
 
-	/////////////////////////////////////////////////////////////////////////
-	// ◆ここから機能的関数◆ ///////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////
-
-	// リセット
-	public void reset(int index) {
-
-		super.reset(index);
-		belongPlayer[index] = false;
-		flag[index] = 0;
-		type[index] = 0;
-		damage[index] = 1;
-		timerLife[index] = 0;
-		for (int j = 0; j < 10; j++) {
-			action[index][j] = 0;
-		}
-	}
-
-	// 画面外に行くと自動リセット
-	public void resetAuto(int index) {
-		if (isOutBorder(this, index)) {
-			reset(index);
-		}
-	}
-
-	// すべての敵弾を強制リセット
-	public void resetAllDanmaku(){
-		for (int i = 0; i < MAX; i++){
-			if (type[i] == 0 || flag[i] == 0){
-				continue;
-			}
-			VFX.request(dX[i], dY[i], 5);
-			reset(i);
-		}
-	}
-
-	// 弾幕配列の中に待機しているものを探す
-	private int findIdleDanmaku() {
-		for (int i = 0; i < MAX; i++) {
-			if (type[i] == 0 || flag[i] == 0) {
-				return i;
-			}
-		}
-		System.out.println("STGWarning: <DANMAKU> out of limit");
-		return MAX;
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -283,8 +250,25 @@ public class NStgDanmaku extends NStgUnit {
 				flag[i] = 1000;
 				break;
 			}
+		}
+	}
 
-		} // for(i) end
+	private void reqEffect02(double gX, double gY) {
+
+		int i = findIdleDanmaku();
+		dX[i] = gX;
+		dY[i] = gY;
+		spdX[i] = 0;
+		spdY[i] = 0;
+		accX[i] = 0;
+		accY[i] = 0;
+
+		belongPlayer[i] = true;
+		isVisible[i] = true;
+		imageIndex[i] = 141;
+
+		type[i] = 1001;
+		flag[i] = 1000;
 
 	}
 
@@ -293,7 +277,7 @@ public class NStgDanmaku extends NStgUnit {
 	/////////////////////////////////////////////////////////////////////////
 
 	private void actNor01(int index) {
-		if (timerReq % 4 == 0) {
+		if (timerReq % 6 == 0) {
 			imageIndex[index] = imageIndex[index] < 37 || imageIndex[index] >= 40 ? 37 : imageIndex[index] + 1;
 		}
 		moveCir(index, (Math.random() - 0.5) * 15);
@@ -309,6 +293,84 @@ public class NStgDanmaku extends NStgUnit {
 		if (opacity[index] <= 0.1f) {
 			reset(index);
 		}
+	}
+	
+	private void actEffect02(int index) {
+		if (SYS.TIMERSTAGE % 5 == 0) {
+			imageIndex[index]++;
+			if(imageIndex[index] > 146){
+				reset(index);
+			}
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	// ◆ここから機能的関数◆ ///////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+
+	// THEWORLD
+	public void move(int i) {
+		if (!freezing) {
+			super.move(i);
+		}
+	}
+
+	public void moveCir(int i, double rotateSpd) {
+		if (!freezing) {
+			super.moveCir(i, rotateSpd);
+		}
+	}
+
+	public void countActive() {
+		activing = 0;
+		for (int i = 0; i < MAX; i++) {
+			if (flag[i] != 0 || type[i] != 0) {
+				activing++;
+			}
+		}
+	}
+
+	// リセット
+	public void reset(int index) {
+
+		super.reset(index);
+		belongPlayer[index] = false;
+		flag[index] = 0;
+		type[index] = 0;
+		damage[index] = 1;
+		timerLife[index] = 0;
+		for (int j = 0; j < 10; j++) {
+			action[index][j] = 0;
+		}
+	}
+
+	// 画面外に行くと自動リセット
+	public void resetAuto(int index) {
+		if (isOutBorder(this, index)) {
+			reset(index);
+		}
+	}
+
+	// すべての敵弾を強制リセット
+	public void resetAllDanmaku() {
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				continue;
+			}
+			VFX.request(dX[i], dY[i], 5);
+			reset(i);
+		}
+	}
+
+	// 弾幕配列の中に待機しているものを探す
+	private int findIdleDanmaku() {
+		for (int i = 0; i < MAX; i++) {
+			if (type[i] == 0 || flag[i] == 0) {
+				return i;
+			}
+		}
+		System.out.println("STGWarning: <DANMAKU> out of limit");
+		return MAX;
 	}
 
 }
