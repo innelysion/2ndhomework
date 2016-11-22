@@ -68,7 +68,7 @@ public class NStgDanmaku extends NStgUnit {
 			break;
 		case "自機狙いバリア弾":
 
-			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 2, other1, 500);
+			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 2, other1, 200);
 			break;
 		case "花火A":
 			reqNor01(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
@@ -115,7 +115,8 @@ public class NStgDanmaku extends NStgUnit {
 				} else if (SYS.TIMERSTAGE % 3 == 0 && imageIndex[i] >= 187) {
 					imageIndex[i] = (imageIndex[i] > 191) ? 187 : imageIndex[i] + 1;
 				}
-				moveCir(i, SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE < 1650 ? (other1direction ? 0.85 : -0.85) : 0);
+				//moveCir(i, SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE < 1650 ? (other1direction ? 0.85 : -0.85) : 0);
+				moveCir(i, 0);
 				resetAuto(i);
 				break;
 			}
@@ -174,7 +175,8 @@ public class NStgDanmaku extends NStgUnit {
 			type[i] = 10;
 			flag[i] = 1;
 
-			angle[i] = -((angleBetween * (qty - 1)) / 2) + j * angleBetween + jikinerai;
+			//angle[i] = -((angleBetween * (qty - 1)) / 2) + j * angleBetween + jikinerai;
+			angle[i] = -((90 * (qty - 1)) / 2) + j * 90 + jikinerai;
 
 		}
 
@@ -294,14 +296,14 @@ public class NStgDanmaku extends NStgUnit {
 			reset(index);
 		}
 	}
-	
+
 	private void actEffect02(int index) {
-		if (SYS.TIMERSTAGE % 5 == 0) {
+
 			imageIndex[index]++;
 			if(imageIndex[index] > 146){
 				reset(index);
 			}
-		}
+
 	}
 
 	/////////////////////////////////////////////////////////////////////////

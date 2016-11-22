@@ -1,6 +1,7 @@
 package jp.tnw.a18;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -12,6 +13,8 @@ public class NStgMap extends GameObject {
 	double scrollX;
 	double scrollY;
 	double scrollSpd;
+
+	Font f = new Font("Default", Font.BOLD, 16);
 
 	boolean rolling;
 
@@ -27,7 +30,7 @@ public class NStgMap extends GameObject {
 		image[4] = loadImage("Maps/StgMap_01_04.png");
 
 		rolling = true;
-		scrollSpd = 0.2;
+		scrollSpd = 0.3;
 
 		for (int i = 0; i < MAX; i++) {
 			isVisible[i] = true;
@@ -43,7 +46,15 @@ public class NStgMap extends GameObject {
 			g.drawImage(image[i], (int) dX[i], (int) dY[i], wind);
 		}
 
-		g.setColor(Color.WHITE);// 色指定
+		g.setFont(f);
+		g.setColor(Color.RED);// 色指定
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 33 * 5; j++) {
+				if (mapHitData[j][i] == 1) {
+					g.drawString("H", i * 16, -(528 * 4) + 16 + j * 16 + (int) scrollY);
+				}
+			}
+		}
 
 	}
 

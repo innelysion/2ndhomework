@@ -44,7 +44,7 @@ public class NStgManager {
 
 	public void update() {
 
-		requestStory();
+		//requestStory();
 		requestDanmaku();
 		requestEnemy();
 		hitManage();
@@ -148,7 +148,7 @@ public class NStgManager {
 		g.setFont(f);
 		g.setColor(Color.MAGENTA);
 		g.drawString("先とったアイテム: " + lastItem, 100, SYS.WINDOW_SIZE_Y - 70);
-		g.drawString("活動敵弾数: " + String.valueOf(danmaku.activing), 100, SYS.WINDOW_SIZE_Y - 50);
+		g.drawString("活動: " + String.valueOf(danmaku.activing), 100, SYS.WINDOW_SIZE_Y - 50);
 		g.drawString("ステージタイマー: " + String.valueOf(SYS.TIMERSTAGE), 100, SYS.WINDOW_SIZE_Y - 30);
 		g.drawString("A17張瀚夫", 100, SYS.WINDOW_SIZE_Y - 10);
 
@@ -221,7 +221,7 @@ public class NStgManager {
 				if (enemy.flag[i] == 3 && enemy.type[i] == 2 && SYS.TIMERSTAGE % 9 == 0) {
 					danmaku.request("花火A", SYS.TIMERSTAGE % 4, enemy, i, 18, 24);
 				}
-				if (enemy.type[i] == 10 && enemy.timerLife[i] < 300 && SYS.TIMERSTAGE % 2 == 0) {
+				if (enemy.type[i] == 10 && enemy.timerLife[i] < 300 && SYS.TIMERSTAGE % 50 == 0) {
 					danmaku.request("自機狙いバリア弾", 0, enemy, i, 18, 24);
 					if (SYS.TIMERSTAGE % 6 == 0) {
 						VFX.request(enemy.dX[i] + 24, enemy.dY[i] + 35, 4);

@@ -17,7 +17,7 @@ public class NStgOptions extends NStgUnit {
 
 	public void update() {
 
-		int shift = Input.K_SHIFT ? 8 : 26;
+		int shift = Input.K_SHIFT ? 16 : 48;
 
 		for (int i = 0; i < MAX; i++) {
 			dX[i] = shift * Math.cos(Math.toRadians(optionsAngle[i])) - shift * Math.sin(Math.toRadians(optionsAngle[i]))
