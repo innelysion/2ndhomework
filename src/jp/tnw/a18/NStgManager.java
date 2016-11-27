@@ -112,14 +112,14 @@ public class NStgManager {
 			}
 		}
 		g.setColor(Color.WHITE);
-		for (int i = 0; i < options.MAX; i++) {
-			if (options.isActive[i]) {
-				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 0 + SYS.TIMERSTAGE % 180 * 2, 45);
-				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 90 + SYS.TIMERSTAGE % 180 * 2, 45);
-				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 180 + SYS.TIMERSTAGE % 180 * 2, 45);
-				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 270 + SYS.TIMERSTAGE % 180 * 2, 45);
-			}
-		}
+//		for (int i = 0; i < options.MAX; i++) {
+//			if (options.isActive[i]) {
+//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 0 + SYS.TIMERSTAGE % 180 * 2, 45);
+//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 90 + SYS.TIMERSTAGE % 180 * 2, 45);
+//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 180 + SYS.TIMERSTAGE % 180 * 2, 45);
+//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 270 + SYS.TIMERSTAGE % 180 * 2, 45);
+//			}
+//		}
 		g.drawArc((int) NStgPlayer.dX, (int) NStgPlayer.dY, 96, 96, -90 + SYS.TIMERSTAGE % 90 * 4, 180);
 		g.setColor(NStgPlayer.IMMORTAL ? Color.YELLOW : Color.RED);
 		g.drawArc((int) NStgPlayer.dX + 41, (int) NStgPlayer.dY + 41, 14, 14, -SYS.TIMERSTAGE % 180 * 2, 270);
@@ -231,7 +231,7 @@ public class NStgManager {
 		}
 
 		for (int i = 0; i < options.MAX; i++) {
-			if (options.isActive[i] && SYS.TIMERSTAGE % 3 == 0) {
+			if (options.isActive[i] && SYS.TIMERSTAGE % 1 == 0) {
 				danmaku.request("オプションしっぽ", 0, options, i, 0, 0);
 			}
 		}
