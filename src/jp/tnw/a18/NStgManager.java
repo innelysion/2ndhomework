@@ -1,6 +1,7 @@
 package jp.tnw.a18;
 
 import static jp.tnw.a18.SYS.*;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -18,6 +19,7 @@ public class NStgManager {
 	public NStgUI ui;
 	public NStgItem item;
 	public GameMessage msgbox;
+	public NStgBossAlienMothership boss;
 
 	private int stage;
 	private int stageFlag;
@@ -52,7 +54,7 @@ public class NStgManager {
 		playerHitMapDelay = playerHitMapDelay == 0 ? 0 : playerHitMapDelay - 1;
 		item.scrollSpd = map.scrollSpd;
 		TIMERSTAGE++;
-		
+
 		// option shoot
 		for (int i = 0; i < options.MAX; i++) {
 			if (!NStgPlayer.STOPSHOOT && options.isActive[i]
@@ -255,7 +257,7 @@ public class NStgManager {
 		}
 
 		for (int i = 0; i < options.MAX; i++) {
-			if (options.isActive[i] && SYS.TIMERSTAGE % 1 == 0) {
+			if (options.isActive[i]) {
 				danmaku.request("オプションしっぽ", 0, options, i, 0, 0);
 			}
 		}
@@ -348,6 +350,10 @@ public class NStgManager {
 				}
 			}
 		}
+
+		if (isCricleHitRect(boss.dX[0], boss.dY[0], 346, 512, NStgPlayer.dX + 48, NStgPlayer.dY + 48, 8)) {
+			NStgPlayer.damage(1);
+		}
 	}
 
 	private void optionHitEnemy() {
@@ -358,6 +364,11 @@ public class NStgManager {
 					if (options.isActive[j]
 							&& isCircleHit(enemy.dX[i], enemy.dY[i], options.dX[j], options.dY[j], 24, 8)) {
 						enemy.hp[i] -= 10;
+						VFX.request(options.dX[j], options.dY[j], 3);
+						options.isActive[j] = false;
+					}
+					if (options.isActive[j]
+							&& isCricleHitRect(boss.dX[0], boss.dY[0], 346, 512, options.dX[j], options.dY[j], 2)) {
 						VFX.request(options.dX[j], options.dY[j], 3);
 						options.isActive[j] = false;
 					}

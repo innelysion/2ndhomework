@@ -13,45 +13,8 @@ import javax.swing.JFrame;
 
 //◆MAIN◆//
 public class GameMain {
-	
-	/*
-	 * for (String target : timeTable){
-	 *   System.out.println(target);
-	 * }
-	 * 就職3年目まで:第一線のプログラマーとして、いろんなプロジェクトに参加し、各種エンジンとツール、言語を身に着ける。
-	 * 就職5年目まで:プロジェクトの中核として活躍する。
-	 * 就職10年目まで:作りたい夢のゲームを作り出す!形式は商業でもインディーズでも構わない!
-	 * 
-	 * 個人的に推すゲーム、いずれいずれも熱中した/している:
-	 * ACT:朧村正、Unchartedシリーズ
-	 * FPS:Battlefieldシリーズ、CounterStrike
-	 * RPG:二ノ国、軒轅剣シリーズ、DragonAge:Origins、The Elder Scrollsシリーズ、Undertale
-	 * RTS/MOBA:RedAlertシリーズ、WarCraft/StarCraftシリーズ、League of Legends
-	 * SLG:Civilizationシリーズ、Heroes of Might and Magicシリーズ、
-	 * STG:東方シリーズ、虫姫さまふたり、ディアドラエンプティ
-	 * パズル:Portalシリーズ、Fez、Child of Light、Ori and the Blind Forest
-	 * ギャルゲー:うたわれるものシリーズ、Ever17、ランスシリーズ、クドわふたー
-	 * ソーシャル:グラブル、かくりよの門、陰陽師
-	 * カード:遊戯王、MTG、HearthStone、シャドウバース
-	 * テーブル:クトゥルフTRPG、D&D
-	 * 
-	 * 自分の脳内スキルツリー
-	 * 
-	 * RPGツクール(XP,VXace,MV),Unity,Unreal
-	 * Eclipase, VS2015, NOTEPAD++, AndroidStudio, Dreamweaver
-	 * 
-	 * 3dsmax, Maya, SketchUp
-	 * AfterEffects, Premiere, Vegas
-	 * Photoshop, PaintToolSAI, 
-	 * 
-	 * GoogleDocs, Github, SVN
-	 * Word, Excel, PowerPoint, Visio
-	 * 
-	 * Java, C++, C#
-	 * JS, Ruby, LUA
-	 * 
-	 * 
-	 */
+
+
 
 	//final static double GAMEVERSON = 0.14112333;
 	SYS setting = new SYS("PC");
@@ -63,6 +26,7 @@ public class GameMain {
 	Input input = new Input();
 	VFX vfx = new VFX();
 
+	NStgBossAlienMothership boss = new NStgBossAlienMothership();
 	NStgPlayerShoot ps = new NStgPlayerShoot();
 	NStgManager manager = new NStgManager();
 	NStgDanmaku dm = new NStgDanmaku();
@@ -173,12 +137,14 @@ public class GameMain {
 
 			// 描画
 			mp.drawImage(g, wind);
+			boss.drawKoma(g, wind);
 			en.drawKoma(g, wind);
 			ps.drawKoma(g, wind);
 			pr.draw(g, wind);
 			dm.drawKoma(g, wind);
 			it.drawKoma(g, wind);
 			vfx.draw(g, wind);
+
 
 		}
 
@@ -187,6 +153,7 @@ public class GameMain {
 			// データのやり取り
 			manager.map = mp;
 			manager.enemy = en;
+			manager.boss = boss;
 			manager.danmaku = dm;
 			manager.options = op;
 			manager.shoot = ps;
@@ -207,6 +174,7 @@ public class GameMain {
 			it.update();
 			vfx.update();
 			ui.update();
+			boss.update();
 			msgbox.update();
 
 		}
@@ -255,5 +223,44 @@ public class GameMain {
 		} while (Game != null);
 
 	}
+
+	/*
+	 * for (String target : timeTable){
+	 *   System.out.println(target);
+	 * }
+	 * 就職3年目まで:第一線のプログラマーとして、いろんなプロジェクトに参加し、各種エンジンとツール、言語を身に着ける。
+	 * 就職5年目まで:プロジェクトの中核として活躍する。
+	 * 就職10年目まで:作りたい夢のゲームを作り出す!形式は商業でもインディーズでも構わない!
+	 *
+	 * 個人的に推すゲーム、いずれいずれも熱中した/している:
+	 * ACT:朧村正、Unchartedシリーズ
+	 * FPS:Battlefieldシリーズ、CounterStrike
+	 * RPG:二ノ国、軒轅剣シリーズ、DragonAge:Origins、The Elder Scrollsシリーズ、Undertale
+	 * RTS/MOBA:RedAlertシリーズ、WarCraft/StarCraftシリーズ、League of Legends
+	 * SLG:Civilizationシリーズ、Heroes of Might and Magicシリーズ、
+	 * STG:東方シリーズ、虫姫さまふたり、ディアドラエンプティ
+	 * パズル:Portalシリーズ、Fez、Child of Light、Ori and the Blind Forest
+	 * ギャルゲー:うたわれるものシリーズ、Ever17、ランスシリーズ、クドわふたー
+	 * ソーシャル:グラブル、かくりよの門、陰陽師
+	 * カード:遊戯王、MTG、HearthStone、シャドウバース
+	 * テーブル:クトゥルフTRPG、D&D
+	 *
+	 * 自分の脳内スキルツリー
+	 *
+	 * RPGツクール(XP,VXace,MV),Unity,Unreal
+	 * Eclipase, VS2015, NOTEPAD++, AndroidStudio, Dreamweaver
+	 *
+	 * 3dsmax, Maya, SketchUp
+	 * AfterEffects, Premiere, Vegas
+	 * Photoshop, PaintToolSAI,
+	 *
+	 * GoogleDocs, Github, SVN
+	 * Word, Excel, PowerPoint, Visio
+	 *
+	 * Java, C++, C#
+	 * JS, Ruby, LUA
+	 *
+	 *
+	 */
 
 }
