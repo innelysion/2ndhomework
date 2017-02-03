@@ -42,6 +42,12 @@ public class SYS {
 
 }
 
+class SYS2{
+	
+	public static int test = 1;
+	
+}
+
 interface GameTools {
 
 	// 画像ファイルを読み込む

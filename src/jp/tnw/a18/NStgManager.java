@@ -1,5 +1,6 @@
 package jp.tnw.a18;
 
+import static jp.tnw.a18.SYS.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -44,17 +45,18 @@ public class NStgManager {
 
 	public void update() {
 
-		//requestStory();
+		// requestStory();
 		requestDanmaku();
 		requestEnemy();
 		hitManage();
 		playerHitMapDelay = playerHitMapDelay == 0 ? 0 : playerHitMapDelay - 1;
 		item.scrollSpd = map.scrollSpd;
-		SYS.TIMERSTAGE++;
-
+		TIMERSTAGE++;
+		
 		// option shoot
 		for (int i = 0; i < options.MAX; i++) {
-			if (!NStgPlayer.STOPSHOOT && options.isActive[i] && ((options.optionsAngle[i] % 60 == 0) || (options.optionsAngle[i] % 300 == 0))) {
+			if (!NStgPlayer.STOPSHOOT && options.isActive[i]
+					&& ((options.optionsAngle[i] % 60 == 0) || (options.optionsAngle[i] % 300 == 0))) {
 				shoot.optionShoot(options.dX[i], options.dY[i]);
 			}
 		}
@@ -75,7 +77,6 @@ public class NStgManager {
 			NStgPlayer.STOPSHOOT = false;
 		}
 		// dbug end
-
 
 		// items effect timer
 		THEWORLD = THEWORLD <= 0 ? 0 : THEWORLD - 1;
@@ -112,29 +113,52 @@ public class NStgManager {
 			}
 		}
 		g.setColor(Color.WHITE);
-//		for (int i = 0; i < options.MAX; i++) {
-//			if (options.isActive[i]) {
-//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 0 + SYS.TIMERSTAGE % 180 * 2, 45);
-//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 90 + SYS.TIMERSTAGE % 180 * 2, 45);
-//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 180 + SYS.TIMERSTAGE % 180 * 2, 45);
-//				g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 270 + SYS.TIMERSTAGE % 180 * 2, 45);
-//			}
-//		}
+		// for (int i = 0; i < options.MAX; i++) {
+		// if (options.isActive[i]) {
+		// g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 0 +
+		// SYS.TIMERSTAGE % 180 * 2, 45);
+		// g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 90 +
+		// SYS.TIMERSTAGE % 180 * 2, 45);
+		// g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 180 +
+		// SYS.TIMERSTAGE % 180 * 2, 45);
+		// g.drawArc((int) options.dX[i], (int) options.dY[i], 16, 16, 270 +
+		// SYS.TIMERSTAGE % 180 * 2, 45);
+		// }
+		// }
 		g.drawArc((int) NStgPlayer.dX, (int) NStgPlayer.dY, 96, 96, -90 + SYS.TIMERSTAGE % 90 * 4, 180);
 		g.setColor(NStgPlayer.IMMORTAL ? Color.YELLOW : Color.RED);
 		g.drawArc((int) NStgPlayer.dX + 41, (int) NStgPlayer.dY + 41, 14, 14, -SYS.TIMERSTAGE % 180 * 2, 270);
 		g.drawArc((int) NStgPlayer.dX + 40, (int) NStgPlayer.dY + 40, 16, 16, -SYS.TIMERSTAGE % 180 * 2, 270);
 		g.setColor(Color.RED);
+
 		for (int i = 0; i < enemy.MAX; i++) {
 			if (enemy.flag[i] != 0) {
 				g.drawArc((int) enemy.dX[i], (int) enemy.dY[i], 48, 48, 0 + SYS.TIMERSTAGE % 90 * 4, 180);
 			}
-		}
+			if (enemy.multiHit[i][0] != null) {
+				for (int j = 0; j < enemy.multiHit[i].length; j++) {
+					if (enemy.multiHit[i][j] == null) {
+						break;
+					}
+					int i1 = enemy.multiHit[i][j].indexOf(",");
+					int i2 = enemy.multiHit[i][j].indexOf(",", i1 + 1);
+					int i3 = enemy.multiHit[i][j].indexOf(",", i2 + 1);
+					int i4 = enemy.multiHit[i][j].indexOf(",", i3 + 1);
+					String type = enemy.multiHit[i][j].substring(0, i1);
+					int x = Integer.parseInt(enemy.multiHit[i][j].substring(i1 + 1, i2));
+					int y = Integer.parseInt(enemy.multiHit[i][j].substring(i2 + 1, i3));
+					int w = Integer.parseInt(enemy.multiHit[i][j].substring(i3 + 1, i4));
+					int h = Integer.parseInt(enemy.multiHit[i][j].substring(i4 + 1, enemy.multiHit[i][j].length()));
+					if (type.charAt(0) == 'R') {
+						g.drawRect((int) enemy.dX[i] + x, (int) enemy.dY[i] + y, w, h);
+					} else if (type.charAt(0) == 'C') {
+						g.drawArc((int) enemy.dX[i] + x, (int) enemy.dY[i] + y, w, h, 0, 360);
+					}
 
-		// g.drawString("", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y -
-		// 110);
-		// g.drawString("", SYS.WINDOW_SIZE_X - 170 - 15, SYS.WINDOW_SIZE_Y -
-		// 90);
+				}
+			}
+
+		}
 		g.setFont(f);
 		g.setColor(Color.MAGENTA);
 		if (NStgPlayer.CONFUSING) {
@@ -143,7 +167,7 @@ public class NStgManager {
 
 	}
 
-	public void drawDebugMsg(Graphics2D g, JFrame wind){
+	public void drawDebugMsg(Graphics2D g, JFrame wind) {
 
 		g.setFont(f);
 		g.setColor(Color.MAGENTA);
@@ -197,9 +221,9 @@ public class NStgManager {
 			break;
 		}
 
-		 if (SYS.TIMERSTAGE % 15 == 0 && !enemy.freezing && SYS.TIMERSTAGE > 2800 && SYS.TIMERSTAGE < 3400) {
-		 enemy.request("雑魚A");
-		 }
+		if (SYS.TIMERSTAGE % 15 == 0 && !enemy.freezing && SYS.TIMERSTAGE > 2800 && SYS.TIMERSTAGE < 3400) {
+			enemy.request("雑魚A");
+		}
 
 		// 弾幕バリア攻撃の雑魚
 		if (SYS.TIMERSTAGE > 150 && SYS.TIMERSTAGE % 60 == 0 && SYS.TIMERSTAGE < 1500) {
@@ -447,5 +471,11 @@ public class NStgManager {
 		double dy1 = Math.min(rcy, rh * 0.5);
 		double dy2 = Math.max(dy1, -rh * 0.5);
 		return Math.pow((dx2 - rcx), 2) + Math.pow((dy2 - rcy), 2) <= Math.pow(cr, 2);
+	}
+
+	private boolean isMultiHitEnemyHitting(boolean isSourceRect, int offsetX, int offsetY, int offsetW, int offsetH,
+			int enemyIndex) {
+
+		return false;
 	}
 }

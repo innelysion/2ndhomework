@@ -21,6 +21,9 @@ public class NStgEnemy extends NStgUnit {
 
 	// KISS OF ANGEL
 	boolean freezing;
+	
+	//複数あたり判定
+	String multiHit[][];
 
 	NStgEnemy() {
 
@@ -28,11 +31,14 @@ public class NStgEnemy extends NStgUnit {
 		komaImage = new KomaImage("Image/zako.png", 10, 10);
 		flag = new int[MAX];
 		type = new int[MAX];
-		action = new int[MAX][50]; // アクションは50個まで
 		hp = new int[MAX];
 		timerLife = new int[MAX];
 		itemDrop = new int[MAX];
-
+		
+		//アクションとマルチあたり判定は10個まで
+		multiHit = new String[MAX][10]; 
+		action = new int[MAX][10]; 
+		
 		for (int i = 0; i < MAX; i++) {
 
 			flag[i] = 0;
@@ -41,9 +47,10 @@ public class NStgEnemy extends NStgUnit {
 			timerLife[i] = 0;
 			timerReq = 0;
 			counterReq = 0;
-			// アクション初期化 0 = 無効
-			for (int j = 0; j < 50; j++) {
+			// アクションとマルチあたり判定初期化（無効状態）
+			for (int j = 0; j < 10; j++) {
 				action[i][j] = 0;
+				multiHit[i][j] = null;
 			}
 
 			freezing = false;
@@ -91,7 +98,7 @@ public class NStgEnemy extends NStgUnit {
 				break;
 			}
 
-			// HP = 0なら消滅
+			// HP0なら消滅
 			if (hp[i] <= 0) {
 				VFX.request(dX[i] + 24, dY[i] + 24, 0);
 				reset(i);
@@ -234,6 +241,11 @@ public class NStgEnemy extends NStgUnit {
 			flag[i] = 1;
 			
 			itemDrop[i] = 6;
+			
+			multiHit[i][0] = "R,0,0,48,48";
+			multiHit[i][1] = "R,-40,10,128,28";
+			multiHit[i][2] = "R,10,-40,28,128";
+			multiHit[i][3] = "C,-5,-5,58,58";
 
 			qtycount--;
 			if (qtycount == 0) {
@@ -330,8 +342,9 @@ public class NStgEnemy extends NStgUnit {
 		hp[index] = 1;
 		timerLife[index] = 0;
 		itemDrop[index] = 0;
-		for (int j = 0; j < 50; j++) {
+		for (int j = 0; j < 10; j++) {
 			action[index][j] = 0;
+			multiHit[index][j] = null;
 		}
 
 	}
@@ -343,7 +356,7 @@ public class NStgEnemy extends NStgUnit {
 		}
 	}
 
-	// すべて雑魚敵を自爆
+	// すべて雑魚敵が自爆
 	public void killAllEnemy() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < MAX; i++) {
