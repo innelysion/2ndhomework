@@ -64,11 +64,11 @@ public class NStgDanmaku extends NStgUnit {
 
 		switch (danmakuType) {
 		case "自機狙い弾いA":
-			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 1, 15, 100);
+			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 3, 10, 550);
 			break;
 		case "自機狙いバリア弾":
 
-			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 2, other1, 200);
+			reqJKN01(fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY, 2, other1, 700);
 			break;
 		case "花火A":
 			reqNor01(danmakuPattern, fromUnit.dX[index] + offsetX, fromUnit.dY[index] + offsetY);
@@ -165,7 +165,7 @@ public class NStgDanmaku extends NStgUnit {
 			spdY[i] = spd;
 
 			isVisible[i] = true;
-			imageIndex[i] = other1direction ? 181 : 187;
+			imageIndex[i] = spd != 700 ? 181 : 187;
 
 			isHitable[i] = true;
 			hitCir[i] = 8;
@@ -175,8 +175,13 @@ public class NStgDanmaku extends NStgUnit {
 			type[i] = 10;
 			flag[i] = 1;
 
-			//angle[i] = -((angleBetween * (qty - 1)) / 2) + j * angleBetween + jikinerai;
-			angle[i] = -((90 * (qty - 1)) / 2) + j * 90 + jikinerai;
+			if (spd == 700){
+				angle[i] = -((90 * (qty - 1)) / 2) + j * 90 + jikinerai;
+			}else{
+				angle[i] = -((angleBetween * (qty - 1)) / 2) + j * angleBetween + jikinerai;
+			}
+
+
 
 		}
 

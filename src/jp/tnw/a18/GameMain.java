@@ -18,7 +18,7 @@ public class GameMain {
 
 	//final static double GAMEVERSON = 0.14112333;
 	SYS setting = new SYS("PC");
-	JFrame wind = new JFrame("Shooooooooooooooooting!!!");// NEW JFrame
+	JFrame wind = new JFrame("オリジナルアイテム");// NEW JFrame
 	Insets sz;// ﾒﾆｭｰﾊﾞｰのｻｲｽﾞ
 	BufferStrategy offimage;// ﾀﾞﾌﾞﾙﾊﾞｯﾌｧでちらつき防止
 	Font f = new Font("Default", Font.BOLD, 13);// 使用するフォントクラス宣言

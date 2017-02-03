@@ -25,6 +25,10 @@ public class NStgManager {
 	private int stageFlag;
 	private int playerHitMapDelay;
 
+	int storyItemCount = 0;
+	boolean storyItem = false;
+	boolean getStoryItem = false;
+
 	// items effect timer
 	private int THEWORLD, KISSOFANGEL, CONFUSING;
 
@@ -47,13 +51,20 @@ public class NStgManager {
 
 	public void update() {
 
-		// requestStory();
+		requestStory();
 		requestDanmaku();
-		requestEnemy();
+		// requestEnemy();
 		hitManage();
 		playerHitMapDelay = playerHitMapDelay == 0 ? 0 : playerHitMapDelay - 1;
 		item.scrollSpd = map.scrollSpd;
 		TIMERSTAGE++;
+
+		if (!storyItem) {
+			enemy.dX[0] = SYS.WINDOW_SIZE_X / 2 - 20;
+			enemy.dY[0] = SYS.WINDOW_SIZE_Y / 2 - 200;
+			item.request("BOMB", enemy, 0, 0, 0);
+			storyItem = true;
+		}
 
 		// option shoot
 		for (int i = 0; i < options.MAX; i++) {
@@ -65,7 +76,10 @@ public class NStgManager {
 
 		// dbug
 		for (int i = 0; i < options.MAX; i++) {
-			if (SYS.TIMERSTAGE % 120 == 0 && !options.isActive[i]) {
+			if (SYS.GAMEOVERING) {
+				options.isActive[i] = false;
+			}
+			if (!SYS.GAMEOVERING && SYS.TIMERSTAGE % 120 == 0 && !options.isActive[i]) {
 				options.isActive[i] = true;
 				break;
 			}
@@ -173,31 +187,39 @@ public class NStgManager {
 
 		g.setFont(f);
 		g.setColor(Color.MAGENTA);
-		g.drawString("先とったアイテム: " + lastItem, 100, SYS.WINDOW_SIZE_Y - 70);
-		g.drawString("活動: " + String.valueOf(danmaku.activing), 100, SYS.WINDOW_SIZE_Y - 50);
-		g.drawString("ステージタイマー: " + String.valueOf(SYS.TIMERSTAGE), 100, SYS.WINDOW_SIZE_Y - 30);
-		g.drawString("A17張瀚夫", 100, SYS.WINDOW_SIZE_Y - 10);
+		// g.drawString("先とったアイテム: " + lastItem, 100, SYS.WINDOW_SIZE_Y - 70);
+		// g.drawString("活動: " + String.valueOf(danmaku.activing), 100,
+		// SYS.WINDOW_SIZE_Y - 50);
+		// g.drawString("ステージタイマー: " + String.valueOf(SYS.TIMERSTAGE), 100,
+		// SYS.WINDOW_SIZE_Y - 30);
+		g.drawString("A17張瀚夫", 100, SYS.WINDOW_SIZE_Y - 150);
+		g.drawString("会話シーン入りアイテム", 100, SYS.WINDOW_SIZE_Y - 130);
+		g.drawString("マウスクリックorＺキーで会話を進む", 100, SYS.WINDOW_SIZE_Y - 110);
 
 	}
 
 	// 会話と特殊演出
 	private void requestStory() {
+
+		if (storyItem == true && getStoryItem){
+			storyItemCount++;
+		}
 		// TODO Auto-generated method stub
-		switch (SYS.TIMERSTAGE) {
-		case 3400:
+		switch (storyItemCount) {
+		case 1:
 			for (int i = 0; i < enemy.MAX; i++) {
 				enemy.killAllEnemy();
 				danmaku.resetAllDanmaku();
 			}
 			break;
-		case 3500:
+		case 100:
 			ui.requestStoryModeWithRotation();
 			break;
 		}
 
 		switch (stageFlag) {
 		case 0:
-			if (SYS.TIMERSTAGE > 3500 && ui.isReadyForPlay) {
+			if (storyItemCount > 100 && ui.isReadyForPlay) {
 				msgbox.request(0);
 				stageFlag++;
 			}
@@ -205,7 +227,10 @@ public class NStgManager {
 		case 1:
 			if (msgbox.requesting == null) {
 				ui.stopStoryMode();
-				stageFlag++;
+				storyItemCount = 0;
+				getStoryItem = false;
+				item.request("BOMB", enemy, 0, 0, 0);
+				stageFlag = 0;
 			}
 			break;
 		}
@@ -253,6 +278,18 @@ public class NStgManager {
 						VFX.request(enemy.dX[i] + 24, enemy.dY[i] + 35, 4);
 					}
 				}
+
+			}
+
+			for (int yy = 1; yy < 5; yy++) {
+				if (boss.flag[yy] >= 1000 && SYS.TIMERSTAGE >= 0 && yy < 3) {
+					danmaku.request("自機狙いバリア弾", 0, boss, yy, 28 - 8, 28 - 8);
+					VFX.request(boss.dX[yy] + 28, boss.dY[yy] + 28, 4);
+				}
+				if (boss.flag[yy] >= 1000 && SYS.TIMERSTAGE % 90 == 0 && yy > 2 && SYS.TIMERSTAGE >= 200) {
+					danmaku.request("自機狙い弾いA", 0, boss, yy, 28 - 8, 28 - 8);
+					VFX.request(boss.dX[yy] + 28, boss.dY[yy] + 28, 5);
+				}
 			}
 		}
 
@@ -280,6 +317,8 @@ public class NStgManager {
 						NStgPlayer.HP++;
 						lastItem = "回復+1";
 						break;
+					case 2:
+						getStoryItem = true;
 					case 3:
 						THEWORLD = 60;
 						lastItem = "敵弾フリーズ";
@@ -352,7 +391,11 @@ public class NStgManager {
 		}
 
 		if (isCricleHitRect(boss.dX[0], boss.dY[0], 346, 512, NStgPlayer.dX + 48, NStgPlayer.dY + 48, 8)) {
-			NStgPlayer.damage(1);
+			if (playerHitMapDelay == 0 && boss.hp[0] > 0) {
+				VFX.request(NStgPlayer.dX + 48, NStgPlayer.dY + 48, 0);
+				NStgPlayer.damage(1);
+				playerHitMapDelay = 15;
+			}
 		}
 	}
 
@@ -398,6 +441,24 @@ public class NStgManager {
 		for (int i = 0; i < shoot.MAX; i++) {
 			if (shoot.type[i] != 0) {
 
+				for (int k = 1; k < 5; k++) {
+
+					if (boss.flag[k] >= 1000
+							&& isCricleHitRect(boss.dX[k], boss.dY[k], 56, 56, shoot.dX[i], shoot.dY[i], 8)) {
+
+						if (boss.turretDamageTimer[k - 1] == 0) {
+							boss.turretDamageTimer[k - 1] = 5;
+							boss.turretDamage[k - 1] = true;
+						}
+						boss.hp[k] -= 1;
+						if (boss.hp[k] == 0) {
+							VFX.request(boss.dX[k] + 28, boss.dY[k] + 28, 0);
+							item.request("LIFE", boss, k, -3, -3);
+						}
+						shoot.reset(i);
+					}
+				}
+
 				for (int j = 0; j < enemy.MAX; j++) {
 					// 待機中と当たり判定なしのものを除く
 					if (enemy.type[j] == 0 || enemy.flag[j] == 0 || !enemy.isHitable[j]) {
@@ -437,6 +498,31 @@ public class NStgManager {
 						shoot.reset(i);
 					}
 				}
+
+				if (boss.flag[0] >= 10000) {
+					if (isCricleHitRect(boss.dX[0] + 65, boss.dY[0], 218, 350, shoot.dX[i], shoot.dY[i], 8)) {
+						shoot.reset(i);
+						if (boss.bossDamageTimer == 0) {
+							boss.bossDamageTimer = 5;
+							boss.bossDamage = true;
+							for (int zzz = 0; zzz < 4; zzz++) {
+								boss.turretDamageTimer[zzz] = 5;
+								boss.turretDamage[zzz] = true;
+							}
+							if (boss.flag[1] == 0 && boss.flag[2] == 0 && boss.flag[3] == 0 && boss.flag[4] == 0) {
+								boss.hp[0] -= 50;
+							} else {
+								boss.hp[0] -= 5;
+							}
+
+						}
+					}
+					if (isCricleHitRect(boss.dX[0], boss.dY[0], 64, 500, shoot.dX[i], shoot.dY[i], 8)
+							|| isCricleHitRect(boss.dX[0] + 282, boss.dY[0], 64, 500, shoot.dX[i], shoot.dY[i], 8)) {
+						shoot.reset(i);
+					}
+				}
+
 			}
 		}
 

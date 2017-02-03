@@ -292,6 +292,7 @@ public class NStgPlayer extends NStgUnit {
 		// 自機爆発
 		if (SYS.GAMEOVERING) {
 
+			STOPSHOOT = true;
 			CONTROLLABLE = false;
 			VFX.request(dX + 48 + (Math.random() * 200 - 100), dY + 60 + (Math.random() * 200 - 100),
 					(int) (Math.random() * 9));
